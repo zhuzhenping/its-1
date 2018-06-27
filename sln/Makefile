@@ -24,6 +24,6 @@ TARGET := Main
 MODULE_TYPE := executable
 SRCDIRS := $(SOLUTION_DIR)/src
 CPPFLAGS := -I$(INCLUDE_PATH)
-LDFLAGS := -L$(BIN_PATH) # -lthosttraderapi -lthostmduserapi
+LDFLAGS := -L$(BIN_PATH) # -lthostmduserapi
 
 include ./build_module.mk
