@@ -1,0 +1,19 @@
+prefix=/usr/local/Trolltech/Qt-4.8.6
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include/QtCLucene
+qt_config=lex yacc uic resources qt release incremental link_prl static def_files_disabled no_mocdepend release stl qt_no_framework release embedded largefile stl precompile_header mmx 3dnow sse sse2 sse3 ssse3 sse4_1 sse4_2 avx dylib create_prl link_prl depend_includepath QTDIR_build qt_install_headers qt depend_includepath qmake_cache target_qt hide_symbols create_pc create_libtool explicitlib qt warn_off hide_symbols exceptions moc thread staticlib static
+moc_location=${prefix}/bin/moc
+uic_location=${prefix}/bin/uic
+rcc_location=${prefix}/bin/rcc
+lupdate_location=${prefix}/bin/lupdate
+lrelease_location=${prefix}/bin/lrelease
+
+Name: Qtclucene
+Description: Qtclucene Library
+Version: 4.8.6
+Libs: -L${libdir} -lQtCLucene 
+Libs.private: -L/home/wd/its/lib/qt-everywhere-opensource-src-4.8.6/lib  -lQtNetwork -L/home/wd/its/lib/qt-everywhere-opensource-src-4.8.6/lib -lQtCore -lz -lm -ldl -lrt -lpthread   
+Cflags: -I/usr/local/Trolltech/Qt-4.8.6/include -I${includedir}
+Requires: QtCore
+
