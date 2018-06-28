@@ -1,7 +1,5 @@
 qt:
-https://download.qt.io/archive/qt/4.8/4.8.6/
-wget https://download.qt.io/archive/qt/4.8/4.8.6/qt-everywhere-opensource-src-4.8.6.tar.gz
-./configure -prefix /home/wd/its/lib -opensource -confirm-license -static -release -embedded
+./configure -embedded
 
 boost:
 ./b2 install --prefix=/home/wd/its/inc link=static runtime-link=shared threading=multi

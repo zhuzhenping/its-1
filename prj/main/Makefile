@@ -23,8 +23,8 @@ LIB_PATH := $(SOLUTION_DIR)/lib
 #TARGET := @basename `pwd`
 TARGET := main
 MODULE_TYPE := executable
-SRCDIRS := $(SOLUTION_DIR)/src/test
+SRCDIRS := $(SOLUTION_DIR)/src/main
 CPPFLAGS := -I$(INCLUDE_PATH)/
-LDFLAGS := -L$(LIB_PATH)
+LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -lboost_thread -lpthread -lboost_system
 
 include ../build_module.mk

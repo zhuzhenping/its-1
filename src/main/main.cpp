@@ -1,7 +1,16 @@
 
+#include <boost/thread/thread.hpp>
 #include <iostream>
 
-int main() {
-	std::cout << "123" << std::endl;
-	return 0;
+void hello()
+{
+      std::cout<<"Hello multi-thread!"<<std::endl;
 }
+
+int main(int argc,char* argv[])
+{
+      boost::thread thrd(&hello);
+      thrd.join();
+      return 0;
+}
+

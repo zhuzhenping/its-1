@@ -1,9 +1,10 @@
 
 # SUBDIRS:=$(shell ls -l . |awk '/^d/ {print $NF}')
 	
-SUBDIRS = main 
+SUBDIRS = main
 prj:
 	@for subdir in $(SUBDIRS); \
 	do \
 		( cd $$subdir && make ) || exit 1; \
 	done
+
