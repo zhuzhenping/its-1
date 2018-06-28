@@ -1,3 +1,3 @@
 
 all:
-	@cd ./sln && make
+	@cd ./prj && make

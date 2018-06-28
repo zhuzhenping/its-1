@@ -3,13 +3,13 @@
 SOLUTION_NAME := its
 
 ifeq ($(MODULE_TYPE), dynamic_lib)
- TARGET_NAME := lib_$(TARGET).so
+ TARGET_NAME := lib$(TARGET).so
 endif
 ifeq ($(MODULE_TYPE), static_lib)
- TARGET_NAME := lib_$(TARGET).a
+ TARGET_NAME := lib$(TARGET).a
 endif
 ifeq ($(MODULE_TYPE), executable)
- TARGET_NAME := exe_$(TARGET)
+ TARGET_NAME := $(TARGET)
 endif
 
 ifeq ($(BUILD_TYPE),Release)

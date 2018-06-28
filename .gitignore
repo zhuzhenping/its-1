@@ -1,5 +1,6 @@
 bin/*
-*/obj/*
-*/Debug/*
+*obj*
+*Debug*
 *sdf
 *.suo
+lib/*
