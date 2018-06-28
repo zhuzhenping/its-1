@@ -1,7 +1,7 @@
 
 # SUBDIRS:=$(shell ls -l . |awk '/^d/ {print $NF}')
 	
-SUBDIRS = test 
+SUBDIRS = main 
 prj:
 	@for subdir in $(SUBDIRS); \
 	do \

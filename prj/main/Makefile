@@ -21,10 +21,10 @@ INCLUDE_PATH := $(SOLUTION_DIR)/inc
 LIB_PATH := $(SOLUTION_DIR)/lib
 
 #TARGET := @basename `pwd`
-TARGET := test
+TARGET := main
 MODULE_TYPE := executable
 SRCDIRS := $(SOLUTION_DIR)/src/test
 CPPFLAGS := -I$(INCLUDE_PATH)/
-LDFLAGS := -L$(BIN_PATH) # -lthostmduserapi
+LDFLAGS := -L$(LIB_PATH)
 
 include ../build_module.mk
