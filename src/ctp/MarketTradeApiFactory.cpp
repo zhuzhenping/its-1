@@ -1,8 +1,8 @@
-#include "marketapi/MarketTradeApiFactory.h"
-#include "marketapi/CtpFutureTradeApi.h"
+#include "ctp/MarketTradeApiFactory.h"
+#include "ctp/CtpFutureTradeApi.h"
 
 //namespace itstation {
-namespace marketapi {
+//namespace marketapi {
 
 const std::string MarketTradeApiFactory::kCtpFutureApi = "CTP_FUTURE";
 const std::string MarketTradeApiFactory::kJZStockApi = "JZ_STOCK";
@@ -31,5 +31,3 @@ TradeApi* MarketTradeApiFactory::CreateMarketTradeApi(std::string kApi) {
 	}
 }
 
-}
-}

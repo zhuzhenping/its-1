@@ -4,11 +4,11 @@
 #include "common/Global.h"
 
 //namespace itstation {
-namespace marketapi {
+//namespace marketapi {
 
 class TradeApi;
 
-class MARKET_TRADE_API MarketTradeApiFactory
+class CTP_API MarketTradeApiFactory
 {
 public:
 	static const std::string kCtpFutureApi; // CTP
@@ -20,8 +20,6 @@ public:
 	static TradeApi* CreateMarketTradeApi(std::string kApi);
 };
 
-}
-}
 
 #endif	//EYEGLE_MARKETAPI_MARKETRADEAPI_FACTORY_H_
 

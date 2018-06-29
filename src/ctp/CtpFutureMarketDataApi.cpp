@@ -1,9 +1,9 @@
-﻿#include "marketapi/CtpFutureMarketDataApi.h"
+﻿#include "ctp/CtpFutureMarketDataApi.h"
 #include <algorithm>
-#include <QSettings>
-#include <QFile>
-#include <QDate>
-#include <QStringList>
+#include <QtCore/QSettings>
+#include <QtCore/QFile>
+#include <QtCore/QDate>
+#include <QtCore/QStringList>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -528,5 +528,3 @@ bool CtpFutureMarketDataApi::ReReqMarketPrice(std::string& err)
 	return true;
 }
 
-}
-}

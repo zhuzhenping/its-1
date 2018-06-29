@@ -15,7 +15,6 @@ class QStringList;
 ////namespace itstation {
 ////namespace itstation {
 
-using namespace common;
 
 /*
  * @brief MarketDataCallback MarketDataApi的回调函数接口
@@ -48,7 +47,7 @@ public:
 	virtual void OnMdConnect() = 0;
 };
 
-class MARKET_DATA_API MarketDataApi {
+class CTP_API MarketDataApi {
 public:
 	MarketDataApi();
 	virtual ~MarketDataApi();
@@ -104,11 +103,9 @@ protected:
 	QStringList* holidays_;
 
 private:
-	common::Mutex wait_mutex_;
-	common::Condition wait_cond_;
+	Mutex wait_mutex_;
+	Condition wait_cond_;
 };
 
-}
-}
 
 #endif	//EYEGLE_MARKETAPI_MARKETDATAAPI_H_

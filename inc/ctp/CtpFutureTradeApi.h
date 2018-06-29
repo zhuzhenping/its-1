@@ -4,12 +4,12 @@
 #include <queue>
 #include "common/QueueBuffer.h"
 #include "common/Condition.h"
-#include "marketapi/MarketTradeApi.h"
-#include "CTP/ThostFtdcTraderApi.h"
+#include "ctp/MarketTradeApi.h"
+#include "ThostFtdcTraderApi.h"
 
 
 //namespace itstation {
-namespace marketapi {
+//namespace marketapi {
 
 class CtpFutureTradeApi;
 
@@ -236,7 +236,7 @@ private:
 	bool m_has_confirmed;		/**< 当日是否已经资金确认 */
 	int m_request_id;		/**< 请求ID号 */
 	int m_order_ref;		/**< 订单编号 */
-	common::SpinLock m_order_ref_lock;
+	SpinLock m_order_ref_lock;
 	int m_front_id;			/**< 前置地址编号 */
 	int m_session_id;		/**< 会话编号 */
 
@@ -246,7 +246,7 @@ private:
 	bool been_logout_;
 
 	// 为解决流控
-	class CtpRequestBuffer : public common::QueueBuffer<RequestType, 50> {
+	class CtpRequestBuffer : public QueueBuffer<RequestType, 50> {
 		friend class CtpFutureTradeApi;
 	public:
 		CtpRequestBuffer(CtpFutureTradeApi* market_trade_api) : m_market_trade_api(market_trade_api) {}
@@ -264,15 +264,14 @@ private:
 		int	m_nSleep;
 
 		std::queue<std::string> margin_symbols_;
-		common::SpinLock margin_mutex_;
+		SpinLock margin_mutex_;
 
 		std::queue<std::string> commision_symbols_;
-		common::SpinLock commision_mutex_;
+		SpinLock commision_mutex_;
 	};
 	CtpRequestBuffer ctp_req_buf_;
 };
 
-}
-}
+
 #endif	//EYEGLE_MARKETAPI_CTPMARKETTRADEAPI_H_
 

@@ -2,16 +2,16 @@
 #define EYEGLE_MARKETAPI_MARKETTRADEAPI_H_
 
 #include <string>
-#include "marketapi/MarketDefine.h"
+#include "datalib/MarketDefine.h"
 #include "common/StatusDefine.h"
 #include "common/Condition.h"
 
 class QSettings;
 
 //namespace itstation {
-namespace marketapi {
+//namespace marketapi {
 
-using namespace common;
+//using namespace common;
 
 class SecurityInfoSpi
 {
@@ -80,7 +80,7 @@ public:
 	virtual void OnQryPosition(int req_id, PositionData* trade_data, const std::string& err, bool is_last) = 0;
 };
 
-class MARKET_TRADE_API TradeApi
+class CTP_API TradeApi
 {
 public:
 	TradeApi();
@@ -140,10 +140,9 @@ protected:
 	//QSettings *config_settings_;
 
 private:
-	common::Mutex wait_mutex_;
-	common::Condition wait_cond_;
+	Mutex wait_mutex_;
+	Condition wait_cond_;
 };
 
-}
-}
+
 #endif	//EYEGLE_MARKETAPI_MARKETTRADEAPI_H_

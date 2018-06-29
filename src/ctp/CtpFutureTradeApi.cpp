@@ -1,4 +1,4 @@
-#include "marketapi/CtpFutureTradeApi.h"
+#include "ctp/CtpFutureTradeApi.h"
 #include <sstream>
 #include "common/Thread.h"
 #include "common/DateTime.h"
@@ -8,8 +8,8 @@
 using namespace std;
 
 //namespace itstation {
-using namespace common;
-namespace marketapi {
+
+//namespace marketapi {
 
 /*------------------------------------------------------------------*
  |					CtpFutureTradeHandler模块					    |
@@ -985,7 +985,7 @@ bool CtpFutureTradeApi::QryMargin(const std::string& symbol, std::string& err) {
 		return false; 
 	}
 	ctp_req_buf_.Push(E_QryInstrumentMarginRateField);
-	common::Locker lock(&ctp_req_buf_.margin_mutex_);
+	Locker lock(&ctp_req_buf_.margin_mutex_);
 	ctp_req_buf_.margin_symbols_.push(symbol);
 	return true;
 }
@@ -996,7 +996,7 @@ bool CtpFutureTradeApi::QryCommision(const std::string& symbol, std::string& err
 		return false; 
 	}
 	ctp_req_buf_.Push(E_QryInstrumentCommissionRateField);
-	common::Locker lock(&ctp_req_buf_.commision_mutex_);
+	Locker lock(&ctp_req_buf_.commision_mutex_);
 	ctp_req_buf_.commision_symbols_.push(symbol);
 	return true;
 }
@@ -1061,7 +1061,7 @@ int CtpFutureTradeApi::SubmitOrder(const OrderParamData& param, std::string& err
 
     order_field.VolumeTotalOriginal = param.volume;
 
-	common::Locker lock(&m_order_ref_lock); // 多策略/多线程 下单保护
+	Locker lock(&m_order_ref_lock); // 多策略/多线程 下单保护
 	++m_order_ref;
 	stringstream ss; ss<<m_order_ref;
 	strncpy(order_field.OrderRef, ss.str().c_str(), sizeof(TThostFtdcOrderRefType));
@@ -1189,7 +1189,7 @@ bool CtpFutureTradeApi::ReqQrySettlementInfo(std::string& err) {
 
 	if (m_has_confirmed) { return true; }
 
-	common::Thread::Sleep(1000);
+	Thread::Sleep(1000);
 	CThostFtdcQrySettlementInfoField info_field;
 	memset(&info_field, 0, sizeof(CThostFtdcQrySettlementInfoField));
 	strcpy_s(info_field.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
@@ -1218,7 +1218,7 @@ bool CtpFutureTradeApi::ReqSettlementInfoConfirm(std::string& err) {
 
 	if (m_has_confirmed) { return true; }
 
-	common::Thread::Sleep(1000);
+	Thread::Sleep(1000);
 	CThostFtdcSettlementInfoConfirmField confirm_field;
 	memset(&confirm_field, 0, sizeof(CThostFtdcSettlementInfoConfirmField));
 	strcpy_s(confirm_field.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
@@ -1322,7 +1322,7 @@ bool CtpFutureTradeApi::CtpRequestBuffer::QryMargin() {
 	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_market_trade_api->m_broker_id.c_str());
 	strcpy_s(req.InvestorID, sizeof(TThostFtdcInvestorIDType), m_market_trade_api->m_user_id.c_str());
 	req.HedgeFlag = THOST_FTDC_HF_Speculation;
-	common::Locker lock(&margin_mutex_);
+	Locker lock(&margin_mutex_);
 	if (margin_symbols_.empty()) return true;
 	strcpy(req.InstrumentID, margin_symbols_.front().c_str());
 	bool ret = 0 == m_market_trade_api->m_ctp_market_api->ReqQryInstrumentMarginRate(&req, ++m_market_trade_api->m_request_id);
@@ -1334,7 +1334,7 @@ bool CtpFutureTradeApi::CtpRequestBuffer::QryCommision() {
 	CThostFtdcQryInstrumentCommissionRateField req = {0};
 	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_market_trade_api->m_broker_id.c_str());
 	strcpy_s(req.InvestorID, sizeof(TThostFtdcInvestorIDType), m_market_trade_api->m_user_id.c_str());
-	common::Locker lock(&commision_mutex_);
+	Locker lock(&commision_mutex_);
 	if (commision_symbols_.empty()) return true;
 	strcpy(req.InstrumentID, commision_symbols_.front().c_str());
 	bool ret = 0 == m_market_trade_api->m_ctp_market_api->ReqQryInstrumentCommissionRate(&req, ++m_market_trade_api->m_request_id);
@@ -1342,5 +1342,3 @@ bool CtpFutureTradeApi::CtpRequestBuffer::QryCommision() {
 	return ret;
 }
 
-}
-}

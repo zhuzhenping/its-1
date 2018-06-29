@@ -1,5 +1,8 @@
 ﻿
-#include "common/SymbolChanger.h"
+#include "datalib/SymbolChanger.h"
+#include "datalib/DataServerStruct.h"
+#include "datalib/MarketDefine.h"
+#include "datalib/SymbolInfoSet.h"
 
 
 //namespace itstation {

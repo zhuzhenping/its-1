@@ -1,9 +1,9 @@
-#include "marketapi/MarketTradeApi.h"
-#include <QFile>
-#include <QSettings>
+#include "ctp/MarketTradeApi.h"
+#include <QtCore/QFile>
+#include <QtCore/QSettings>
 
 //namespace itstation {
-namespace marketapi {
+//namespace marketapi {
 
 TradeApi::TradeApi() 
 	: spi_(NULL)
@@ -28,7 +28,7 @@ bool TradeApi::TimeWait(int sec)
 {
 	if (sec <= 0) { return false; }
 
-	common::MutexLocker lock(&wait_mutex_);
+	MutexLocker lock(&wait_mutex_);
 	return wait_cond_.TimedWait(&wait_mutex_, sec);
 }
 
@@ -37,5 +37,3 @@ void TradeApi::ReleaseWait()
 	wait_cond_.Signal();
 }
 
-}
-}

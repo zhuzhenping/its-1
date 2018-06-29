@@ -9,7 +9,7 @@
 
 	class MarketDataApi;
 
-class MARKET_DATA_API MarketDataApiFactory
+class CTP_API MarketDataApiFactory
 {
 public:
 	static const std::string kCtpFutureDataType;
@@ -24,8 +24,7 @@ public:
 	static MarketDataApi* CreateMarketDataApi(std::string type);
 };
 
-}
-}
+
 
 #endif	//EYEGLE_MARKETAPI_MARKETDATAAPI_FACTORY_H_
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "marketapi/MarketDefine.h"
+#include "ctp/MarketDefine.h"
 #include "dataserver/DataServerStruct.h"
 
 using namespace itstation;

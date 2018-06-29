@@ -3,7 +3,7 @@
 
 #include <list>
 #include <map>
-#include "marketapi/MarketDataApi.h"
+#include "ctp/MarketDataApi.h"
 #include "ThostFtdcMdApi.h"
 #include <vector>
 #include "common/DateTime.h"
@@ -131,11 +131,10 @@ private:
 	//保存资金账号信息用于断线重新登录
 	std::string m_broker_id;
 
-	common::DateTime low_time_;
-	common::DateTime high_time_;
+	DateTime low_time_;
+	DateTime high_time_;
 };
 
-}
-}
+
 
 #endif	//EYEGLE_MARKETAPI_CTPMARKETDATAAPI_H_

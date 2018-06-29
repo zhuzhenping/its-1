@@ -1,8 +1,8 @@
-﻿#include "marketapi/MarketDataApiFactory.h"
+﻿#include "ctp/MarketDataApiFactory.h"
 
-#include "marketapi/CtpFutureMarketDataApi.h"
+#include "ctp/CtpFutureMarketDataApi.h"
 //#ifdef WIN32
-//#include "marketapi/GtaStockMarketDataApi.h"
+//#include "ctp/GtaStockMarketDataApi.h"
 //#endif
 
 ////namespace itstation {
@@ -37,5 +37,3 @@ MarketDataApi* MarketDataApiFactory::CreateMarketDataApi(std::string type) {
 	}
 }
 
-}
-}
