@@ -21,3 +21,13 @@ sh shell/init_env.sh
 
 make
 
+# 模块简介
+common: log、datetime、queue、thread等基础元素
+
+datalib: 定义tick、kline、order、trade、position等
+
+network: 基于boost asio的tcp通讯库
+
+ctp: 期货的(行情+交易)的接口
+
+accout: 资金结算模块
