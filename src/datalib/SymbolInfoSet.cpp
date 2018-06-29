@@ -92,7 +92,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	//	return false;
 	//}
 
-	std::string trading_conf_path = std::string(its_home) + "/config/TradingTime.xml";
+	std::string trading_conf_path = std::string(its_home) + "/cfg/TradingTime.xml";
 	if (!IsDirExist(trading_conf_path.c_str()))
 	{
 		err = trading_conf_path + " is not exist";

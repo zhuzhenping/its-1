@@ -1,11 +1,11 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
-#include <QSettings>
-#include <QFile>
+#include <QtCore/QSettings>
+#include <QtCoreQFile>
 #include "common/Thread.h"
 #include "FuncLib/SimpleMath.h"
-#include "dataserver/SymbolInfoSet.h"
+#include "libdata/SymbolInfoSet.h"
 #include "account/TradeEngine.h"
 #include "common/XmlConfig.h"
 

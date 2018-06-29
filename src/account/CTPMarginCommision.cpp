@@ -1,8 +1,8 @@
 #include "account/CTPMarginCommision.h"
 #include <fstream>
-#include <QDate>
+#include <QtCore/QDate>
 #include "common/Directory.h"
-#include "dataserver/SymbolInfoSet.h"
+#include "libdata/SymbolInfoSet.h"
 
 using namespace std;
 

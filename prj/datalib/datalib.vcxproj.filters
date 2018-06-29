@@ -27,12 +27,27 @@
     <ClInclude Include="..\..\inc\datalib\SymbolInfoSet.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\datalib\SimpleMath.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\datalib\Func.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\its\MaDemo\include\dataserver\Array.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\datalib\SymbolChanger.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\datalib\SymbolInfoSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\datalib\SimpleMath.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\datalib\Func.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

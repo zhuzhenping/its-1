@@ -87,7 +87,6 @@
     <ClInclude Include="..\..\inc\ctp\ctp\win\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="..\..\inc\ctp\MarketDataApi.h" />
     <ClInclude Include="..\..\inc\ctp\MarketDataApiFactory.h" />
-    <ClInclude Include="..\..\inc\ctp\MarketDefine.h" />
     <ClInclude Include="..\..\inc\ctp\MarketTradeApi.h" />
     <ClInclude Include="..\..\inc\ctp\MarketTradeApiFactory.h" />
     <ClInclude Include="..\..\inc\ctp\Protocol.h" />

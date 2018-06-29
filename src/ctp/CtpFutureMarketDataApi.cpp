@@ -248,7 +248,7 @@ bool CtpFutureMarketDataApi::Init(const std::string& front_addr_str, MarketDataS
 	if (holidays_ == NULL) 
 	{
 		QDate cur_date = QDate::currentDate();
-		std::string conf_path = std::string(its_home) + "/config/TradingTime.xml";
+		std::string conf_path = std::string(its_home) + "/cfg/TradingTime.xml";
 		if (!QFile::exists(conf_path.c_str())) {err = conf_path + " is not exist";return false;}
 		XmlConfig config2(conf_path);
 		if (!config2.Load()) { return false; }
