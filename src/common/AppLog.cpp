@@ -1,6 +1,6 @@
 ﻿#include <sstream>
-#include <QDir>
-#include <QFile>
+#include <QtCore/QDir>
+#include <QtCore/QFile>
 #include <QtCore/QCoreApplication>
 #include "common/XmlConfig.h"
 #include "common/AppLog.h"
@@ -26,7 +26,7 @@ AppLog::AppLog()
 	, m_is_running(false)
 	, m_file_path("")
 	, m_err_file_path("")
-	, m_append_console(false)
+	, m_append_console(true)
 {
 }
 

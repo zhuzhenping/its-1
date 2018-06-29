@@ -1,5 +1,4 @@
 ﻿#include <stdlib.h>
-#include <stdexcept>
 #include <iostream>
 #include "common/Global.h"
 
@@ -20,16 +19,20 @@ Global* Global::GetInstance() {
 }
 
 void Global::Init() {
-	char* its_home_c = getenv("ITS_HOME");
+	/*char* its_home_c = getenv("ITS_HOME");
 	if(NULL == its_home_c) { 
 		throw std::runtime_error("ITS_HOME环境变量未设置");
-	}
-	its_home = its_home_c;
+	}*/
+#ifdef WIN32
+	its_home = "C:/Users/za-wudian/Desktop/its";
+#else
+	its_home = "/home/wd/its"
+#endif
 }
 
 std::string Global::GetConfigDir() const
 {
-	return its_home + "/config/";
+	return its_home + "/cfg/";
 }
 
 void Global::SetAppConfigFileName(const std::string& file_name)

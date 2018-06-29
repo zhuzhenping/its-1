@@ -31,21 +31,21 @@
     <ClInclude Include="..\..\inc\common\XmlConfig.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="E:\its\MaDemo\project\Common\AppLog.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\Condition.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\DateTime.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\Directory.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\ExceptionErr.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\Global.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\Mutex.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\SimpleDateTime.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\SimpleMath.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\SpinLock.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\StatusDefine.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\SymbolChanger.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\Thread.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\WinAdapteLinux.cpp" />
-    <ClCompile Include="E:\its\MaDemo\project\Common\XmlConfig.cpp" />
+    <ClCompile Include="..\..\src\common\AppLog.cpp" />
+    <ClCompile Include="..\..\src\common\Condition.cpp" />
+    <ClCompile Include="..\..\src\common\DateTime.cpp" />
+    <ClCompile Include="..\..\src\common\Directory.cpp" />
+    <ClCompile Include="..\..\src\common\ExceptionErr.cpp" />
+    <ClCompile Include="..\..\src\common\Global.cpp" />
+    <ClCompile Include="..\..\src\common\Mutex.cpp" />
+    <ClCompile Include="..\..\src\common\SimpleDateTime.cpp" />
+    <ClCompile Include="..\..\src\common\SimpleMath.cpp" />
+    <ClCompile Include="..\..\src\common\SpinLock.cpp" />
+    <ClCompile Include="..\..\src\common\StatusDefine.cpp" />
+    <ClCompile Include="..\..\src\common\SymbolChanger.cpp" />
+    <ClCompile Include="..\..\src\common\Thread.cpp" />
+    <ClCompile Include="..\..\src\common\WinAdapteLinux.cpp" />
+    <ClCompile Include="..\..\src\common\XmlConfig.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{695EFD0B-B924-4F84-A939-0D14A6605855}</ProjectGuid>

@@ -1,6 +1,6 @@
-﻿#include <QDir>
-#include <QFile>
-#include <QTextCodec>
+﻿#include <QtCore/QDir>
+#include <QtCore/QFile>
+#include <QtCore/QTextCodec>
 #include "common/Directory.h"
 #include "common/AppLog.h"
 

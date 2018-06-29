@@ -71,49 +71,49 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="E:\its\MaDemo\project\Common\AppLog.cpp">
+    <ClCompile Include="..\..\src\common\AppLog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\Condition.cpp">
+    <ClCompile Include="..\..\src\common\Condition.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\DateTime.cpp">
+    <ClCompile Include="..\..\src\common\DateTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\Directory.cpp">
+    <ClCompile Include="..\..\src\common\Directory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\ExceptionErr.cpp">
+    <ClCompile Include="..\..\src\common\ExceptionErr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\Global.cpp">
+    <ClCompile Include="..\..\src\common\Global.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\Mutex.cpp">
+    <ClCompile Include="..\..\src\common\Mutex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\SimpleDateTime.cpp">
+    <ClCompile Include="..\..\src\common\SimpleDateTime.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\SimpleMath.cpp">
+    <ClCompile Include="..\..\src\common\SimpleMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\SpinLock.cpp">
+    <ClCompile Include="..\..\src\common\SpinLock.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\StatusDefine.cpp">
+    <ClCompile Include="..\..\src\common\StatusDefine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\SymbolChanger.cpp">
+    <ClCompile Include="..\..\src\common\SymbolChanger.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\Thread.cpp">
+    <ClCompile Include="..\..\src\common\Thread.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\WinAdapteLinux.cpp">
+    <ClCompile Include="..\..\src\common\WinAdapteLinux.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="E:\its\MaDemo\project\Common\XmlConfig.cpp">
+    <ClCompile Include="..\..\src\common\XmlConfig.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

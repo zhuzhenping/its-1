@@ -1,10 +1,10 @@
 ﻿#include "common/XmlConfig.h"
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
-#include <QTextCodec>
-#include <QStringList>
-#include <QFile>
-#include <QTextStream>
+#include <QtCore/QTextCodec>
+#include <QtCore/QStringList>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
 
 using namespace std;
 

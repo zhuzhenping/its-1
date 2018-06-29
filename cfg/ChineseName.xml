@@ -1,0 +1,43 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<iTStation>
+  <ChiName>
+    <Node Product='a' Name='豆一' />
+    <Node Product='b' Name='豆二' />
+    <Node Product='bb' Name='胶合板' />
+    <Node Product='c' Name='玉米' />
+    <Node Product='fb' Name='纤维板' />
+    <Node Product='j' Name='焦炭' />
+    <Node Product='jd' Name='鸡蛋' />
+    <Node Product='l' Name='聚乙烯' />
+    
+    <Node Product='CF' Name='棉花' />
+    <Node Product='JR' Name='粳稻' />
+    <Node Product='PM' Name='普麦' />
+    <Node Product='SR' Name='白糖' />
+    <Node Product='WH' Name='强麦' />
+    <Node Product='TA' Name='PTA' />
+    <Node Product='ZC' Name='动力煤' />
+    <Node Product='TC' Name='动力煤' />
+    
+    <Node Product='bu' Name='沥青' />
+    <Node Product='fu' Name='燃油' />
+    <Node Product='ru' Name='橡胶' />
+    <Node Product='sn' Name='锡' />
+    <Node Product='ni' Name='镍' />
+    <Node Product='ag' Name='白银' />
+    <Node Product='al' Name='铝' />
+    <Node Product='au' Name='黄金' />
+    <Node Product='cu' Name='铜' />
+    <Node Product='hc' Name='热轧卷板' />
+    <Node Product='pb' Name='铅' />
+    <Node Product='rb' Name='螺纹钢' />
+    <Node Product='wr' Name='线材' />
+    <Node Product='zn' Name='锌' />
+          
+    <Node Product='T' Name='10国债' />
+    <Node Product='TF' Name='5国债' />
+    <Node Product='IF' Name='股指' />
+    <Node Product='IC' Name='500股指' />
+    <Node Product='IH' Name='50股指' />
+  </ChiName>
+</iTStation>
