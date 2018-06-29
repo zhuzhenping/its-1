@@ -24,9 +24,10 @@ static const unsigned long __nan[2] = {0xffffffff, 0x7fffffff};
 #define NAN (*(const double *) __nan)
 #endif
 
-#elif defined __GNUG__
+#else
 #include <math.h>
 #define is_nan(x) isnan(x)
+#include <string.h>
 #endif
 
 //namespace itstation {
