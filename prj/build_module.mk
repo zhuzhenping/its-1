@@ -15,7 +15,7 @@ endif
 ifeq ($(BUILD_TYPE),Release)
  CFLAGS = -O2 -Wall 
 else
- CFLAGS = -g -Wall -DDEBUG
+ CFLAGS = -g -Wall -DDEBUG -fPIC
 endif
 
 SRCEXTS = .c .cpp
@@ -44,7 +44,7 @@ objs : $(OBJS)
 	
 $(TARGET) : BUILD_PRE $(OBJS)
 ifeq ($(MODULE_TYPE), dynamic_lib)
-	$(CC) -o $(BIN_PATH)/$(BUILD_TYPE)/$(TARGET_NAME) -shared -fPIC -Duse_namespace $(OBJS) $(LDFLAGS)
+	$(CC) -o $(LIB_PATH)/$(BUILD_TYPE)/$(TARGET_NAME) -shared -fPIC -Duse_namespace $(OBJS) $(LDFLAGS)
 endif
 
 ifeq ($(MODULE_TYPE), static_lib)

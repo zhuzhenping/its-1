@@ -26,7 +26,7 @@ void Global::Init() {
 #ifdef WIN32
 	its_home = "C:/Users/za-wudian/Desktop/its";
 #else
-	its_home = "/home/wd/its"
+	its_home = "/home/wd/its";
 #endif
 }
 
