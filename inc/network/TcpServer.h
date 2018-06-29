@@ -1,42 +1,35 @@
-/*!
-* \brief       网络服务端.
-* \author      吴典@众安科技虚拟实验室.
-* \date        -
-*
-* \usage
-*
-*
-*/
+#pragma once
 
-#ifndef _TCP_SERVER_H_  
-#define _TCP_SERVER_H_  
+#include "NetworkAsio/TcpSession.h"
+#include "Common/Thread.h"
 
-#include "network/TcpSocket.h"
-
-namespace network {
+namespace network_asio {
 
 class TcpServerConnSpi {
 public:
-	virtual void OnAccept(TcpSocket* tcp_sock) = 0;
-	virtual void OnDiscon(TcpSocket *tcp_sock) = 0;
+	virtual void OnAccept(TcpSession* sock) = 0;
+	virtual void OnDiscon(TcpSession *tcp_sock) = 0;
 };
 
-class NETWORK_API TcpServer
+class NETWORK_ASIO_API TcpServer : private SocketDissConnSpi, public itstation::common::Thread
 {
 public:
-	TcpServer *CreateTcpServer(NETWORK_LIB_TYPE type, 
-		int port, SocketReaderSpi* spi, TcpServerConnSpi* conn_spi);
+	TcpServer(short port, SocketReaderSpi* spi, TcpServerConnSpi* conn_spi = NULL);
 
-	virtual TcpServer::~TcpServer();
-	
-	virtual bool StartUp(std::string& err) = 0;
 
-protected:		
-	TcpServer(SocketReaderSpi* read_spi, TcpServerConnSpi* conn_spi = NULL);
-	SocketReaderSpi* read_spi_;
+private:
+	void start_accept();
+	void handle_accept(TcpSession * new_session, const boost::system::error_code& error);
+
+	virtual void OnDisconnect(TcpSession *tcp_sock);
+
+	virtual void OnRun(); 
+
+	boost::asio::io_service io_service_;
+	tcp::acceptor acceptor_;
+		
+	SocketReaderSpi* spi_;
 	TcpServerConnSpi* conn_spi_;
 };
 
 }
-
-#endif

@@ -1,53 +1,46 @@
-/*!
-* \brief       网络客户端.
-* \author      吴典@众安科技虚拟实验室.
-* \date        -
-*
-* \usage
-*
-*
-*/
+#pragma once
 
-#ifndef _TCP_CLIENT_H_  
-#define _TCP_CLIENT_H_  
+#include "NetworkAsio/TcpSession.h"
+#include "Common/Thread.h"
 
-#include "network/TcpSocket.h"
-
-namespace network {
-
+namespace network_asio {
 
 class ReConnSpi
 {
 public:
-	//网络第一次连接。 如果第一次连接失败（当网络断开时），则success为false
+	//网络第一次连接。 如果网络断开，则success为false
 	virtual void SockConn(bool success) = 0;
-	//网络断开.
+	//网络断开
 	virtual void SockDisconn() = 0;
-	//断线重连.
+	//断线重连
 	virtual void SockReConn() = 0;
 };
 
-
-class NETWORK_API TcpClient
+class NETWORK_ASIO_API TcpClient : private SocketDissConnSpi, public itstation::common::Thread
 {
 public:
-	TcpClient *CreateTcpClient(NETWORK_LIB_TYPE type,
-		const char *ip, const char *port,
-		SocketReaderSpi* read_spi = NULL, ReConnSpi* re_conn_spi = NULL);
-
-	
+	TcpClient(const char *ip, const char *port, SocketReaderSpi* read_spi = NULL, ReConnSpi* re_conn_spi = NULL);
 	virtual ~TcpClient(void);
 
-	// 启动.
-	virtual bool StartUp(std::string &err) = 0;
-	// 停止.
-	virtual void TearDown() = 0;
-	// 发数据.
-	virtual bool Send(char* buf, int len, std::string &err) = 0;
+	// 全部异步的方式
+	void StartUp();
+	void TearDown();
+	void Send(char* buf, int len);
 
+private:
+	virtual void OnDisconnect(TcpSession *tcp_sock);
 
-protected:
-	TcpClient(SocketReaderSpi* read_spi = NULL, ReConnSpi* re_conn_spi = NULL);
+	virtual void OnRun(); 
+
+	void handle_connect(const boost::system::error_code& err);
+
+	boost::asio::io_service io_service_;
+	tcp::resolver resolver_;
+	tcp::resolver::query query_;
+	tcp::resolver::iterator endpoint_iterator;
+	
+	bool first_connect_;
+	TcpSession *new_session_;
 
 	SocketReaderSpi* read_spi_;
 	ReConnSpi* re_conn_spi_;
@@ -55,5 +48,3 @@ protected:
 };
 
 }
-
-#endif

@@ -1,12 +1,12 @@
-#include "TcpMessage.h"
+#include "NetworkAsio/TcpMessage.h"
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
-#include "common/Thread.h"
+#include "Common/Thread.h"
 
-namespace network {
+namespace network_asio {
 
-const char *CHECK_CODE = "Zhongan"; // 校验码.
+const char *CHECK_CODE = "Kiiik"; // 校验码
 
 
 TcpMessage::TcpMessage(void) 
@@ -54,8 +54,8 @@ void TcpMessage::decode_header()
 }
 
 void TcpMessage::encode_header(const char *buf, int len) {
-	while (body_msg_) { // 还没发完.
-		zhongan::common::Thread::Sleep(1);
+	while (body_msg_) { // 还没发完
+		itstation::common::Thread::Sleep(1);
 	}
 
 	body_length_ = head_length()+len;

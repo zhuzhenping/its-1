@@ -24,10 +24,9 @@ static const unsigned long __nan[2] = {0xffffffff, 0x7fffffff};
 #define NAN (*(const double *) __nan)
 #endif
 
-#else
+#elif defined __GNUG__
 #include <math.h>
 #define is_nan(x) isnan(x)
-#include <string.h>
 #endif
 
 //namespace itstation {
@@ -286,8 +285,8 @@ struct OrderData
 	NumberIdType local_order_id;			/**< 本地订单号 */
 	UserStrategyIdType user_tag;			/**< 用户的自定义标志 */
 	OrderStatus status;						/**< 订单状态 */
-	DateTime submit_time;			/**< 委托时间 */
-	DateTime update_time;			/**< 最近更新时间 */
+	common::DateTime submit_time;			/**< 委托时间 */
+	common::DateTime update_time;			/**< 最近更新时间 */
 	OrderDirection direction;				/**< 买卖方向 */
 	OpenCloseFlag open_close_flag;			/**< 开平标志(专属期货) */
 	OrderPriceFlag order_price_flag;		/**< 委托类型 */
@@ -558,7 +557,7 @@ struct TradeData {
 	NumberIdType local_order_id;			/**< 本地订单号 */
 	NumberIdType trade_id;					/**< 成交号 */
 	UserStrategyIdType user_tag;			/**< 用户的自定义标志 */
-	DateTime trade_time;			/**< 成交时间 */
+	common::DateTime trade_time;			/**< 成交时间 */
 	OrderDirection direction;				/**< 买卖方向 */
 	OpenCloseFlag open_close_flag;			/**< 开平标志 */
 	PriceType trade_price;					/**< 成交价格 */
@@ -615,7 +614,7 @@ struct	MoneyFlowData {
 	double trade_price;				/**< 成交价格 */
 	int trade_volume;				/**< 成交数量 */
 	double trade_value;				/**< 成交金额 */
-	DateTime trade_time;	/**< 成交时间 */
+	common::DateTime trade_time;	/**< 成交时间 */
 	double commission;				/**< 佣金 */
 	double transfer_fee;			/**< 过户费 */
 	double stamp_tax;				/**< 印花税 */
@@ -624,5 +623,5 @@ struct	MoneyFlowData {
 
 #pragma pack()
 
-
+}
 #endif	//EYEGLE_STRUCT_H_

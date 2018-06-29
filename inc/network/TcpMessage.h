@@ -1,13 +1,12 @@
-#ifndef TCP_MESSAGE_H
-#define TCP_MESSAGE_H
+#pragma once
 
-namespace network {
+namespace network_asio {
 
 
 class TcpMessage
 {
 	enum {
-		check_code_length = 8, // 校验码为"Zhongan"，8个字节
+		check_code_length = 6, // 校验码为"KiiiK"，6个字节
 		body_length_value = 12, // 数据长度值
 		max_buf_length = 1024, // 缓冲区暂用不到
 		max_body_length = 99999999
@@ -57,7 +56,7 @@ public:
 	bool data_is_leagle() const { return data_is_leagle_; }
 	bool is_heart_beat() const;
 
-	void decode_header(); //消息头已经读到header_,对头进行解析.
+	void decode_header(); //消息头已经读到header_,对头进行解析
 	void encode_header(const char *, int);
 
 	void clear_data();
@@ -70,5 +69,3 @@ private:
 };
 
 }
-
-#endif
