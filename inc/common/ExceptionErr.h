@@ -1,12 +1,27 @@
-﻿#ifndef ITS_COMMON_EXCEPTION_ERR_H_
-#define ITS_COMMON_EXCEPTION_ERR_H_
+﻿/*!
+* \brief       抛出、捕获异常.
+* \author      吴典@众安科技虚拟实验室.
+* \date        -
+*
+* \usage
+try {
+	ThrowError("error") << "其他数据类型";
+}
+catch (ExceptionErr& e)
+{
+	APP_LOG(LOG_LEVEL_ERROR) << e.what();
+}
+*
+*/
+#ifndef _COMMON_EXCEPTION_ERR_H_
+#define _COMMON_EXCEPTION_ERR_H_
 
 #include <string>
 #include <sstream>
 #include <exception>
 #include "common/Global.h"
 
-namespace itstation {
+namespace zhongan {
 
 #define ThrowStringError(msg) throw ExceptionErr(msg).SourceInfo(__FILE__, __LINE__)
 #define ThrowError(msg) do { std::stringstream ss; ss << msg; ThrowStringError(ss.str()); } while (0);

@@ -1,11 +1,11 @@
-﻿#ifndef EYEGLE_COMMON_COMPRESS_LIB_H_
-#define EYEGLE_COMMON_COMPRESS_LIB_H_
+﻿#ifndef _COMMON_COMPRESS_LIB_H_
+#define _COMMON_COMPRESS_LIB_H_
 
 #include "common/Global.h"
 #include "zlib.h"
 
 
-namespace itstation {
+namespace zhongan {
 namespace common {
 
 bool COMMON_API ZlibCompress(void * pIn,int nInLen,void * pOut,int * nOutLen);

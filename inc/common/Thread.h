@@ -1,5 +1,5 @@
-﻿#ifndef EYEGLE_COMMON_THREAD_H_  
-#define EYEGLE_COMMON_THREAD_H_  
+﻿#ifndef _COMMON_THREAD_H_  
+#define _COMMON_THREAD_H_  
  
 #include <stdexcept>
 #include <iostream>
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace itstation {
+namespace zhongan {
 namespace common {
 
 #ifdef WIN32

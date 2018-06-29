@@ -1,5 +1,5 @@
-﻿#ifndef EYEGLE_COMMON_EYEGLESTATUS_H_
-#define EYEGLE_COMMON_EYEGLESTATUS_H_
+﻿#ifndef _COMMON_STATUS_H_
+#define _COMMON_STATUS_H_
 
 #include <string>
 #include "common/Global.h"
@@ -14,11 +14,11 @@
 #endif
 #endif
 
-namespace itstation {
+namespace zhongan {
 namespace common {
 
 /*
- * @brief EyegleStatus 用于整个工程的错误管理方案；0x0000表示成功，其它的都为错误代码；
+ * @brief Status 用于整个工程的错误管理方案；0x0000表示成功，其它的都为错误代码；
  * 4位16进制的数字中，前两位表示模块号，后两位表示该模块的具体错误代码；例如0x03A5在模块
  * 03中的错误代码A5；
  */
@@ -87,5 +87,5 @@ COMMON_API const char*  ToErrorMsg(const EyegleStatus status);
 }
 }
 
-#endif	//EYEGLE_COMMON_EYEGLESTATUS_H_
+#endif	//_COMMON_STATUS_H_
 

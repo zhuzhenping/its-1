@@ -1,9 +1,12 @@
 
 *obj/*
-prj*Debug*
+prj/*/Debug
+
 *sdf
 *.suo
 *.pdb
 *.idb
 *.user
 *ipch
+*.exp
+*.ilk

@@ -1,5 +1,18 @@
-﻿#ifndef EYEGLE_COMMON_MUTEX_H_  
-#define EYEGLE_COMMON_MUTEX_H_  
+﻿/*!
+* \brief       互斥锁.
+* \author      吴典@众安科技虚拟实验室.
+* \date        -
+*
+* \usage
+* Mutex mutex;
+* mutex.Lock();
+* //需要保护的操作.
+* mutex.Unlock();
+*
+*/
+
+#ifndef _COMMON_MUTEX_H_  
+#define _COMMON_MUTEX_H_  
 
 #include <assert.h> 
 #if defined WIN32
@@ -13,12 +26,13 @@
 #endif  
 
 #include "common/Global.h"
+#include "common/Locker.h"
 
-namespace itstation {
+namespace zhongan {
 namespace common {
 
 //不允许重复锁.
-class COMMON_API Mutex
+class COMMON_API Mutex : public LockBase
 {
 #if defined WIN32
     mutable CRITICAL_SECTION m_mutex;
@@ -102,7 +116,7 @@ inline bool Mutex::Trylock()
 #endif
 }
 
-//TODO:与Locker合并
+/*
 class MutexLocker {
 public:
 	MutexLocker(Mutex* mutex) : m_mutex(mutex) {
@@ -116,7 +130,7 @@ public:
 private:
 	Mutex* m_mutex;
 };
-
+*/
 }
 }
 

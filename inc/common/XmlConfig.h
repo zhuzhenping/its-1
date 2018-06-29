@@ -1,4 +1,32 @@
-﻿#ifndef COMMON_XML_CONFIG_H_  
+﻿/*!
+* \brief       读取xml配置文件.
+* \author      吴典@众安科技虚拟实验室.
+* \date        -
+*
+* \usage
+*
+<DataServer>
+	<broker_id>66666</broker_id>
+	<ctp_address>
+		<Address IP="tcp://180.169.101.177:41213" />
+		<Address IP="tcp://123.124.247.8:41213" />
+	</ctp_address>
+</DataServer>
+
+XmlConfig config("文件全路径");
+if (!config.Load()) { "error"; }
+
+XmlNode node = config.FindNode("DataServer");
+string broker_id = node.GetValue("broker_id");
+
+XmlNodeVec Addresses = config.FindChileren("DataServer/ctp_address", "Address");
+for (int i = 0; i < Addresses.size(); ++i) {
+	string IP = Addresses[i].GetValue("IP");
+}
+*
+*/
+
+#ifndef COMMON_XML_CONFIG_H_  
 #define COMMON_XML_CONFIG_H_  
 
 #include <string>
@@ -8,7 +36,7 @@
 class QDomElement;
 class QDomDocument;
 
-namespace itstation {
+namespace zhongan {
 namespace common {
 
 class XmlNode;

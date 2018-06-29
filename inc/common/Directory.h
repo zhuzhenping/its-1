@@ -1,5 +1,15 @@
-﻿#ifndef EYEGLE_COMMON_DIRECTORY_H_
-#define EYEGLE_COMMON_DIRECTORY_H_
+﻿/*!
+* \brief       环境变量、目录、文件的基本操作.
+* \author      吴典@众安科技虚拟实验室.
+* \date        -
+*
+* \usage
+*
+*
+*/
+
+#ifndef _COMMON_DIRECTORY_H_
+#define _COMMON_DIRECTORY_H_
 
 #include <string>
 #include <set>
@@ -29,21 +39,40 @@
 #define MKDIR(a) mkdir((a),0755)
 #endif
 
-bool COMMON_API IsDirExist(const std::string& dir_path);
+namespace zhongan {
 
-bool COMMON_API MakeDir(const std::string& dirpath);
+class COMMON_API Directory
+{
+public:
+	// 判断某个目录是否存在.
+	static bool IsDirExist(const std::string& dir_path);
+	// 创建某个目录.
+	static bool MakeDir(const std::string& dirpath);
 
-void COMMON_API GetFilesInDir(std::string path, std::set<std::string>& files);
-void COMMON_API GetDirsInDir(std::string path, std::set<std::string>& dirs);
+	// 取目录下所有文件.
+	static void GetFilesInDir(std::string path, std::set<std::string>& files);
+	// 取目录下所有文件夹名.
+	static void GetDirsInDir(std::string path, std::set<std::string>& dirs);
 
-// 设置当前路径的上两个文件夹路径为ITS_HOME环境变量;如果环境变量已设，直接返回
-bool COMMON_API SetItsHome();
 
-// 获取当前全路径
-std::string COMMON_API GetCurrentPath();
+	// 取绝对路径（默认取当前路径）.
+	static std::string GetCurrentPath(std::string = "");
+	// 获取应用程序的全路径. ../../app.exe
+	static std::string GetAppPath();
 
-//获取和设置相对路径中的当前路径
-std::string COMMON_API GetRelativeCurrent();
-bool COMMON_API SetRelativeCurrent(const std::string& path);
+	
+	/*// 设置相对路径（相对当前目录）.
+	static bool SetRelativeCurrent(const std::string& path);
+	// 取 设完相对路径后 的当前路径.
+	static std::string GetRelativeCurrent();*/
+
+
+private:
+	friend class Global;
+	//
+	static bool SetZhonganHome();
+};
+
+}
 
 #endif
