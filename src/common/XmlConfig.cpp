@@ -385,7 +385,12 @@ XmlNode XmlConfig::InsertChild(const std::string& path, const std::string& name,
 
 void XmlConfig::RemoveChild(const std::string& path, const std::string& name, int idx)
 {
-	return NULL == root_node_ ? XmlNode(QDomElement(), NULL) : root_node_->RemoveChild(path, name, idx);
+	//return NULL == root_node_ ? XmlNode(QDomElement(), NULL) : root_node_->RemoveChild(path, name, idx);
+	if (NULL == root_node_){
+		XmlNode(QDomElement(), NULL);
+	} else {
+		root_node_->RemoveChild(path, name, idx);
+	}
 }
 
 void XmlConfig::RemoveNode(const std::string& path)
