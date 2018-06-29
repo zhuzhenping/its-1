@@ -1,10 +1,10 @@
-#include <string.h>
+﻿#include <string.h>
 #include <stdio.h>
 #include "common/StatusDefine.h"
 
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 char error_str[128];
 
@@ -172,5 +172,3 @@ const char* ToErrorMsg(const EyegleStatus status) {
 	}
 }
 
-}
-}

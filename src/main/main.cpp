@@ -6,8 +6,7 @@
 #include "common/AppLog.h"
 #include "common/DateTime.h"
 
-using namespace zhongan;
-using namespace zhongan::common;
+
 
 void hello()
 {

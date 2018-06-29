@@ -1,15 +1,11 @@
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #include <iostream>
 #include "common/Global.h"
-#include "common/Directory.h"
 
-using namespace std;
-
-namespace zhongan {
 
 Global* Global::m_instance = NULL;
 
-Global::Global() 
+Global::Global() : m_app_conf_file_name("config.xml")
 {
 }
 
@@ -23,36 +19,34 @@ Global* Global::GetInstance() {
 }
 
 void Global::Init() {
-	char* zhongan_home_c = getenv("ZHONGAN_HOME");
-	if (NULL == zhongan_home_c) {
-		Directory::SetZhonganHome();
+	char* its_home_c = getenv("ITS_HOME");
+	if(NULL == its_home_c) { 
+		throw std::runtime_error("ITS_HOME环境变量未设置");
 	}
-	zhongan_home_c = getenv("ZHONGAN_HOME");
-	if(NULL == zhongan_home_c) { 
-		throw std::runtime_error("ZHONGAN_HOME环境变量未设置");
-	}
-	zhongan_home = zhongan_home_c;
-
-
-	string app_path = Directory::GetAppPath();
-	size_t _bgn = app_path.find_last_of("\\") + 1;
-	size_t _end = app_path.find_last_of(".");
-	m_app_name = app_path.substr(_bgn, _end - _bgn);
+	its_home = its_home_c;
 }
 
 std::string Global::GetConfigDir() const
 {
-	return zhongan_home + "/cfg/";
+	return its_home + "/config/";
 }
 
-std::string Global::GetPluginsDir() const
+void Global::SetAppConfigFileName(const std::string& file_name)
 {
-	return zhongan_home + "/bin/plugins/";
+	m_app_conf_file_name = file_name;
+}
+
+std::string Global::GetAppConfigPath() const
+{
+	return GetConfigDir() + m_app_conf_file_name;
+}
+
+void Global::SetAppName(const std::string& name)
+{
+	m_app_name = name;
 }
 
 std::string Global::GetAppName() const
 {
 	return m_app_name;
-}
-
 }

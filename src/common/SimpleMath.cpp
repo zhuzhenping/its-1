@@ -1,4 +1,4 @@
-
+﻿
 #include "common/SimpleMath.h"
 
 #define FLOAT_PRECISION 0.001
@@ -6,8 +6,8 @@
 #define PRICE_PRECISION  0.00001
 #define VOLUME_PRECISION 0.1
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 bool PriceGreatThan(double val1, double val2) {
 	return val1 > val2 + PRICE_PRECISION;
@@ -38,5 +38,3 @@ template<class T> bool UnEqual(T t1, T t2) { return t1 != t2; }
 template<> bool UnEqual(float t1, float t2) { return FloatUnEqual(t1, t2); }
 template<> bool UnEqual(double t1, double t2) { return DoubleUnEqual(t1, t2); }
 
-}
-}

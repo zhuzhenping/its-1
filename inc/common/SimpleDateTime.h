@@ -1,5 +1,5 @@
-#ifndef _COMMON_SIMPLE_DATE_TIME_H_
-#define _COMMON_SIMPLE_DATE_TIME_H_
+﻿#ifndef EYEGLE_COMMON_SIMPLE_DATE_TIME_H_
+#define EYEGLE_COMMON_SIMPLE_DATE_TIME_H_
 
 #include <stdio.h>
 #include "common/Global.h"
@@ -10,8 +10,8 @@
 #include <sys/time.h>
 #endif
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 #pragma pack(1)
 struct COMMON_API SimpleDate 
 {
@@ -158,6 +158,5 @@ struct COMMON_API SimpleDateTime {
 };
 #pragma pack()
 
-}
-}
-#endif	//_COMMON_DATE_TIME_H_
+
+#endif	//EYEGLE_COMMON_DATE_TIME_H_

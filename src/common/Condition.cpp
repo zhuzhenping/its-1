@@ -1,8 +1,8 @@
-#include "common/Condition.h"
+﻿#include "common/Condition.h"
 #include <iostream>
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 Condition::Condition()
 {
@@ -80,5 +80,3 @@ bool Condition::TimedWait(condition_lock_type *mutex, unsigned s, unsigned ms/* 
 #endif
 }
 
-}
-}

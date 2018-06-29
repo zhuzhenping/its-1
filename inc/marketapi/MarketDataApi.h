@@ -12,8 +12,8 @@
 
 class QStringList;
 
-namespace itstation {
-namespace marketapi {
+////namespace itstation {
+////namespace itstation {
 
 using namespace common;
 

@@ -1,15 +1,15 @@
-#include "common/XmlConfig.h"
+﻿#include "common/XmlConfig.h"
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
-#include <QtCore/QTextCodec>
-#include <QtCore/QStringList>
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
+#include <QTextCodec>
+#include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
 using namespace std;
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 XmlNode::XmlNode(const QDomElement& elem, QDomDocument* dom_document) : dom_document_(dom_document)
 {
@@ -388,5 +388,3 @@ void XmlConfig::RemoveNode(const std::string& path)
 	return NULL == root_node_ ? XmlNode(QDomElement(), NULL) : root_node_->RemoveNode(path);
 }
 
-}
-}

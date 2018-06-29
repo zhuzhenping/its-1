@@ -8,7 +8,7 @@
 #include "CTP/ThostFtdcTraderApi.h"
 
 
-namespace itstation {
+//namespace itstation {
 namespace marketapi {
 
 class CtpFutureTradeApi;

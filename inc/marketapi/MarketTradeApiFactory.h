@@ -3,7 +3,7 @@
 
 #include "common/Global.h"
 
-namespace itstation {
+//namespace itstation {
 namespace marketapi {
 
 class TradeApi;

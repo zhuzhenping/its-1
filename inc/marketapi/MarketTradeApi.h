@@ -8,7 +8,7 @@
 
 class QSettings;
 
-namespace itstation {
+//namespace itstation {
 namespace marketapi {
 
 using namespace common;

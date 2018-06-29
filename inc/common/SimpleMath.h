@@ -1,10 +1,10 @@
-#ifndef _COMMON_MATH_H_
-#define _COMMON_MATH_H_
+﻿#ifndef ITS_COMMON_MATH_H_
+#define ITS_COMMON_MATH_H_
 
 #include "common/Global.h"
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 bool COMMON_API PriceGreatThan(double val1, double val2);
 bool COMMON_API PriceInRange(double val, double val1, double val2);
@@ -23,7 +23,6 @@ template bool COMMON_API UnEqual(int, int);
 template<> bool COMMON_API UnEqual(float, float); // 加<>表示需要重新实现.
 template<> bool COMMON_API UnEqual(double, double);
 
-}
-}
+
 
 #endif

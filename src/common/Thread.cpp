@@ -1,7 +1,7 @@
-#include "common/Thread.h"
+﻿#include "common/Thread.h"
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 #ifdef WIN32
 void SleepImp(int mil_sec)
@@ -113,5 +113,3 @@ Thread::ThreadState Thread::GetState() {
 	return m_state;
 }
 
-}
-}

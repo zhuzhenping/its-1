@@ -10,6 +10,7 @@ prj/*/Debug
 *ipch
 *.exp
 *.ilk
+*.log
 
-bin/Debug
-lib/Debug
+bin/Debug/*
+lib/Debug/*

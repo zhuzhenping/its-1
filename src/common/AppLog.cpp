@@ -1,6 +1,6 @@
-#include <sstream>
-#include <QtCore/QDir>
-#include <QtCore/QFile>
+﻿#include <sstream>
+#include <QDir>
+#include <QFile>
 #include <QtCore/QCoreApplication>
 #include "common/XmlConfig.h"
 #include "common/AppLog.h"
@@ -12,8 +12,8 @@
 LogEmptyInput LogEmptyInput::instance;
 #endif
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 AppLog* AppLog::m_instance = NULL;
 AppLog::LastExit AppLog::last_exit;
@@ -26,7 +26,7 @@ AppLog::AppLog()
 	, m_is_running(false)
 	, m_file_path("")
 	, m_err_file_path("")
-	, m_append_console(true)
+	, m_append_console(false)
 {
 }
 
@@ -91,7 +91,7 @@ void AppLog::InitLog()
 	if (m_is_running) { return; }	//日志线程开始运行后不能再改变值.
 
 	//配置文件中有配置，读取配置；否则用默认值
-	std::string conf_path = Global::GetInstance()->GetConfigDir()+"config.xml";
+	std::string conf_path = Global::GetInstance()->GetAppConfigPath();
 	do 
 	{
 		if (!QFile::exists(conf_path.c_str())) { break; }
@@ -122,8 +122,8 @@ void AppLog::InitLog()
 		}
 	}
 	
-	m_file_path = Global::GetInstance()->zhongan_home + "/log/" + app_name + ".log";
-	m_err_file_path = Global::GetInstance()->zhongan_home + "/log/" + app_name + "_Error.log";
+	m_file_path = Global::GetInstance()->its_home + "/log/" + app_name + ".log";
+	m_err_file_path = Global::GetInstance()->its_home + "/log/" + app_name + "_Error.log";
 	OpenLogFile();
 	m_is_running = true;
 }
@@ -192,7 +192,7 @@ void AppLog::OpenLogFile() {
 		m_file_path.replace(m_file_path.find('\\'),1,"/");
 	}
 	std::string file_dir = m_file_path.substr(0, m_file_path.rfind("/") + 1);
-	if (!Directory::IsDirExist(file_dir)) { Directory::MakeDir(file_dir); }
+	if (!IsDirExist(file_dir)) { MakeDir(file_dir); }
 
 	m_file = fopen(m_file_path.c_str(), "a");
 	if (NULL == m_file) {
@@ -245,5 +245,3 @@ void AppLog::RollLogFile() {
 }
 
 
-}
-}

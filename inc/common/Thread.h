@@ -1,5 +1,5 @@
-#ifndef _COMMON_THREAD_H_  
-#define _COMMON_THREAD_H_  
+﻿#ifndef EYEGLE_COMMON_THREAD_H_  
+#define EYEGLE_COMMON_THREAD_H_  
  
 #include <stdexcept>
 #include <iostream>
@@ -20,8 +20,8 @@
 
 using namespace std;
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 #ifdef WIN32
 void SleepImp(int mil_sec);
@@ -116,6 +116,5 @@ private:
 	Condition wait_cond_;
 };
 
-}
-}
+
 #endif

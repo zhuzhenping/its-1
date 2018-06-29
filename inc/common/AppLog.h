@@ -1,15 +1,5 @@
-/*!
- * \brief       异步打印日志.
- * \author      吴典@众安科技虚拟实验室.
- * \date        -
- *
- * \usage
- * APP_LOG(LOG_LEVEL_ERROR) << "错误内容";
- *
- */
-
-#ifndef _COMMON_APP_LOG_H_  
-#define _COMMON_APP_LOG_H_  
+﻿#ifndef EYEGLE_COMMON_APP_LOG_H_  
+#define EYEGLE_COMMON_APP_LOG_H_  
 
 #include <memory.h>
 #include <string.h>
@@ -21,9 +11,9 @@
 
 using namespace std;
 
-extern SpendTime timer;
+extern Timer timer;
 
-#define APP_LOG(LEVEL) zhongan::common::AppLogFinisher() = zhongan::common::AppLogInput(zhongan::common::LEVEL, __FILE__, __LINE__)
+#define APP_LOG(LEVEL) AppLogFinisher() = AppLogInput(LEVEL, __FILE__, __LINE__)
 
 //#ifndef _DEBUG
 //#define _DEBUG
@@ -48,8 +38,8 @@ struct LogEmptyInput
 #define APP_LOG_DBG LogEmptyInput::instance
 #endif
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 /*
  * @brief LogLevel 日志层级枚举值.
@@ -208,7 +198,5 @@ public:
 	};
 };
 
-}
-}
 
 #endif

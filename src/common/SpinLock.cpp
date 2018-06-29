@@ -1,12 +1,12 @@
-#include "common/SpinLock.h"
+﻿#include "common/SpinLock.h"
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 SpinLock::SpinLock(int spin_count/* = 10000*/)
 {  
 #if defined(WIN32)  
-	InitializeCriticalSectionAndSpinCount( &m_critical_section, spin_count);	//旋转spin_count个时钟周期后进入阻塞.
+	InitializeCriticalSectionAndSpinCount( &m_critical_section, spin_count);	//旋转spin_count个时钟周期后进入阻塞
 #else  
 	int rs = ::pthread_spin_init(&m_spinlock, PTHREAD_PROCESS_PRIVATE);  
 	assert(0 == rs);  
@@ -23,5 +23,3 @@ SpinLock::~SpinLock()
 #endif  
 }  
 
-}
-}

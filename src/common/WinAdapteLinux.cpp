@@ -1,4 +1,4 @@
-#include "common/WinAdapteLinux.h"
+﻿#include "common/WinAdapteLinux.h"
 
 #ifdef WIN32
 #include <Windows.h>

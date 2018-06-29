@@ -1,5 +1,5 @@
-#ifndef _COMMON_QUEUE_BUFFER_H_  
-#define _COMMON_QUEUE_BUFFER_H_  
+﻿#ifndef EYEGLE_COMMON_QUEUE_BUFFER_H_  
+#define EYEGLE_COMMON_QUEUE_BUFFER_H_  
 
 #include <assert.h>
 #include "common/Thread.h" 
@@ -7,8 +7,8 @@
 #include "common/Mutex.h"
 #include "common/Condition.h"
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 template <class T, unsigned int LEN>
 class QueueBuffer : public Thread {
@@ -95,10 +95,9 @@ private:
 	SpinLock idx_lock;
 	SpinLock size_lock;
 
-	common::Condition cond_;
+	Condition cond_;
 };
 
-}
-}
+
 
 #endif

@@ -1,6 +1,6 @@
-#include "common/ExceptionErr.h"
+﻿#include "common/ExceptionErr.h"
 
-namespace zhongan {
+//namespace itstation {
 
 ExceptionErr& ExceptionErr::SourceInfo(const char *file, int line) 
 {
@@ -30,4 +30,3 @@ const char * ExceptionErr::what() const throw()
 	return desc_.c_str();
 }
 
-}

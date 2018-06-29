@@ -1,6 +1,6 @@
-// Copyright (C) by Ashton Mason. See LICENSE.txt for licensing information.
-#ifndef THERON_BENCHMARKS_COMMON_SpendTime_H
-#define THERON_BENCHMARKS_COMMON_SpendTime_H
+﻿// Copyright (C) by Ashton Mason. See LICENSE.txt for licensing information.
+#ifndef THERON_BENCHMARKS_COMMON_TIMER_H
+#define THERON_BENCHMARKS_COMMON_TIMER_H
 
 #ifdef WIN32
 #include <windows.h>
@@ -9,12 +9,12 @@
 #endif
 
 
-// Simple SpendTime class.
-class SpendTime
+// Simple timer class.
+class Timer
 {
 public:
 
-	SpendTime() : mSupported(false)
+	Timer() : mSupported(false)
 	{
 #ifdef WIN32
 		// Read the counter frequency (in Hz) and an initial counter value.
@@ -63,8 +63,8 @@ public:
 
 private:
 
-	SpendTime(const SpendTime &other);
-	SpendTime &operator=(const SpendTime &other);
+	Timer(const Timer &other);
+	Timer &operator=(const Timer &other);
 
 	bool mSupported;
 
@@ -79,5 +79,5 @@ private:
 };
 
 
-#endif // THERON_BENCHMARKS_COMMON_SpendTime_H
+#endif // THERON_BENCHMARKS_COMMON_TIMER_H
 

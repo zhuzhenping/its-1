@@ -1,17 +1,15 @@
-#include <QtCore/QDir>
-#include <QtCore/QFile>
-#include <QtCore/QTextCodec>
+﻿#include <QDir>
+#include <QFile>
+#include <QTextCodec>
 #include "common/Directory.h"
 #include "common/AppLog.h"
 
-namespace zhongan {
-
-bool Directory::IsDirExist(const std::string& dir_path)
+bool IsDirExist(const std::string& dir_path)
 {
 	return ACCESS(dir_path.c_str(),0) != -1;
 }
 
-bool Directory::MakeDir(const std::string& dirpath)
+bool MakeDir(const std::string& dirpath)
 {	
 	std::string pathtemp;
 	pathtemp = dirpath;
@@ -68,7 +66,7 @@ bool Directory::MakeDir(const std::string& dirpath)
 //#endif
 //}
 
-void Directory::GetFilesInDir(std::string path, std::set<std::string>& files)
+void GetFilesInDir(std::string path, std::set<std::string>& files) 
 {
 	QTextCodec *codec = QTextCodec::codecForName("GB2312");
 	QDir dir(path.c_str());	
@@ -80,7 +78,7 @@ void Directory::GetFilesInDir(std::string path, std::set<std::string>& files)
 	}
 }
 
-void Directory::GetDirsInDir(std::string path, std::set<std::string>& dirs)
+void GetDirsInDir(std::string path, std::set<std::string>& dirs)
 {
 	QTextCodec *codec = QTextCodec::codecForName("GB2312");
 	QDir dir(path.c_str());	
@@ -92,57 +90,44 @@ void Directory::GetDirsInDir(std::string path, std::set<std::string>& dirs)
 	}
 }
 
-bool Directory::SetZhonganHome()
+bool SetItsHome()
 {
-	//已设置，直接返回.
-	char* zhongan_home = getenv("ZHONGAN_HOME");
-	if (NULL != zhongan_home) { return true; }
+	//已设置，直接返回
+	char* its_home = getenv("ITS_HOME");
+	if (NULL != its_home) { return true; }
 
-	/*QDir dir = QDir::current();
+	QDir dir = QDir::current();
 	if (!dir.exists()) { return false; }
 
-	std::string value = GetCurrentPath();
+	std::string value;
 	if(!dir.exists("config")){ // bin/Debug
 		if (!dir.cdUp()) { return false; }
 		if (!dir.cdUp()) { return false; }	
 		value = QDir::toNativeSeparators(dir.path()).toStdString();
-	}*/
-	string app_path = GetAppPath();
-	size_t _bin = app_path.find("bin");
-	string value = GetCurrentPath(app_path.substr(0, _bin));
+	}
 
 #ifdef WIN32
-	if (putenv(QObject::tr("ZHONGAN_HOME=%1").arg(value.c_str()).toStdString().c_str())) return false;
+	if (putenv(QObject::tr("ITS_HOME=%1").arg(value.c_str()).toStdString().c_str())) return false;
 #else
-	if (setenv("ZHONGAN_HOME", (char*)value.c_str(), 1)) return false;
+	if (setenv("ITS_HOME", (char*)value.c_str(), 1)) return false;
 #endif
-	APP_LOG_DBG << "设置ZHONGAN_HOME：" << value;
+	APP_LOG_DBG << "设置ITS_HOME：" << value;
 	return true;
 }
 
-std::string Directory::GetCurrentPath(string path) {
-	QDir dir("" == path? "./" : path.c_str());
+std::string GetCurrentPath() {
+	QDir dir("./");
 	return dir.absolutePath().toStdString();
 }
 
-std::string Directory::GetAppPath(){
-	char szFullPath[MAX_PATH];
-	ZeroMemory(szFullPath, MAX_PATH);
-	GetModuleFileNameA(NULL, szFullPath, MAX_PATH);
-	return szFullPath;
-}
-
-/*
-std::string Directory::GetRelativeCurrent()
+std::string GetRelativeCurrent()
 {
 	QDir dir = QDir::current();
 	if (!dir.exists()) { return ""; }
 	return QDir::toNativeSeparators(dir.path()).toStdString();
 }
 
-bool Directory::SetRelativeCurrent(const std::string& path)
+bool SetRelativeCurrent(const std::string& path)
 {
 	return QDir::setCurrent(path.c_str());
-}*/
-
 }

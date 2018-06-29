@@ -1,19 +1,5 @@
-/*!
-* \brief       自旋锁,旋转N个时钟周期后进入阻塞.如果某线程需要获取自旋锁，但该锁已经被其他线程占用时.
-*			   该线程不会被挂起，而是在不断的消耗CPU的时间，不停的试图获取自旋锁.常用于高效缓存队列.
-* \author      吴典@众安科技虚拟实验室.
-* \date        -
-*
-* \usage
-* SpinLock spin_lock;
-* spin_lock.Lock();
-* //需要保护的操作.
-* spin_lock.Unlock();
-*
-*/
-
-#ifndef _COMMON_SPIN_LOCK_H_  
-#define _COMMON_SPIN_LOCK_H_  
+﻿#ifndef EYEGLE_COMMON_SPIN_LOCK_H_  
+#define EYEGLE_COMMON_SPIN_LOCK_H_  
 
 #include <assert.h>  
 
@@ -27,13 +13,12 @@
 #endif  
 
 #include "common/Global.h"
-#include "common/Locker.h"
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 //不允许重复锁.
-class COMMON_API SpinLock : public LockBase
+class COMMON_API SpinLock  
 {  
 #if defined(WIN32)  
 	CRITICAL_SECTION m_critical_section;  
@@ -96,7 +81,6 @@ inline void SpinLock::Unlock()
 #endif  
 }  
 
-/*
 class Locker {
 public:
 	Locker(SpinLock* spin_lock) : m_spin_lock(spin_lock) {
@@ -109,9 +93,8 @@ public:
 
 private:
 	SpinLock* m_spin_lock;
-};*/
+};
 
-}
-}
+
 
 #endif

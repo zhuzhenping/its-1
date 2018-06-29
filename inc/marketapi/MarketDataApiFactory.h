@@ -4,8 +4,8 @@
 #include <string>
 #include "common/Global.h"
 
-namespace itstation {
-namespace marketapi {
+////namespace itstation {
+////namespace itstation {
 
 	class MarketDataApi;
 

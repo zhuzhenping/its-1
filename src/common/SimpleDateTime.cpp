@@ -1,9 +1,9 @@
-#include "common/SimpleDateTime.h"
+﻿#include "common/SimpleDateTime.h"
 #include <sstream>
 #include <QtCore/QDateTime>
 
-namespace zhongan {
-namespace common {
+//namespace itstation {
+//namespace common {
 
 std::string SimpleDate::Str() const
 {
@@ -46,5 +46,3 @@ std::string SimpleDateTime::Str() const
 	return ss.str();
 }
 
-}
-}
