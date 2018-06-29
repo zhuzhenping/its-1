@@ -10,6 +10,10 @@
 
 void hello()
 {	
+	QFile file("");
+	if (!file.exists()) {
+		qDebug() << "file not exist";
+	}
 	DateTime now(NULL);
 	APP_LOG(LOG_LEVEL_INFO) << now.Str();
 }

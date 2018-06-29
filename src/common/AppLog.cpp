@@ -26,7 +26,7 @@ AppLog::AppLog()
 	, m_is_running(false)
 	, m_file_path("")
 	, m_err_file_path("")
-	, m_append_console(true)
+	, m_append_console(false)
 {
 }
 

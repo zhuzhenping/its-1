@@ -353,7 +353,12 @@ XmlNodeVec XmlConfig::FindChileren(const std::string& path, const std::string& n
 
 void XmlConfig::ClearChildren(const std::string& path, const std::string& name)
 {
-	return NULL == root_node_ ? XmlNodeVec() : root_node_->ClearChildren(path, name);
+	//return NULL == root_node_ ? XmlNodeVec() : root_node_->ClearChildren(path, name);
+	if (NULL == root_node_){
+		XmlNodeVec();
+	} else {
+		root_node_->ClearChildren(path, name);
+	}
 }
 
 std::string XmlConfig::GetValue(const std::string& path, const std::string& key)
@@ -385,6 +390,11 @@ void XmlConfig::RemoveChild(const std::string& path, const std::string& name, in
 
 void XmlConfig::RemoveNode(const std::string& path)
 {
-	return NULL == root_node_ ? XmlNode(QDomElement(), NULL) : root_node_->RemoveNode(path);
+	// return NULL == root_node_ ? XmlNode(QDomElement(), NULL) : root_node_->RemoveNode(path);
+	if (NULL == root_node_){
+		XmlNode(QDomElement(), NULL);
+	} else {
+		root_node_->RemoveNode(path);
+	}
 }
 
