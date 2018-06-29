@@ -6,6 +6,9 @@
 #include "common/AppLog.h"
 #include "common/DateTime.h"
 
+using namespace zhongan;
+using namespace zhongan::common;
+
 void hello()
 {
 	QFile file("/home/wd/its/src/main/main.cpp");

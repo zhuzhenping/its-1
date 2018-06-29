@@ -6,7 +6,7 @@
 #ifdef WIN32
 
 //Common宏.
-#ifdef COMMON_EXPORT
+#ifdef COMMON_EXPORTS
 #define COMMON_API  __declspec(dllexport)
 #else 
 #define COMMON_API  __declspec(dllimport)
