@@ -1,3 +1,5 @@
-
 all:
-	@cd ./prj && make
+	cd ./prj && make
+
+clean:
+	cd ./prj && make clean
