@@ -1,5 +1,0 @@
-qt:
-./configure -embedded
-
-boost:
-./b2 install --prefix=/home/wd/its/inc link=static runtime-link=shared threading=multi

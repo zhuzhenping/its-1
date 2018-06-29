@@ -1,5 +1,8 @@
-bin/*
+
 *obj*
-*Debug*
+prj*Debug*
 *sdf
 *.suo
+*.pdb
+*.idb
+*.user
