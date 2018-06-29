@@ -1,4 +1,4 @@
-﻿#include "common/FileSync.h"
+#include "common/FileSync.h"
 #include <QtCore/QFile>
 #include <assert.h>
 #include "common/AppLog.h"

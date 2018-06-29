@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_STATUS_H_
+#ifndef _COMMON_STATUS_H_
 #define _COMMON_STATUS_H_
 
 #include <string>

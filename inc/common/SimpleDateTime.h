@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_SIMPLE_DATE_TIME_H_
+#ifndef _COMMON_SIMPLE_DATE_TIME_H_
 #define _COMMON_SIMPLE_DATE_TIME_H_
 
 #include <stdio.h>

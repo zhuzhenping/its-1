@@ -1,4 +1,4 @@
-﻿#ifndef WIN_ADAPATE_LINUX_H_  
+#ifndef WIN_ADAPATE_LINUX_H_  
 #define WIN_ADAPATE_LINUX_H_  
 
 #include <string>

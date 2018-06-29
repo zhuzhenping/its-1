@@ -1,4 +1,4 @@
-﻿#include <QtCore/QDir>
+#include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QTextCodec>
 #include "common/Directory.h"
@@ -102,10 +102,10 @@ bool Directory::SetZhonganHome()
 	if (!dir.exists()) { return false; }
 
 	std::string value = GetCurrentPath();
-	if(!dir.exists("config")){ // bin/Debug
+	if(!dir.exists("config")){ // bin/Debug
 		if (!dir.cdUp()) { return false; }
-		if (!dir.cdUp()) { return false; }	
-		value = QDir::toNativeSeparators(dir.path()).toStdString();
+		if (!dir.cdUp()) { return false; }	
+		value = QDir::toNativeSeparators(dir.path()).toStdString();
 	}*/
 	string app_path = GetAppPath();
 	size_t _bin = app_path.find("bin");

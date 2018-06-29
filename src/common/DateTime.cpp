@@ -1,4 +1,4 @@
-﻿#include "common/DateTime.h"
+#include "common/DateTime.h"
 #include <QtCore/QDateTime>
 #include <QtCore/QStringList>
 #include "common/XmlConfig.h"

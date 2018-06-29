@@ -1,4 +1,4 @@
-﻿#include "common/SpinLock.h"
+#include "common/SpinLock.h"
 
 namespace zhongan {
 namespace common {

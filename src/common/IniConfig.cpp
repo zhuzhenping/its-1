@@ -1,4 +1,4 @@
-﻿#include "common/IniConfig.h"
+#include "common/IniConfig.h"
 #include <QtCore/QSettings>
 
 using namespace std;

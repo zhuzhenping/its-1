@@ -1,4 +1,4 @@
-﻿#ifndef COMMON_NIN_CONFIG_H_  
+#ifndef COMMON_NIN_CONFIG_H_  
 #define COMMON_NIN_CONFIG_H_  
 
 #include <string>

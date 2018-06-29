@@ -1,4 +1,4 @@
-﻿#include "common/Thread.h"
+#include "common/Thread.h"
 
 namespace zhongan {
 namespace common {

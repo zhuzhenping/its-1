@@ -1,4 +1,4 @@
-﻿
+
 #include "common/SimpleMath.h"
 
 #define FLOAT_PRECISION 0.001

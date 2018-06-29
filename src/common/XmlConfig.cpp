@@ -1,4 +1,4 @@
-﻿#include "common/XmlConfig.h"
+#include "common/XmlConfig.h"
 #include <QtXml/QDomElement>
 #include <QtXml/QDomDocument>
 #include <QtCore/QTextCodec>

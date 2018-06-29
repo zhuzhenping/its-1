@@ -1,4 +1,4 @@
-﻿#include "common/SimpleDateTime.h"
+#include "common/SimpleDateTime.h"
 #include <sstream>
 #include <QtCore/QDateTime>
 

@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_GLOBAL_H_
+#ifndef _COMMON_GLOBAL_H_
 #define _COMMON_GLOBAL_H_
 
 #include <string>

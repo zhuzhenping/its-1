@@ -1,4 +1,4 @@
-﻿#include "common/Condition.h"
+#include "common/Condition.h"
 #include <iostream>
 
 namespace zhongan {

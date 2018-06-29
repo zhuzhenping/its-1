@@ -1,4 +1,4 @@
-﻿#include "common/DynCreate.h"
+#include "common/DynCreate.h"
 
 namespace zhongan {
 

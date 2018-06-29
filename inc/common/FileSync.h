@@ -1,4 +1,4 @@
-﻿#ifndef COMMON_FILE_SYNC_H_  
+#ifndef COMMON_FILE_SYNC_H_  
 #define COMMON_FILE_SYNC_H_  
 
 #include <string>

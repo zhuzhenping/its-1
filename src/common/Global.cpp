@@ -1,4 +1,4 @@
-﻿#include <stdlib.h>
+#include <stdlib.h>
 #include <iostream>
 #include "common/Global.h"
 #include "common/Directory.h"

@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_NON_BLOCK_QUEUE_BUFFER_H_  
+#ifndef _COMMON_NON_BLOCK_QUEUE_BUFFER_H_  
 #define _COMMON_NON_BLOCK_QUEUE_BUFFER_H_  
 
 #include "common/Thread.h" 

@@ -1,4 +1,4 @@
-﻿#ifndef COMMON_PERFORMANCE_TEST_H_
+#ifndef COMMON_PERFORMANCE_TEST_H_
 #define COMMON_PERFORMANCE_TEST_H_
 
 #include "common/SpendTime.h"

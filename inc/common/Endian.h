@@ -1,4 +1,4 @@
-﻿#ifndef FND_ENDIAN_H_
+#ifndef FND_ENDIAN_H_
 #define FND_ENDIAN_H_
 
 /*

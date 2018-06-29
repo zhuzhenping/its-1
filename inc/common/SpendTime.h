@@ -1,4 +1,4 @@
-﻿// Copyright (C) by Ashton Mason. See LICENSE.txt for licensing information.
+// Copyright (C) by Ashton Mason. See LICENSE.txt for licensing information.
 #ifndef THERON_BENCHMARKS_COMMON_SpendTime_H
 #define THERON_BENCHMARKS_COMMON_SpendTime_H
 

@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_COMPRESS_LIB_H_
+#ifndef _COMMON_COMPRESS_LIB_H_
 #define _COMMON_COMPRESS_LIB_H_
 
 #include "common/Global.h"

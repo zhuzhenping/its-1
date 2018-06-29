@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_THREAD_H_  
+#ifndef _COMMON_THREAD_H_  
 #define _COMMON_THREAD_H_  
  
 #include <stdexcept>

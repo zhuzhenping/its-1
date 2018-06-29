@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_MATH_H_
+#ifndef _COMMON_MATH_H_
 #define _COMMON_MATH_H_
 
 #include "common/Global.h"
