@@ -16,6 +16,7 @@
 #include <process.h>
 #else
 #include <pthread.h>
+#include <unistd.h>
 #endif
 
 using namespace std;

@@ -1,4 +1,5 @@
 ﻿#include <stdlib.h>
+#include <stdexcept>
 #include <iostream>
 #include "common/Global.h"
 

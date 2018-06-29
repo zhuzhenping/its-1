@@ -20,11 +20,10 @@ BIN_PATH := $(SOLUTION_DIR)/bin
 INCLUDE_PATH := $(SOLUTION_DIR)/inc
 LIB_PATH := $(SOLUTION_DIR)/lib
 
-
 TARGET := $(shell basename `pwd`)
-MODULE_TYPE := executable
-SRCDIRS := $(SOLUTION_DIR)/src/main
+MODULE_TYPE := dynamic_lib
+SRCDIRS := $(SOLUTION_DIR)/src/common
 CPPFLAGS := -I$(INCLUDE_PATH)/ -I$(INCLUDE_PATH)/qt/include
-LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -L$(LIB_PATH)/qt -lboost_thread -lpthread -lboost_system -lQtCore -lcommon
+LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -L$(LIB_PATH)/qt -lQtCore -lQtXml
 
 include ../build_module.mk

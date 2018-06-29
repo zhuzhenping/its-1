@@ -53,7 +53,6 @@ endif
 
 ifeq ($(MODULE_TYPE), executable)
 	$(CC) -o $(BIN_PATH)/$(BUILD_TYPE)/$(TARGET_NAME) $(OBJS)  $(LDFLAGS)
-	@cp -f $(LIB_PATH)/ctp/* $(BIN_PATH)/$(BUILD_TYPE)
 endif
 
 BUILD_PRE :
