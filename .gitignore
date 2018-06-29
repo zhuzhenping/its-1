@@ -6,3 +6,4 @@ prj*Debug*
 *.pdb
 *.idb
 *.user
+*ipch
