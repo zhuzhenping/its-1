@@ -1,0 +1,30 @@
+﻿生成启动时间为 2018/6/29 12:19:50。
+     1>项目“C:\Users\za-wudian\Desktop\its\prj\main\main.vcxproj”在节点 2 上(rebuild 个目标)。
+     1>_PrepareForClean:
+         正在删除文件“Debug\main.lastbuildstate”。
+       InitializeBuildStatus:
+         正在对“Debug\main.unsuccessfulbuild”执行 Touch 任务。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"C:\Users\za-wudian\Desktop\its\sln\../inc" /I"C:\Users\za-wudian\Desktop\its\sln\../inc/qt/include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\main\main.cpp
+         main.cpp
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\main.exe.embed.manifest.res" Debug\main_manifest.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\za-wudian\Desktop\its\sln\../bin/Debug\main.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\za-wudian\Desktop\its\sln\../lib/boost" /LIBPATH:"C:\Users\za-wudian\Desktop\its\sln\../lib/qt" QtCore4.lib QtXml4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\main.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\za-wudian\Desktop\its\bin\Debug\main.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\za-wudian\Desktop\its\sln\../bin/Debug\main.lib" /MACHINE:X86 Debug\main.exe.embed.manifest.res
+         Debug\main.obj
+       Manifest:
+         正在删除文件“Debug\main.exe.embed.manifest”。
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\main.exe.embed.manifest" /manifest Debug\main.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\main.exe.embed.manifest.res" Debug\main_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\za-wudian\Desktop\its\sln\../bin/Debug\main.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\za-wudian\Desktop\its\sln\../lib/boost" /LIBPATH:"C:\Users\za-wudian\Desktop\its\sln\../lib/qt" QtCore4.lib QtXml4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\main.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\za-wudian\Desktop\its\bin\Debug\main.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\za-wudian\Desktop\its\sln\../bin/Debug\main.lib" /MACHINE:X86 Debug\main.exe.embed.manifest.res
+         Debug\main.obj
+         main.vcxproj -> C:\Users\za-wudian\Desktop\its\sln\../bin/Debug\main.exe
+       FinalizeBuildStatus:
+         正在删除文件“Debug\main.unsuccessfulbuild”。
+         正在对“Debug\main.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“C:\Users\za-wudian\Desktop\its\prj\main\main.vcxproj”(rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:06.03
