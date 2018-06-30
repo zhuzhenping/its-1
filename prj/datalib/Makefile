@@ -25,6 +25,6 @@ TARGET := $(NAME)
 MODULE_TYPE := dynamic_lib
 SRCDIRS := $(SOLUTION_DIR)/src/$(NAME)
 CPPFLAGS := -I$(INCLUDE_PATH)/ -I$(INCLUDE_PATH)/qt/include
-LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -L$(LIB_PATH)/qt -lQtCore -lQtXml
+LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -L$(LIB_PATH)/qt -lcommon
 
 include ../build_module.mk
