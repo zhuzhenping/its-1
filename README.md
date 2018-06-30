@@ -7,13 +7,13 @@ qt4.8.6
 
 boost_1_57
 
-## linux:
+linux:
 
 centos 7 
 
 gcc-c++ version 4.8.5
 
-## win:
+win:
 
 vs2010
 
@@ -21,12 +21,12 @@ vs2010
 # quick user it：
 git clone https://github.com/wudian/its.git
 
-## linux:
+linux:
 sh shell/init_env.sh
 
 make
 
-## win:
+win:
 用vs2010打开sln/its.sln
 
 # 目录结构说明
