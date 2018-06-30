@@ -15,12 +15,11 @@
 #define strcpy_s(des, len, sou) strncpy(des, sou, len)
 <<<<<<< HEAD
 #endif*/
-#endif
-=======
+
+
 #endif // 
 
-#endif // WIN32
->>>>>>> f58b290ab52b61998fe88fb895100fa023aa982b
+
 
 //namespace itstation {
 //namespace common {
