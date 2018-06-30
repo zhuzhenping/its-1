@@ -6,8 +6,7 @@
 #include "ctp/MarketTradeApiFactory.h"
 #include "ctp/MarketTradeApi.h"
 
-//namespace itstation {
-using namespace marketapi;
+
 class SymbolInfoSet;
 
 class CTPMarginCommision : public SecurityInfoSpi
@@ -34,7 +33,7 @@ private:
 	virtual void OnCommisionInfo(const CommisionInfo& info, bool is_last);
 
 protected:
-	marketapi::TradeApi* api_;
+	TradeApi* api_;
 	SymbolInfoSet* info_set_;
 
 	FILE *margin_fp_;
@@ -56,6 +55,5 @@ protected:
 
 };
 
-}
 
 #endif

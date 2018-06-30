@@ -2,7 +2,7 @@
 #include <fstream>
 #include <QtCore/QDate>
 #include "common/Directory.h"
-#include "libdata/SymbolInfoSet.h"
+#include "datalib/SymbolInfoSet.h"
 
 using namespace std;
 
@@ -113,14 +113,14 @@ void CTPMarginCommision::Denit() {
 	date += ",";
 	for (std::map<std::string, LocalMargin>::const_iterator iter = margins_.begin(); iter != margins_.end(); ++iter) {
 		if (!strcmp(iter->second.margin.instrument, "")) continue;
-		fwrite(date.toStdString().c_str(), date.toStdString().size(), 1,margin_fp_);
+		fwrite(date.toLocal8Bit().constData(), strlen(date.toLocal8Bit().constData()), 1,margin_fp_);
 		fwrite(iter->second.margin.ToStr().c_str(), iter->second.margin.ToStr().size(), 1, margin_fp_);
 		fwrite("\n", 1, 1, margin_fp_);
 	}
 
 	for (std::map<std::string, LocalCommision>::const_iterator iter = commisions_.begin(); iter != commisions_.end(); ++iter) {
 		if (!strcmp(iter->second.commision.instrument, "")) continue;
-		fwrite(date.toStdString().c_str(), date.toStdString().size(), 1, commision_fp_);
+		fwrite(date.toLocal8Bit().constData(), strlen(date.toLocal8Bit().constData()), 1, commision_fp_);
 		fwrite(iter->second.commision.ToStr().c_str(), iter->second.commision.ToStr().size(), 1, commision_fp_);
 		fwrite("\n", 1, 1, commision_fp_);
 	}
@@ -137,4 +137,3 @@ void CTPMarginCommision::OnCommisionInfo(const CommisionInfo& info, bool is_last
 	commisions_[info.instrument].commision = info;
 }
 
-}

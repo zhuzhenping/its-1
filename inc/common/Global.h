@@ -25,10 +25,17 @@
 #define CTP_API  __declspec(dllimport)
 #endif
 
+#ifdef ACCOUNT_EXPORTS
+#define ACCOUNT_API __declspec(dllexport)
+#else
+#define ACCOUNT_API  __declspec(dllimport)
+#endif
+
 #else	//LINUX平台，定义导出宏为空.
 #define COMMON_API
 #define DATALIB_API
 #define CTP_API
+#define ACCOUNT_API
 
 #define nullptr NULL
 #endif  //WIN32

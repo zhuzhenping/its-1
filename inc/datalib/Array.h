@@ -1,7 +1,7 @@
 ﻿#ifndef ITSTATION_DATASERVER_ARRAY_H_
 #define ITSTATION_DATASERVER_ARRAY_H_
 
-#include "dataserver/DataServerStruct.h"
+#include "datalib/DataServerStruct.h"
 #include "common/SpinLock.h"
 #include <assert.h>
 #include <exception>
@@ -9,9 +9,7 @@
 #include <new>
 #include <memory>
 
-namespace itstation {
-namespace strategy { class TechnicalIndicator; }
-namespace common {
+
 
 //20: || 改成 &&
 #define DEF_EQUAL_FUNC(ope) \
@@ -175,6 +173,5 @@ template <typename T> T Array<T>::ZERO_ = T();
 typedef Array<double> NumericSeries;
 typedef Array<DateTime> DateTimeSeries;
 
-}
-}
+
 #endif

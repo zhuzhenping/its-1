@@ -9,7 +9,7 @@
 #include "account/CTPMarginCommision.h"
 
 //namespace itstation {
-using namespace marketapi;
+
 
 // 交易事件.
 struct TradeEventData
@@ -37,7 +37,7 @@ public:
 	virtual void OnTradeError(const std::string &) = 0;
 };
 
-class ACCOUNT_EXPORT_API TradeEngine : public TradeSpi, public CTPMarginCommision
+class ACCOUNT_API TradeEngine : public TradeSpi, public CTPMarginCommision
 {
 public:
 	static TradeEngine* Instance();
@@ -171,15 +171,15 @@ private:
 	///持仓合约的现价。持仓的最新价、持仓盈亏、持仓市值并非实时更新，而是用户取时再计算.
 	std::map<Symbol, PriceType> last_prices_;
 
-	common::SpinLock account_mutex_;
-	common::SpinLock order_mutex_;
-	common::SpinLock trade_mutex_;
-	common::SpinLock pos_mutex_;
-	common::SpinLock last_price_mutex_;
+	SpinLock account_mutex_;
+	SpinLock order_mutex_;
+	SpinLock trade_mutex_;
+	SpinLock pos_mutex_;
+	SpinLock last_price_mutex_;
 
 	bool re_qry_pos_; // init时，如果发生ontrade，需要重新查持仓.
 	
 };
 
-}
+
 #endif

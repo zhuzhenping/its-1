@@ -1,5 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
 <iTStation>
+	<Log>
+        <!--日志等级：LEVEL_OFF LEVEL_ERROR LEVEL_WARN LEVEL_INFO LEVEL_SUCCESS LEVEL_DEBUG-->
+        <Level>LEVEL_DEBUG</Level>
+        <MaxSize>1024000</MaxSize>
+        <MaxNum>100</MaxNum>
+        <AppendComsole>0</AppendComsole>
+    </Log>
+	
+	<CtpTradeAccount>
+    <broker_id>9999</broker_id>
+    <user_id>002907</user_id>
+    <pwd>123456</pwd>
+    <front_addr>tcp://218.202.237.33:10002</front_addr>
+  </CtpTradeAccount>
+  
+  
     <RuntimeDataApis>
         <CTP_FUTURE SuportExchange="2,3,4,5" Active="1" IsLocal="1">
             <IP>tcp://112.64.143.157:41213</IP>
@@ -14,13 +30,7 @@
         <IP>121.43.232.206</IP>
         <Port>3333</Port>
     </HisKlineApi>
-    <Log>
-        <!--日志等级：LEVEL_OFF LEVEL_ERROR LEVEL_WARN LEVEL_INFO LEVEL_SUCCESS LEVEL_DEBUG-->
-        <Level>LEVEL_DEBUG</Level>
-        <MaxSize>1024000</MaxSize>
-        <MaxNum>100</MaxNum>
-        <AppendComsole>1</AppendComsole>
-    </Log>
+    
   <DataServer>
 	<broker_id>66666</broker_id>
 	<ctp_address>
@@ -36,12 +46,7 @@
 	<tick_port>3335</tick_port>
 	<kline_port>3333</kline_port>
   </DataServer>
-  <CtpTradeAccount>
-    <broker_id>9999</broker_id>
-    <user_id>002907</user_id>
-    <pwd>123456</pwd>
-    <front_addr>tcp://218.202.237.33:10002</front_addr>
-  </CtpTradeAccount>
+  
   <Strategy_MA>
       <code>j1709</code>
       <kline_period>1m</kline_period>

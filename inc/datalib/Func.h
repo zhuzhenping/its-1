@@ -1,8 +1,8 @@
 #ifndef FUNC_H
 #define FUNC_H
 
-#include "libdata/Array.h"
-#include "libdata/SimpleMath.h"
+#include "datalib/Array.h"
+#include "datalib/SimpleMath.h"
 
 
 

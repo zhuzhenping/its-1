@@ -214,7 +214,7 @@ std::string XmlNode::GetValue(const std::string& key)
 	} while (0);
 
 	QTextCodec *codec = QTextCodec::codecForName("GB2312");
-	if (NULL == codec) { return val_str.toStdString(); }
+	if (NULL == codec) { return val_str.toLocal8Bit().constData(); }
 	QByteArray encodedString = codec->fromUnicode(val_str);
 	return encodedString.data();
 }
@@ -264,7 +264,7 @@ std::string XmlNode::GetName()
 
 	QString tag_str = elem_->tagName();
 	QTextCodec *codec = QTextCodec::codecForName("GB2312");
-	if (NULL == codec) { return tag_str.toStdString(); }
+	if (NULL == codec) { return tag_str.toLocal8Bit().constData(); }
 	QByteArray encodedString = codec->fromUnicode(tag_str);
 	return encodedString.data();
 }
@@ -305,7 +305,7 @@ bool XmlConfig::Load(const std::string& root_name)
 	if(!dom_document_->setContent(&file, false, &error, &row, &column))
 	{
 		error = QObject::tr("parse xml error(row=%1, colum=%2):%3").arg(row).arg(column).arg(error);
-		last_err_ = error.toStdString();
+		last_err_ = error.toLocal8Bit().constData();
 		return false;
 	}
 

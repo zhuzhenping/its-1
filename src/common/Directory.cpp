@@ -73,7 +73,7 @@ void GetFilesInDir(std::string path, std::set<std::string>& files)
 	QFileInfoList infos = dir.entryInfoList(QDir::Files);
 	for (int i=0; i < infos.size(); ++i)
 	{
-		files.insert(NULL == codec ? infos[i].fileName().toStdString()
+		files.insert(NULL == codec ? infos[i].fileName().toLocal8Bit().constData()
 			: codec->fromUnicode(infos[i].fileName()).data());
 	}
 }
@@ -85,7 +85,7 @@ void GetDirsInDir(std::string path, std::set<std::string>& dirs)
 	QFileInfoList infos = dir.entryInfoList(QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
 	for (int i=0; i < infos.size(); ++i)
 	{
-		dirs.insert(NULL == codec ? infos[i].fileName().toStdString()
+		dirs.insert(NULL == codec ? infos[i].fileName().toLocal8Bit().constData()
 			: codec->fromUnicode(infos[i].fileName()).data());
 	}
 }
@@ -99,15 +99,19 @@ bool SetItsHome()
 	QDir dir = QDir::current();
 	if (!dir.exists()) { return false; }
 
+	/*string aa = dir.absolutePath().toLocal8Bit().constData();
+	QString b("aaaaa");
+	string bb = b.toLocal8Bit().constData();*/
+
 	std::string value;
-	if(!dir.exists("config")){ // bin/Debug
+	if(!dir.exists("cfg")){ // bin/Debug
 		if (!dir.cdUp()) { return false; }
 		if (!dir.cdUp()) { return false; }	
-		value = QDir::toNativeSeparators(dir.path()).toStdString();
+		value = QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData();
 	}
 
 #ifdef WIN32
-	if (putenv(QObject::tr("ITS_HOME=%1").arg(value.c_str()).toStdString().c_str())) return false;
+	if (putenv(QObject::tr("ITS_HOME=%1").arg(value.c_str()).toLocal8Bit().constData())) return false;
 #else
 	if (setenv("ITS_HOME", (char*)value.c_str(), 1)) return false;
 #endif
@@ -117,14 +121,14 @@ bool SetItsHome()
 
 std::string GetCurrentPath() {
 	QDir dir("./");
-	return dir.absolutePath().toStdString();
+	return dir.absolutePath().toLocal8Bit().constData();
 }
 
 std::string GetRelativeCurrent()
 {
 	QDir dir = QDir::current();
 	if (!dir.exists()) { return ""; }
-	return QDir::toNativeSeparators(dir.path()).toStdString();
+	return QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData();
 }
 
 bool SetRelativeCurrent(const std::string& path)

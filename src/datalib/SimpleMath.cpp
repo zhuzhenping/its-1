@@ -1,5 +1,5 @@
 ﻿
-#include "FuncLib/SimpleMath.h"
+#include "datalib/SimpleMath.h"
 
 #define FLOAT_PRECISION 0.001
 #define DOUBLE_PRECISION 0.000001

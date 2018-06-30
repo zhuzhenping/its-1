@@ -1,4 +1,4 @@
-#include "FuncLib/Func.h"
+#include "datalib/Func.h"
 #include <stdlib.h>
 
 

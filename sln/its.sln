@@ -5,6 +5,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "..\prj\common\com
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "..\prj\main\main.vcxproj", "{7A1566A5-1810-464D-AC5E-A40D5729C391}"
 	ProjectSection(ProjectDependencies) = postProject
+		{0D534707-580B-4100-AC44-8B58036808E8} = {0D534707-580B-4100-AC44-8B58036808E8}
 		{695EFD0B-B924-4F84-A939-0D14A6605855} = {695EFD0B-B924-4F84-A939-0D14A6605855}
 		{630BDE4A-EBAF-4026-A55B-6052723F3621} = {630BDE4A-EBAF-4026-A55B-6052723F3621}
 		{47539D9A-14EC-4FD6-BEBC-F411E093CAA1} = {47539D9A-14EC-4FD6-BEBC-F411E093CAA1}
@@ -19,6 +20,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "datalib", "..\prj\datalib\datalib.vcxproj", "{630BDE4A-EBAF-4026-A55B-6052723F3621}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "account", "..\prj\account\account.vcxproj", "{0D534707-580B-4100-AC44-8B58036808E8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47539D9A-14EC-4FD6-BEBC-F411E093CAA1} = {47539D9A-14EC-4FD6-BEBC-F411E093CAA1}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

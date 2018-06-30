@@ -5,22 +5,24 @@
 #include "QtCore/QDebug"
 #include "common/AppLog.h"
 #include "common/DateTime.h"
+#include "common/Directory.h"
+#include "common/Thread.h"
+#include "MySecurityInfoSpi.h"
 
 
-
-void hello()
+void get_table()
 {	
-	QFile file("");
-	if (!file.exists()) {
-		qDebug() << "file not exist";
-	}
-	DateTime now(NULL);
-	APP_LOG(LOG_LEVEL_INFO) << now.Str();
+	SetItsHome();
+	MySecurityInfoSpi *future = new MySecurityInfoSpi(PRODUCT_FUTURE);
+	future->init();
+	Thread::Sleep(10000);
 }
 
 int main(int argc,char* argv[])
 {
-	boost::thread thrd(&hello);
+	boost::thread thrd(&get_table);
 	thrd.join();
+
+
 	return 0;
 }

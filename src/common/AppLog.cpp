@@ -114,7 +114,7 @@ void AppLog::InitLog()
 	{
 		if (QCoreApplication::instance() != NULL)
 		{
-			app_name = QCoreApplication::applicationName().toStdString();
+			app_name = QCoreApplication::applicationName().toLocal8Bit().constData();
 		}
 		else
 		{
