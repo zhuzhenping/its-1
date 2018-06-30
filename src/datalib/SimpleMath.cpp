@@ -30,7 +30,3 @@ bool PriceInRange(double val, double val1, double val2) {
 	return val > val1 - PRICE_PRECISION && val < val2 + PRICE_PRECISION;
 }
 
-template<class T> bool UnEqual(T t1, T t2) { return t1 != t2; }
-
-template<> bool UnEqual(float t1, float t2) { return FloatUnEqual(t1, t2); }
-template<> bool UnEqual(double t1, double t2) { return DoubleUnEqual(t1, t2); }
