@@ -6,7 +6,7 @@
 #include <windows.h>
 #else
 #include <sys/time.h>
-#endif
+#endif // WIN32
 
 
 // Simple timer class.

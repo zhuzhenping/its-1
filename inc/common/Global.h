@@ -10,26 +10,26 @@
 #define COMMON_API  __declspec(dllexport)
 #else 
 #define COMMON_API  __declspec(dllimport)
-#endif  //COMMON_EXPORT
+#endif  //COMMON_EXPORTS
 
 
 #ifdef DATALIB_EXPORTS
 #define DATALIB_API __declspec(dllexport)
 #else
 #define DATALIB_API  __declspec(dllimport)
-#endif
+#endif //DATALIB_EXPORTS
 
 #ifdef CTP_EXPORTS
 #define CTP_API __declspec(dllexport)
 #else
 #define CTP_API  __declspec(dllimport)
-#endif
+#endif //CTP_EXPORTS
 
 #ifdef ACCOUNT_EXPORTS
 #define ACCOUNT_API __declspec(dllexport)
 #else
 #define ACCOUNT_API  __declspec(dllimport)
-#endif
+#endif // ACCOUNT_EXPORTS
 
 #else	//LINUX平台，定义导出宏为空.
 #define COMMON_API
