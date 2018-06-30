@@ -12,7 +12,18 @@ using namespace std;
   
 SymbolChineseName::SymbolChineseName()
 {
-	std::string its_home = Global::GetInstance()->its_home;
+	std::string its_home = getenv("ITS_HOME");
+	std::string conf_path = its_home + "/cfg/ChineseName.xml";
+	XmlConfig xml_config(conf_path);
+	xml_config.Load();
+	XmlNodeVec nodes = xml_config.FindChileren("ChiName", "Node");
+	QString key = "ChiName/";
+	for (int i=0; i < nodes.size(); ++i)
+	{
+		name_dict_[nodes[i].GetValue("Product")] = nodes[i].GetValue("Name");
+	}
+
+	/*std::string its_home = Global::GetInstance()->its_home;
 	std::string conf_path = its_home + "/data/FutureChiName.ini";
 	settings_ = new QSettings(conf_path.c_str(), QSettings::IniFormat);
 	settings_->setIniCodec("UTF-8");
@@ -26,16 +37,15 @@ SymbolChineseName::SymbolChineseName()
 	{
 		
 		settings_->setValue(key + nodes[i].GetValue("Product").c_str(), nodes[i].GetValue("Name").c_str());
-	}
+	}*/
 
 }
-
 std::string SymbolChineseName::ChiName(const std::string& inst, const std::string& name)
 {
 	std::string eng_name = PrefixStr(inst);
 	std::string code = CodeStr(inst);
-	std::string key = std::string("ChiName/") + eng_name;
-	std::string chi_name = settings_->value(key.c_str()).toString().toLocal8Bit().constData();
+
+	std::string chi_name = name_dict_[eng_name];
 	if (chi_name != "")
 	{
 		return chi_name + code;
@@ -43,7 +53,7 @@ std::string SymbolChineseName::ChiName(const std::string& inst, const std::strin
 	else
 	{
 		std::string chi_name = PrefixStr(name);
-		settings_->setValue(key.c_str(), chi_name.c_str());
+		name_dict_[eng_name] = chi_name;
 		return name;
 	}
 }

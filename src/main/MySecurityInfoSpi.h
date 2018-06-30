@@ -44,7 +44,7 @@ class SymbolChineseName
 {
 public:
 	SymbolChineseName();
-	~SymbolChineseName() { delete settings_; }
+	~SymbolChineseName() { }
 
 	std::string ChiName(const std::string& inst, const std::string& name);
 
@@ -52,7 +52,7 @@ private:
 	std::string PrefixStr(const std::string& name);
 	std::string CodeStr(const std::string& name);
 
-	QSettings *settings_;
+	std::map<string, string> name_dict_;
 };
 
 class MyMarketTradeCallback : public TradeSpi

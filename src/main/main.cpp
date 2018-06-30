@@ -15,7 +15,7 @@ void get_table()
 	SetItsHome();
 	MySecurityInfoSpi *future = new MySecurityInfoSpi(PRODUCT_FUTURE);
 	future->init();
-	Thread::Sleep(10000);
+	Thread::Sleep(1000000000);
 }
 
 int main(int argc,char* argv[])
