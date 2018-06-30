@@ -8,19 +8,28 @@
 #include "common/Directory.h"
 #include "common/Thread.h"
 #include "MySecurityInfoSpi.h"
+#include "CtpDataServer.h"
 
 
 void get_table()
 {	
-	SetItsHome();
 	MySecurityInfoSpi *future = new MySecurityInfoSpi(PRODUCT_FUTURE);
 	future->init();
 	Thread::Sleep(1000000000);
 }
 
+void get_data() {
+	CtpDataServer *ctp_ser_ = new CtpDataServer();
+	string err;
+	ctp_ser_->StartUp(true, err);
+	Thread::Sleep(1000000000);
+}
+
 int main(int argc,char* argv[])
 {
-	boost::thread thrd(&get_table);
+	//SetItsHome();
+
+	boost::thread thrd(&get_data);
 	thrd.join();
 
 

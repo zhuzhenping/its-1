@@ -14,6 +14,31 @@
     <pwd>123456</pwd>
     <front_addr>tcp://218.202.237.33:10002</front_addr>
   </CtpTradeAccount>
+
+  <DataServer>
+	<broker_id>9999</broker_id>
+	<ctp_address>
+		<Address IP="tcp://180.168.146.187:10031" />
+		<Address IP="tcp://180.168.146.187:10010" />
+		<Address IP="tcp://180.168.146.187:10011" />
+	</ctp_address>
+  </DataServer>
+  
+  <DataServer_ACTUAL>
+	<broker_id>66666</broker_id>
+	<ctp_address>
+		<Address IP="tcp://180.169.101.177:41213" />
+		<Address IP="tcp://123.124.247.8:41213" />
+		<Address IP="tcp://27.115.78.193:41213" />
+		<Address IP="tcp://180.169.101.178:41213" />
+	</ctp_address>	
+	
+	<my_address>
+		<Address IP="121.43.232.206" />
+	</my_address>
+	<tick_port>3335</tick_port>
+	<kline_port>3333</kline_port>
+  </DataServer_ACTUAL>
   
   
     <RuntimeDataApis>
@@ -31,21 +56,7 @@
         <Port>3333</Port>
     </HisKlineApi>
     
-  <DataServer>
-	<broker_id>66666</broker_id>
-	<ctp_address>
-		<Address IP="tcp://180.169.101.177:41213" />
-		<Address IP="tcp://123.124.247.8:41213" />
-		<Address IP="tcp://27.115.78.193:41213" />
-		<Address IP="tcp://180.169.101.178:41213" />
-	</ctp_address>	
-	
-	<my_address>
-		<Address IP="121.43.232.206" />
-	</my_address>
-	<tick_port>3335</tick_port>
-	<kline_port>3333</kline_port>
-  </DataServer>
+
   
   <Strategy_MA>
       <code>j1709</code>
@@ -57,8 +68,10 @@
       <jump_nums>4</jump_nums>
 	  <target_profit_value>1000000</target_profit_value>
   </Strategy_MA>
+  
   <Strategy_cta_tradelist>
     <jump_nums>10</jump_nums>
     <target_profit_value>970000</target_profit_value>
   </Strategy_cta_tradelist>
+  
 </iTStation>

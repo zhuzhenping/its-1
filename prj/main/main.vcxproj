@@ -57,7 +57,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;$(SolutionDir)../lib/$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;ctp.lib;</AdditionalDependencies>
+      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;ctp.lib;datalib.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,10 +78,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\main\CtpDataServer.cpp" />
     <ClCompile Include="..\..\src\main\main.cpp" />
     <ClCompile Include="..\..\src\main\MySecurityInfoSpi.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\main\CtpDataServer.h" />
     <ClInclude Include="..\..\src\main\MySecurityInfoSpi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

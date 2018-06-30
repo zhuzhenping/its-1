@@ -182,7 +182,7 @@ void CtpFutureMarketDataHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataF
 	{
 		//DateTime now(NULL);		
 		//APP_LOG_DBG<<"dirty data " << tick.symbol.instrument << " : tick time " << tmp_time.Str() <<"\t actual time " << now.Str();
-		return;
+		//return;
 	}
 
 	tick.date_time = SimpleDateTime(SimpleDate(tick_date.year, tick_date.month, tick_date.day)

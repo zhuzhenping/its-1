@@ -1,7 +1,7 @@
 ﻿#include <stdlib.h>
 #include <iostream>
 #include "common/Global.h"
-
+#include "common/Directory.h"
 
 Global* Global::m_instance = NULL;
 
@@ -19,15 +19,20 @@ Global* Global::GetInstance() {
 }
 
 void Global::Init() {
-	/*char* its_home_c = getenv("ITS_HOME");
+	SetItsHome();
+	char* its_home_c = getenv("ITS_HOME");
 	if(NULL == its_home_c) { 
 		throw std::runtime_error("ITS_HOME环境变量未设置");
-	}*/
+	} else {
+		its_home = its_home_c;
+	}
+	
+/*
 #ifdef WIN32
 	its_home = "C:/Users/za-wudian/Desktop/its";
 #else
 	its_home = "/home/wd/its";
-#endif
+#endif*/
 }
 
 std::string Global::GetConfigDir() const
