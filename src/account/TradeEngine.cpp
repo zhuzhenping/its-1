@@ -74,7 +74,7 @@ bool TradeEngine::Init(const std::string& conf_path, std::string& err)
 		err = std::string("CTP API Login error : ") + err;
 		return false;
 	}
-	Sleep(1000);
+	Thread::Sleep(1000);
 	if (!api_->InitPreTrade(err)) {
 		err = std::string("CTP API confirm risk error : ") + err;
 		return false;
@@ -100,7 +100,7 @@ bool TradeEngine::Init(const std::string& conf_path, std::string& err)
 		return false;
 	}
 		
-	Sleep(3000);
+	Thread::Sleep(3000);
 	if (re_qry_pos_) {
 		if (api_->QueryPosition(err))
 		{

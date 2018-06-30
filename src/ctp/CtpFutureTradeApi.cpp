@@ -1,4 +1,5 @@
 #include "ctp/CtpFutureTradeApi.h"
+#include <stdlib.h>
 #include <sstream>
 #include "common/Thread.h"
 #include "common/DateTime.h"

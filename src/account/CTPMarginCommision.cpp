@@ -79,7 +79,7 @@ void CTPMarginCommision::Init() {
 
 	std::string margin_path = its_home + "/data/FutureMargin.txt";	
 	if (IsDirExist(margin_path)) {
-		ifstream margin_file(margin_path);
+		ifstream margin_file(margin_path.c_str());
 		while (!margin_file.eof()) {
 			char buf[128] = {0};
 			margin_file.getline(buf, 128);
@@ -94,7 +94,7 @@ void CTPMarginCommision::Init() {
 
 	std::string commison_path = its_home + "/data/FutureCommision.txt";
 	if (IsDirExist(commison_path)) {
-		ifstream commision_file(commison_path);
+		ifstream commision_file(commison_path.c_str());
 		while (!commision_file.eof()) {
 			char buf[128] = {0};
 			commision_file.getline(buf, 128);

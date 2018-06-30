@@ -1,5 +1,9 @@
 #include "datalib/Func.h"
 #include <stdlib.h>
+#ifndef WIN32
+#include <algorithm>
+using namespace std;
+#endif
 
 
 double Average(NumericSeries prices, int length)

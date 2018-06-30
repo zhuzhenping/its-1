@@ -13,9 +13,9 @@ ifeq ($(MODULE_TYPE), executable)
 endif
 
 ifeq ($(BUILD_TYPE),Release)
- CFLAGS = -O2 -Wall 
+ CFLAGS = -O2 #-Wall 
 else
- CFLAGS = -g -Wall -DDEBUG -fPIC
+ CFLAGS = -g -DDEBUG -fPIC  #-Wall
 endif
 
 SRCEXTS = .c .cpp

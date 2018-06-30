@@ -179,7 +179,7 @@ bool MySecurityInfoSpi::init() {
 		trade_api->Deinit();
 		return false;
 	}
-	Sleep(1000);
+	Thread::Sleep(1000);
 	if(!trade_api->InitPreTrade(err)){
 		APP_LOG(LOG_LEVEL_ERROR) << "InitPreTrade error :" << err;
 		trade_api->Deinit();
