@@ -5,6 +5,7 @@
 #include "common/Global.h"
 
 #ifndef WIN32
+
 #ifndef sprintf_s
 #define sprintf_s snprintf
 #endif
@@ -12,8 +13,14 @@
 /*
 #ifndef strcpy_s(des, len, sou)
 #define strcpy_s(des, len, sou) strncpy(des, sou, len)
+<<<<<<< HEAD
 #endif*/
 #endif
+=======
+#endif // 
+
+#endif // WIN32
+>>>>>>> f58b290ab52b61998fe88fb895100fa023aa982b
 
 //namespace itstation {
 //namespace common {

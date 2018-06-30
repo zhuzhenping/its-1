@@ -74,6 +74,9 @@ private:
 		thd->SetState(STOPED);
 		thd->Awake();
 		//cout<<"Thread stoped"<<endl;
+#ifndef WIN32
+		return NULL;
+#endif
 	}
 
 public:	

@@ -15,7 +15,8 @@ endif
 ifeq ($(BUILD_TYPE),Release)
  CFLAGS = -O2 -fPIC #-Wall 
 else
- CFLAGS = -g -DDEBUG -fPIC  -Wall
+ CFLAGS = -g -DDEBUG -fPIC  -Wno-write-strings
+
 endif
 
 SRCEXTS = .c .cpp

@@ -149,7 +149,7 @@ typedef int VolumeType;	//量类型 期货：手，股票：股
 typedef String16 UserStrategyIdType; // 子账号&策略号
 #define UserManualId "999999"
 
-#pragma pack(STRUCT_ALIGN_LEN)
+#pragma pack(1)
 
 //通信数据头 (2B)
 //struct CommDataHead 
@@ -337,7 +337,8 @@ struct BaseInstrumentInfo
 	SymbolEx symbol;						/**< 行情代码 */
 	double	price_tick;						/**< 最小变动价位 */
 
-	BaseInstrumentInfo() : price_tick(0.0) {}
+	BaseInstrumentInfo() : price_tick(0.) {}
+	virtual ~BaseInstrumentInfo() {}
 	virtual void FromStr(const char* str) = 0;
 	virtual std::string ToStr() const = 0;
 };

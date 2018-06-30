@@ -95,7 +95,7 @@ int Thread::TransLatePriority() {
 		return THREAD_PRIORITY_IDLE;
 	}
 #else
-
+	return 0;
 #endif
 }
 

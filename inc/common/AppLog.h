@@ -136,10 +136,10 @@ private:
 class AppLogInput
 {    
 private:
+	LogLevel m_level;
 	char m_file_name[128];
 	int m_line;
 	char m_message[128];
-	LogLevel m_level;
 public:
 	friend class AppLogFinisher;
 	AppLogInput(LogLevel l, const char* filename, int line) : m_level(l), m_line(line)
@@ -185,7 +185,7 @@ public:
 	}
 
 	AppLogInput& operator<<(long long l) {
-		sprintf(m_message, "%s%ld", m_message, l);
+		sprintf(m_message, "%s%lld", m_message, l);
 		return *this;
 	}
 };
