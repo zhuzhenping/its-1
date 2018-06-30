@@ -1,5 +1,6 @@
 ﻿#include <stdlib.h>
 #include <iostream>
+#include <stdexcept>
 #include "common/Global.h"
 #include "common/Directory.h"
 
