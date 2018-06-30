@@ -9,9 +9,10 @@
 #define sprintf_s snprintf
 #endif
 
+/*
 #ifndef strcpy_s(des, len, sou)
 #define strcpy_s(des, len, sou) strncpy(des, sou, len)
-#endif
+#endif*/
 #endif
 
 //namespace itstation {

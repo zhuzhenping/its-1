@@ -531,7 +531,7 @@ void CtpFutureTradeHandler::OnRspQrySettlementInfoConfirm(CThostFtdcSettlementIn
 	else {
 		m_market_trade_api->m_succed_query_confirm_info = true;
 		char trading_day[32];
-		strcpy_s(trading_day, 32, m_market_trade_api->m_ctp_market_api->GetTradingDay());
+		strncpy(trading_day, m_market_trade_api->m_ctp_market_api->GetTradingDay(), sizeof(trading_day));
 		m_market_trade_api->m_has_confirmed = (confirm_field) && strcmp(confirm_field->ConfirmDate, trading_day);
 	}
 
@@ -902,10 +902,10 @@ bool CtpFutureTradeApi::Login(const std::string& broker_id, const std::string& u
 
 	CThostFtdcReqUserLoginField req;
 	memset(&req, 0, sizeof(req));
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), broker_id.c_str());
-	strcpy_s(req.UserID, sizeof(TThostFtdcUserIDType), user_id.c_str());
-	strcpy_s(req.Password, sizeof(TThostFtdcPasswordType), password.c_str());
-	strcpy_s(req.UserProductInfo, 10, "iTStation");
+	strncpy(req.BrokerID,  broker_id.c_str(),sizeof(req.BrokerID));
+	strncpy(req.UserID,  user_id.c_str(), sizeof(req.UserID));
+	strncpy(req.Password,  password.c_str(),sizeof(req.Password));
+	strncpy(req.UserProductInfo, "iTStation", sizeof(req.UserProductInfo));
 	int result = m_ctp_market_api->ReqUserLogin(&req, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqUserLogin";
@@ -940,8 +940,8 @@ bool CtpFutureTradeApi::Logout(std::string& err) {
 	been_logout_ = true;
 	CThostFtdcUserLogoutField req;
 	memset(&req, 0, sizeof(req));
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
-	strcpy_s(req.UserID, sizeof(TThostFtdcUserIDType), m_user_id.c_str());
+	strncpy(req.BrokerID,  m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(req.UserID,  m_user_id.c_str(), sizeof(TThostFtdcUserIDType));
 	m_ctp_market_api->ReqUserLogout(&req, ++m_request_id);
 
 	if (!TimeWait(kLogoutWaitTime)) {
@@ -957,10 +957,10 @@ bool CtpFutureTradeApi::Logout(std::string& err) {
 bool CtpFutureTradeApi::ReLogin(std::string& err) {
 	CThostFtdcReqUserLoginField req;
 	memset(&req, 0, sizeof(req));
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
-	strcpy_s(req.UserID, sizeof(TThostFtdcUserIDType), m_user_id.c_str());
-	strcpy_s(req.Password, sizeof(TThostFtdcPasswordType), m_password.c_str());
-	strcpy_s(req.UserProductInfo, 10, "iTStation");
+	strncpy(req.BrokerID, m_broker_id.c_str(),  sizeof(TThostFtdcBrokerIDType));
+	strncpy(req.UserID, m_user_id.c_str(), sizeof(TThostFtdcUserIDType));
+	strncpy(req.Password,  m_password.c_str(), sizeof(TThostFtdcPasswordType));
+	strncpy(req.UserProductInfo, "iTStation", sizeof(req.UserProductInfo));
 	int result = m_ctp_market_api->ReqUserLogin(&req, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqUserLogin";
@@ -1164,8 +1164,8 @@ bool CtpFutureTradeApi::ReqQrySettlementInfoConfirm(std::string& err) {
 
 	CThostFtdcQrySettlementInfoConfirmField comfirm_field;
 	memset(&comfirm_field, 0, sizeof(CThostFtdcQrySettlementInfoConfirmField));
-	strcpy_s(comfirm_field.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
-	strcpy_s(comfirm_field.InvestorID, sizeof(TThostFtdcInvestorIDType), m_user_id.c_str());
+	strncpy(comfirm_field.BrokerID,  m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(comfirm_field.InvestorID, m_user_id.c_str(),sizeof(TThostFtdcInvestorIDType));
 	int result = m_ctp_market_api->ReqQrySettlementInfoConfirm(&comfirm_field, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqQrySettlementInfoConfirm";
@@ -1193,8 +1193,8 @@ bool CtpFutureTradeApi::ReqQrySettlementInfo(std::string& err) {
 	Thread::Sleep(1000);
 	CThostFtdcQrySettlementInfoField info_field;
 	memset(&info_field, 0, sizeof(CThostFtdcQrySettlementInfoField));
-	strcpy_s(info_field.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
-	strcpy_s(info_field.InvestorID, sizeof(TThostFtdcInvestorIDType), m_user_id.c_str());
+	strncpy(info_field.BrokerID,  m_broker_id.c_str(),sizeof(TThostFtdcBrokerIDType));
+	strncpy(info_field.InvestorID,  m_user_id.c_str(), sizeof(TThostFtdcInvestorIDType));
 	int result = m_ctp_market_api->ReqQrySettlementInfo(&info_field, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqQrySettlementInfo";
@@ -1222,8 +1222,8 @@ bool CtpFutureTradeApi::ReqSettlementInfoConfirm(std::string& err) {
 	Thread::Sleep(1000);
 	CThostFtdcSettlementInfoConfirmField confirm_field;
 	memset(&confirm_field, 0, sizeof(CThostFtdcSettlementInfoConfirmField));
-	strcpy_s(confirm_field.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
-	strcpy_s(confirm_field.InvestorID, sizeof(TThostFtdcInvestorIDType), m_user_id.c_str());
+	strncpy(confirm_field.BrokerID, m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(confirm_field.InvestorID,  m_user_id.c_str(), sizeof(TThostFtdcInvestorIDType));
 	int result = m_ctp_market_api->ReqSettlementInfoConfirm(&confirm_field, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqSettlementInfoConfirm";
@@ -1320,8 +1320,8 @@ bool CtpFutureTradeApi::CtpRequestBuffer::QryInstrument() {
 
 bool CtpFutureTradeApi::CtpRequestBuffer::QryMargin() {
 	CThostFtdcQryInstrumentMarginRateField req = {0};
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_market_trade_api->m_broker_id.c_str());
-	strcpy_s(req.InvestorID, sizeof(TThostFtdcInvestorIDType), m_market_trade_api->m_user_id.c_str());
+	strncpy(req.BrokerID,  m_market_trade_api->m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(req.InvestorID,  m_market_trade_api->m_user_id.c_str(), sizeof(TThostFtdcInvestorIDType));
 	req.HedgeFlag = THOST_FTDC_HF_Speculation;
 	Locker lock(&margin_mutex_);
 	if (margin_symbols_.empty()) return true;
@@ -1333,8 +1333,8 @@ bool CtpFutureTradeApi::CtpRequestBuffer::QryMargin() {
 
 bool CtpFutureTradeApi::CtpRequestBuffer::QryCommision() {
 	CThostFtdcQryInstrumentCommissionRateField req = {0};
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_market_trade_api->m_broker_id.c_str());
-	strcpy_s(req.InvestorID, sizeof(TThostFtdcInvestorIDType), m_market_trade_api->m_user_id.c_str());
+	strncpy(req.BrokerID,  m_market_trade_api->m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(req.InvestorID, m_market_trade_api->m_user_id.c_str(), sizeof(TThostFtdcInvestorIDType));
 	Locker lock(&commision_mutex_);
 	if (commision_symbols_.empty()) return true;
 	strcpy(req.InstrumentID, commision_symbols_.front().c_str());

@@ -329,9 +329,9 @@ bool CtpFutureMarketDataApi::Login(const std::string& broker_id, const std::stri
 
 	CThostFtdcReqUserLoginField req;
 	memset(&req, 0, sizeof(req));
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), broker_id.c_str());
-	strcpy_s(req.UserID, sizeof(TThostFtdcUserIDType), user_id.c_str());
-	strcpy_s(req.Password, sizeof(TThostFtdcPasswordType), password.c_str());
+	strncpy(req.BrokerID, broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(req.UserID, user_id.c_str(), sizeof(TThostFtdcUserIDType));
+	strncpy(req.Password, password.c_str(), sizeof(TThostFtdcPasswordType));
 	int result = m_ctp_market_api->ReqUserLogin(&req, ++m_request_id);
 	if (0 != result) 
 	{
@@ -385,7 +385,7 @@ bool CtpFutureMarketDataApi::Logout(std::string& err)
 
 	m_symbols.clear();
 	CThostFtdcUserLogoutField req = {0};
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
+	strncpy(req.BrokerID,  m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
 	int result = m_ctp_market_api->ReqUserLogout(&req, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqUserLogout";
@@ -497,9 +497,9 @@ bool CtpFutureMarketDataApi::ReLogin(std::string& err)
 {
 	CThostFtdcReqUserLoginField req;
 	memset(&req, 0, sizeof(req));
-	strcpy_s(req.BrokerID, sizeof(TThostFtdcBrokerIDType), m_broker_id.c_str());
-	strcpy_s(req.UserID, sizeof(TThostFtdcUserIDType), m_user_id.c_str());
-	strcpy_s(req.Password, sizeof(TThostFtdcPasswordType), m_password.c_str());
+	strncpy(req.BrokerID,  m_broker_id.c_str(), sizeof(TThostFtdcBrokerIDType));
+	strncpy(req.UserID, m_user_id.c_str(), sizeof(TThostFtdcUserIDType));
+	strncpy(req.Password, m_password.c_str(), sizeof(TThostFtdcPasswordType));
 	int result = m_ctp_market_api->ReqUserLogin(&req, ++m_request_id);
 	if (0 != result) {
 		err = "fail to ReqUserLogin";
