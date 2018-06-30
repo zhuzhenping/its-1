@@ -7,8 +7,11 @@
 #include <exception>
 #include <stdexcept>
 #include <new>
-#include <memory>
-
+#ifdef WIN32
+	#include <memory>
+#else
+	#include <tr1/memory>
+#endif
 
 
 //20: || 改成 &&
