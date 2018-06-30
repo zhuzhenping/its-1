@@ -1,6 +1,8 @@
 
 *.o
 
+lib/Debug/
+bin/Debug/
 prj/*/Debug/
 *sdf
 *.suo
