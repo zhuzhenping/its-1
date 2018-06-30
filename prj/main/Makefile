@@ -24,7 +24,7 @@ LIB_PATH := $(SOLUTION_DIR)/lib
 TARGET := $(shell basename `pwd`)
 MODULE_TYPE := executable
 SRCDIRS := $(SOLUTION_DIR)/src/main
-CPPFLAGS := -I$(INCLUDE_PATH)/ -I$(INCLUDE_PATH)/qt/include
+CPPFLAGS := -I$(INCLUDE_PATH)/ -I$(INCLUDE_PATH)/qt/linux/include
 LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -L$(LIB_PATH)/qt -L$(LIB_PATH)/ctp -lboost_thread -lpthread -lboost_system -lQtCore -lcommon -lctp  -ldatalib # -lthosttraderapi -lthostmduserapi
 
 include ../build_module.mk
