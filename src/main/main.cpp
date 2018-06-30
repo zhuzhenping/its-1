@@ -3,6 +3,7 @@
 #include <iostream>
 #include "QtCore/QFile"
 #include "QtCore/QDebug"
+#include "QtCore/QCoreApplication"
 #include "common/AppLog.h"
 #include "common/DateTime.h"
 #include "common/Directory.h"
@@ -27,11 +28,19 @@ void get_data() {
 
 int main(int argc,char* argv[])
 {
+	QCoreApplication app(argc, argv);
+
+	QString q_path = QString::fromLocal8Bit("a/b/c");
+	QStringList tag_names = q_path.split('/', QString::SkipEmptyParts);
+	for (int i=0; i < tag_names.size(); ++i) {
+		qDebug() << tag_names[i];
+	}
+
 	//SetItsHome();
 
 	boost::thread thrd(&get_data);
 	thrd.join();
 
 
-	return 0;
+	return app.exec();
 }
