@@ -1,5 +1,22 @@
-﻿#ifndef EYEGLE_COMMON_CONDITION_H_  
-#define EYEGLE_COMMON_CONDITION_H_  
+﻿/*!
+* \brief       条件锁，配合Mutex使用.
+* \author      吴典@众安科技虚拟实验室.
+* \date        -
+*
+* \usage
+* Mutex mutex;
+* Condition condition;
+* mutex.Lock();
+* condition.Wait(&mutex);
+* mutex.Unlock();
+*
+*
+* //解锁.
+* condition.Signal();
+*/
+
+#ifndef _COMMON_CONDITION_H_  
+#define _COMMON_CONDITION_H_  
 
 #include <assert.h> 
 #if defined WIN32

@@ -1,8 +1,8 @@
-﻿#ifndef EYEGLE_COMMON_GLOBAL_H_
-#define EYEGLE_COMMON_GLOBAL_H_
+﻿#ifndef _COMMON_GLOBAL_H_
+#define _COMMON_GLOBAL_H_
 
 #include <string>
-
+using namespace std;
 #ifdef WIN32
 
 //Common宏.
@@ -12,6 +12,12 @@
 #define COMMON_API  __declspec(dllimport)
 #endif  //COMMON_EXPORTS
 
+
+#ifdef NETWORK_EXPORTS
+#define NETWORK_API  __declspec(dllexport)
+#else 
+#define NETWORK_API  __declspec(dllimport)
+#endif  //NETWORK_EXPORTS
 
 #ifdef DATALIB_EXPORTS
 #define DATALIB_API __declspec(dllexport)
@@ -33,6 +39,7 @@
 
 #else	//LINUX平台，定义导出宏为空.
 #define COMMON_API
+#define NETWORK_API
 #define DATALIB_API
 #define CTP_API
 #define ACCOUNT_API
@@ -43,10 +50,11 @@
 class COMMON_API Global {
 public:
 	static Global* GetInstance();
+	// 取配置文件夹路径.
 	std::string GetConfigDir() const;
-	void SetAppConfigFileName(const std::string& file_name);
-	std::string GetAppConfigPath() const;
-	void SetAppName(const std::string& name);
+	// 取plugins路径.
+	std::string GetPluginsDir() const;
+	// 获取应用程序名.
 	std::string GetAppName() const;
 
 public:
@@ -57,7 +65,6 @@ private:
 	void Init();
 
 	static Global* m_instance;
-	std::string m_app_conf_file_name;
 	std::string m_app_name;
 };
 

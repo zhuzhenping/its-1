@@ -5,12 +5,12 @@
 #include "boost/bind.hpp" 
 #include "boost/date_time/posix_time/posix_time.hpp"
 
-#include "Common/Thread.h"
-#include "NetworkAsio/TcpSession.h"
+#include "common/Thread.h"
+//#include "network/TcpSession.h"
 
-using namespace itstation;
+//using namespace itstation;
 
-namespace network_asio {
+//namespace network_asio {
 
 class TimerSpi
 {
@@ -19,7 +19,7 @@ public:
 };
 
 
-class NETWORK_ASIO_API TimerApi : public common::Thread
+class NETWORK_API TimerApi : public Thread
 {
 public:
 	TimerApi(int ms/*多久触发一次*/, TimerSpi *spi);
@@ -39,6 +39,6 @@ private:
 	bool is_running_;
 };
 
-}
+
 
 #endif

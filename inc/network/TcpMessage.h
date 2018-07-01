@@ -1,6 +1,8 @@
-#pragma once
+#ifndef TCP_MESSAGE_H
+#define TCP_MESSAGE_H
 
-namespace network_asio {
+
+//namespace network_asio {
 
 
 class TcpMessage
@@ -68,4 +70,4 @@ private:
 	bool data_is_leagle_;
 };
 
-}
+#endif // TCP_MESSAGE_H

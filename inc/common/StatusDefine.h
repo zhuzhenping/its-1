@@ -1,5 +1,5 @@
-﻿#ifndef EYEGLE_COMMON_EYEGLESTATUS_H_
-#define EYEGLE_COMMON_EYEGLESTATUS_H_
+﻿#ifndef _COMMON_STATUS_H_
+#define _COMMON_STATUS_H_
 
 #include <string>
 #include "common/Global.h"

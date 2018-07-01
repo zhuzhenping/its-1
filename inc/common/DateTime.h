@@ -1,5 +1,5 @@
-﻿#ifndef EYEGLE_COMMON_DATE_TIME_H_
-#define EYEGLE_COMMON_DATE_TIME_H_
+﻿#ifndef _COMMON_DATE_TIME_H_
+#define _COMMON_DATE_TIME_H_
 
 #include <stdio.h>
 #include <string>
@@ -66,6 +66,7 @@ struct COMMON_API Time
 
 	std::string Str() const;
 
+	int AddMilSec(int ms);
 	int AddSec(int s);
 	int AddMin(int min);
 	double operator-(const Time& time);
@@ -94,9 +95,19 @@ struct COMMON_API DateTime
 	std::string Str() const;
 	bool IsTradingDay(XmlConfig* config = NULL);
 
+	DateTime& AddMilSec(int ms);
 	DateTime& AddSec(int s);
 	DateTime& AddMin(int min);
 	double operator-(const DateTime& date_time);
+
+	DateTime& operator+=(const DateTime& date_time) { return *this; }
+	DateTime& operator-=(const DateTime& date_time) { return *this; }
+	DateTime& operator*=(const DateTime& date_time) { return *this; }
+	DateTime& operator/=(const DateTime& date_time) { return *this; }
+	DateTime& operator+(const DateTime& date_time) { return *this; }
+	//DateTime& operator-(const DateTime& date_time) { return *this; }
+	DateTime& operator*(const DateTime& date_time) { return *this; }
+	DateTime& operator/(const DateTime& date_time) { return *this; }
 
 	//返回当前时间所在的交易日
 	static Date CurrentTradingDay(DateTime time = DateTime(NULL));

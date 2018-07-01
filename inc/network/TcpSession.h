@@ -1,10 +1,5 @@
-#pragma once
-
-#ifdef NETWORKASIO_EXPORTS
-#define NETWORK_ASIO_API  __declspec(dllexport)
-#else 
-#define NETWORK_ASIO_API  __declspec(dllimport)
-#endif
+#ifndef TCP_SESSION_H
+#define TCP_SESSION_H
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
@@ -13,12 +8,12 @@
 #include <iostream>
 #include <vector>
 #include <deque>
-#include "NetworkAsio/TcpMessage.h"
-#include "Common/Mutex.h"
+#include "network/TcpMessage.h"
+#include "common/Mutex.h"
 
 using boost::asio::ip::tcp;
 
-namespace network_asio {
+//namespace network_asio {
 
 class TcpSession;
 
@@ -34,14 +29,14 @@ public:
 	virtual void OnDisconnect(TcpSession *tcp_sock) = 0;
 };
 
-class NETWORK_ASIO_API TcpSession
+class NETWORK_API TcpSession
 	: public boost::enable_shared_from_this<TcpSession>
 {
 public:
 	TcpSession(boost::asio::io_service& io_service, 
 		SocketReaderSpi* spi, SocketDissConnSpi* dis_conn_spi, bool is_server=false);
 	~TcpSession();
-	
+
 	// 用户调此接口发数据
 	void Send(char* buf, int len);
 
@@ -64,7 +59,7 @@ private:
 
 	TcpMessage read_message_; // 缓存读的数据
 	TcpMessageQueue write_message_;
-	itstation::common::Mutex write_message_mutex_;
+	Mutex write_message_mutex_;
 
 	// 是服务端还是客户端
 	bool is_server_;
@@ -81,4 +76,4 @@ private:
 typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
 
 
-}
+#endif // TCP_SESSION_H

@@ -1,5 +1,5 @@
-﻿#ifndef EYEGLE_COMMON_QUEUE_BUFFER_H_  
-#define EYEGLE_COMMON_QUEUE_BUFFER_H_  
+﻿#ifndef _COMMON_QUEUE_BUFFER_H_  
+#define _COMMON_QUEUE_BUFFER_H_  
 
 #include <assert.h>
 #include "common/Thread.h" 

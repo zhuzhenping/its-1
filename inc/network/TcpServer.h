@@ -1,9 +1,11 @@
-#pragma once
+#ifndef TCP_SERVER_H
+#define TCP_SERVER_H
 
-#include "NetworkAsio/TcpSession.h"
-#include "Common/Thread.h"
 
-namespace network_asio {
+#include "network/TcpSession.h"
+#include "common/Thread.h"
+
+//namespace network_asio {
 
 class TcpServerConnSpi {
 public:
@@ -11,7 +13,7 @@ public:
 	virtual void OnDiscon(TcpSession *tcp_sock) = 0;
 };
 
-class NETWORK_ASIO_API TcpServer : private SocketDissConnSpi, public itstation::common::Thread
+class NETWORK_API TcpServer : private SocketDissConnSpi, public Thread
 {
 public:
 	TcpServer(short port, SocketReaderSpi* spi, TcpServerConnSpi* conn_spi = NULL);
@@ -32,4 +34,4 @@ private:
 	TcpServerConnSpi* conn_spi_;
 };
 
-}
+#endif // TCP_SERVER_H

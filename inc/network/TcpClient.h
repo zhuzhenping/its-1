@@ -1,9 +1,11 @@
-#pragma once
+#ifndef TCP_CLIENT_H
+#define TCP_CLIENT_H
 
-#include "NetworkAsio/TcpSession.h"
-#include "Common/Thread.h"
 
-namespace network_asio {
+#include "network/TcpSession.h"
+#include "common/Thread.h"
+
+//namespace network_asio {
 
 class ReConnSpi
 {
@@ -16,7 +18,7 @@ public:
 	virtual void SockReConn() = 0;
 };
 
-class NETWORK_ASIO_API TcpClient : private SocketDissConnSpi, public itstation::common::Thread
+class NETWORK_API TcpClient : private SocketDissConnSpi, public Thread
 {
 public:
 	TcpClient(const char *ip, const char *port, SocketReaderSpi* read_spi = NULL, ReConnSpi* re_conn_spi = NULL);
@@ -47,4 +49,4 @@ private:
 
 };
 
-}
+#endif // TCP_CLIENT_H
