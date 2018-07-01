@@ -2,8 +2,7 @@
 *.o
 *.so
 
-*.dll
-*.lib
+
 
 *sdf
 *.suo
@@ -14,6 +13,10 @@
 *.exp
 *.ilk
 *.exe
+
+prj/*/Debug/
+bin/
+lib/
 
 data/
 log/
