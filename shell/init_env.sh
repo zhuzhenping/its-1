@@ -1,6 +1,6 @@
 #qt:
 # yum install libX11-devel libXext-devel libXtst-devel
-# ./configure -release -platform linux-g++-64 -static -opensource -nomake examples -nomake demos -no-exceptions -no-stl  -no-openssl -no-opengl -no-webkit
+# ./configure
 
 
 #boost:
