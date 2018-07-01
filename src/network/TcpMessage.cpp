@@ -1,10 +1,10 @@
-#include "NetworkAsio/TcpMessage.h"
+#include "network/TcpMessage.h"
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
-#include "Common/Thread.h"
+#include "common/Thread.h"
 
-namespace network_asio {
+//namespace network_asio {
 
 const char *CHECK_CODE = "Kiiik"; // 校验码
 
@@ -55,7 +55,7 @@ void TcpMessage::decode_header()
 
 void TcpMessage::encode_header(const char *buf, int len) {
 	while (body_msg_) { // 还没发完
-		itstation::common::Thread::Sleep(1);
+		Thread::Sleep(1);
 	}
 
 	body_length_ = head_length()+len;
@@ -70,4 +70,3 @@ bool TcpMessage::is_heart_beat() const{
 	return !strcmp(body_msg_, CHECK_CODE);
 }
 
-}

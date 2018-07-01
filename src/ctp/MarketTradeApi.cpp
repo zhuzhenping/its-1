@@ -28,7 +28,7 @@ bool TradeApi::TimeWait(int sec)
 {
 	if (sec <= 0) { return false; }
 
-	MutexLocker lock(&wait_mutex_);
+	Locker lock(&wait_mutex_);
 	return wait_cond_.TimedWait(&wait_mutex_, sec);
 }
 

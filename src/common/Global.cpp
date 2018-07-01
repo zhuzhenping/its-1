@@ -6,7 +6,7 @@
 
 Global* Global::m_instance = NULL;
 
-Global::Global() : m_app_conf_file_name("config.xml")
+Global::Global() 
 {
 }
 
@@ -20,20 +20,21 @@ Global* Global::GetInstance() {
 }
 
 void Global::Init() {
-	SetItsHome();
 	char* its_home_c = getenv("ITS_HOME");
+	if (NULL == its_home_c) {
+		Directory::SetItsHome();
+	}
+	its_home_c = getenv("ITS_HOME");
 	if(NULL == its_home_c) { 
 		throw std::runtime_error("ITS_HOME环境变量未设置");
-	} else {
-		its_home = its_home_c;
 	}
-	
-/*
-#ifdef WIN32
-	its_home = "C:/Users/za-wudian/Desktop/its";
-#else
-	its_home = "/home/wd/its";
-#endif*/
+	its_home = its_home_c;
+
+
+	string app_path = Directory::GetAppPath();
+	size_t _bgn = app_path.find_last_of("\\") + 1;
+	size_t _end = app_path.find_last_of(".");
+	m_app_name = app_path.substr(_bgn, _end - _bgn);
 }
 
 std::string Global::GetConfigDir() const
@@ -41,19 +42,9 @@ std::string Global::GetConfigDir() const
 	return its_home + "/cfg/";
 }
 
-void Global::SetAppConfigFileName(const std::string& file_name)
+std::string Global::GetPluginsDir() const
 {
-	m_app_conf_file_name = file_name;
-}
-
-std::string Global::GetAppConfigPath() const
-{
-	return GetConfigDir() + m_app_conf_file_name;
-}
-
-void Global::SetAppName(const std::string& name)
-{
-	m_app_name = name;
+	return its_home + "/bin/plugins/";
 }
 
 std::string Global::GetAppName() const

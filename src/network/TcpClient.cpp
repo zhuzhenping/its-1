@@ -1,9 +1,9 @@
-#include "NetworkAsio/TcpClient.h"
+#include "network/TcpClient.h"
 #include <boost/thread.hpp>
 
 using namespace boost::asio;
 
-namespace network_asio {
+//namespace network_asio {
 
 TcpClient::TcpClient(const char *ip, const char* port, SocketReaderSpi* read_spi, ReConnSpi* re_conn_spi) 
 	: read_spi_(read_spi)
@@ -85,5 +85,3 @@ void TcpClient::OnRun()
 	}
 }
 
-
-}

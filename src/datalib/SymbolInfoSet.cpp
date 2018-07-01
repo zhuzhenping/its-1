@@ -93,7 +93,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	//}
 
 	std::string trading_conf_path = std::string(its_home) + "/cfg/TradingTime.xml";
-	if (!IsDirExist(trading_conf_path.c_str()))
+	if (!Directory::IsDirExist(trading_conf_path.c_str()))
 	{
 		err = trading_conf_path + " is not exist";
 		return false;
@@ -106,7 +106,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	}
 
 	std::string path = std::string(its_home) + "/data/FutureTable.txt";
-	if (!IsDirExist(path))
+	if (!Directory::IsDirExist(path))
 	{
 		err = path + " is not exist";
 		return false;
@@ -149,7 +149,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	future_file.close();
 
 	path = std::string(its_home) + "/data/SpotTable.txt";
-	if (IsDirExist(path))
+	if (Directory::IsDirExist(path))
 	{
 		std::ifstream spot_file(path.c_str());
 		if (!spot_file.is_open())
@@ -178,7 +178,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	}
 
 	path = std::string(its_home) + "/data/OptionTable.txt";
-	if (IsDirExist(path))
+	if (Directory::IsDirExist(path))
 	{
 		std::ifstream option_file(path.c_str());
 		if (!option_file.is_open())
@@ -215,7 +215,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	
 	//老合约只加入信息查询，不加入合约列表
 	path = std::string(its_home) + "/data/OldFuture.txt";
-	if (IsDirExist(path))
+	if (Directory::IsDirExist(path))
 	{
 		std::ifstream future_file2(path.c_str());
 		if (future_file2.is_open())
@@ -238,7 +238,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	
 
 	path = std::string(its_home) + "/data/StockTable.txt";
-	if (IsDirExist(path))
+	if (Directory::IsDirExist(path))
 	{
 		std::ifstream stock_file(path.c_str());
 		if (!stock_file.is_open())
@@ -268,7 +268,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	}
 
 	path = std::string(its_home) + "/data/FundTable.txt";
-	if (IsDirExist(path))
+	if (Directory::IsDirExist(path))
 	{
 		std::ifstream fund_file(path.c_str());
 		if (!fund_file.is_open())
@@ -298,7 +298,7 @@ bool SymbolInfoSet::Init(std::string& err)
 	}
 
 	path = std::string(its_home) + "/data/IndexTable.txt";
-	if (IsDirExist(path))
+	if (Directory::IsDirExist(path))
 	{
 		std::ifstream index_file(path.c_str());
 		if (!index_file.is_open())
@@ -718,7 +718,7 @@ void SymbolInfoSet::InsertStock(SymbolEx& sym)
 
 	symbol_names_[name_key] = sym.name;
 
-	if (!IsDirExist(path))
+	if (!Directory::IsDirExist(path))
 	{
 		return;
 	}

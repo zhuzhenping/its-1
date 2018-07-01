@@ -111,9 +111,8 @@ MySecurityInfoSpi::MySecurityInfoSpi(ProductIdType product)
 	else
 		assert(false);
 
-	std::string its_home = getenv("ITS_HOME");
-	std::string conf_path = its_home + "/cfg/config.xml";
-	trade_time_path = its_home + "/cfg/TradingTime.xml";
+	std::string conf_path = Global::GetInstance()->GetConfigDir() + "config.xml";
+	trade_time_path = Global::GetInstance()->GetConfigDir() + "TradingTime.xml";
 	if (!QFile::exists(conf_path.c_str()) || !QFile::exists(trade_time_path.c_str()))
 	{
 		APP_LOG(LOG_LEVEL_ERROR) << conf_path << "或." << trade_time_path << "不存在.";

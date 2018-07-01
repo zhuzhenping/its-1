@@ -1,6 +1,6 @@
-#include "NetworkAsio/Timer.h"
+#include "network/Timer.h"
 
-namespace network_asio {
+//namespace network_asio {
 
 TimerApi::TimerApi(int ms, TimerSpi *spi) 
 	: spi_(spi)
@@ -51,4 +51,3 @@ void TimerApi::OnRun(){
 	}
 }
 
-}

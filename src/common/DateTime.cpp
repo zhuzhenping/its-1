@@ -282,6 +282,25 @@ bool Time::operator!=(const Time& t) const
 //	return Time(ret_hour, ret_min, ret_sec, ret_milsec);
 //}
 
+int Time::AddMilSec(int ms)
+{
+	milsec += ms;
+	if (milsec >= 1000)
+	{
+		int s = milsec / 1000;
+		milsec %= 1000;
+		return AddSec(s);
+	} 
+	else if (milsec < 0)
+	{
+		int s = milsec / 1000 - 1;
+		do { milsec += 1000; } while (milsec < 0);
+		milsec %= 1000;
+		return AddSec(s);
+	}
+	return 0;
+}
+
 int Time::AddSec(int s)
 {
 	sec += s;
@@ -436,6 +455,17 @@ std::string DateTime::Str() const
 //}
 
 bool DateTime::IsTradingDay(XmlConfig* config) { return date.IsTradingDay(config); }
+
+DateTime& DateTime::AddMilSec(int ms)
+{
+	int plus_day = time.AddMilSec(ms);
+	if (plus_day != 0)
+	{
+		date.AddDays(plus_day);
+	}
+
+	return *this;
+}
 
 DateTime& DateTime::AddSec(int s)
 {

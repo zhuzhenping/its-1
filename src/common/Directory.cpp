@@ -4,12 +4,14 @@
 #include "common/Directory.h"
 #include "common/AppLog.h"
 
-bool IsDirExist(const std::string& dir_path)
+//namespace zhongan {
+
+bool Directory::IsDirExist(const std::string& dir_path)
 {
 	return ACCESS(dir_path.c_str(),0) != -1;
 }
 
-bool MakeDir(const std::string& dirpath)
+bool Directory::MakeDir(const std::string& dirpath)
 {	
 	std::string pathtemp;
 	pathtemp = dirpath;
@@ -66,7 +68,7 @@ bool MakeDir(const std::string& dirpath)
 //#endif
 //}
 
-void GetFilesInDir(std::string path, std::set<std::string>& files) 
+void Directory::GetFilesInDir(std::string path, std::set<std::string>& files)
 {
 	QTextCodec *codec = QTextCodec::codecForName("GB2312");
 	QDir dir(path.c_str());	
@@ -78,7 +80,7 @@ void GetFilesInDir(std::string path, std::set<std::string>& files)
 	}
 }
 
-void GetDirsInDir(std::string path, std::set<std::string>& dirs)
+void Directory::GetDirsInDir(std::string path, std::set<std::string>& dirs)
 {
 	QTextCodec *codec = QTextCodec::codecForName("GB2312");
 	QDir dir(path.c_str());	
@@ -90,26 +92,24 @@ void GetDirsInDir(std::string path, std::set<std::string>& dirs)
 	}
 }
 
-bool SetItsHome()
+bool Directory::SetItsHome()
 {
 	//已设置，直接返回
 	char* its_home = getenv("ITS_HOME");
 	if (NULL != its_home) { return true; }
 
-	QDir dir = QDir::current();
+	/*QDir dir = QDir::current();
 	if (!dir.exists()) { return false; }
 
-	/*string aa = dir.absolutePath().toLocal8Bit().constData();
-	QString b("aaaaa");
-	string bb = b.toLocal8Bit().constData();*/
-
-	std::string value;
-	if(!dir.exists("cfg")){ // bin/Debug
+	std::string value = GetCurrentPath();
+	if(!dir.exists("config")){ // bin/Debug
 		if (!dir.cdUp()) { return false; }
 		if (!dir.cdUp()) { return false; }	
-		value = QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData();
-	}
-
+		value = QDir::toNativeSeparators(dir.path()).toStdString();
+	}*/
+	string app_path = GetAppPath();
+	size_t _bin = app_path.find("bin");
+	string value = GetCurrentPath(app_path.substr(0, _bin));
 #ifdef WIN32
 	if (putenv(QObject::tr("ITS_HOME=%1").arg(value.c_str()).toLocal8Bit().constData())) return false;
 #else
@@ -119,19 +119,28 @@ bool SetItsHome()
 	return true;
 }
 
-std::string GetCurrentPath() {
-	QDir dir("./");
+std::string Directory::GetCurrentPath(string path) {
+	QDir dir("" == path? "./" : path.c_str());
 	return dir.absolutePath().toLocal8Bit().constData();
 }
 
-std::string GetRelativeCurrent()
+std::string Directory::GetAppPath(){
+	char szFullPath[MAX_PATH];
+	ZeroMemory(szFullPath, MAX_PATH);
+	GetModuleFileNameA(NULL, szFullPath, MAX_PATH);
+	return szFullPath;
+}
+
+/*
+std::string Directory::GetRelativeCurrent()
 {
 	QDir dir = QDir::current();
 	if (!dir.exists()) { return ""; }
-	return QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData();
+	return QDir::toNativeSeparators(dir.path()).toStdString();
 }
 
-bool SetRelativeCurrent(const std::string& path)
+bool Directory::SetRelativeCurrent(const std::string& path)
 {
 	return QDir::setCurrent(path.c_str());
-}
+}*/
+

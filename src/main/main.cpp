@@ -10,36 +10,43 @@
 #include "common/Thread.h"
 #include "MySecurityInfoSpi.h"
 #include "CtpDataServer.h"
-
+#include "network/Timer.h"
 
 void get_table()
 {	
 	MySecurityInfoSpi *future = new MySecurityInfoSpi(PRODUCT_FUTURE);
 	future->init();
-	Thread::Sleep(1000000000);
+	//Thread::Sleep(10000);
 }
 
 void get_data() {
 	CtpDataServer *ctp_ser_ = new CtpDataServer();
 	string err;
 	ctp_ser_->StartUp(true, err);
-	Thread::Sleep(1000000000);
+	//Thread::Sleep(10000);
 }
+
+class MyTimerSpi : public TimerSpi {
+	virtual void OnTimer() {
+		cout << "1" << endl;
+	}
+	TimerApi *timer_;
+public:
+	MyTimerSpi(){
+		timer_ = new TimerApi(1000, this);
+		timer_->Start(3000);
+	}
+};
 
 int main(int argc,char* argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	QString q_path = QString::fromLocal8Bit("a/b/c");
-	QStringList tag_names = q_path.split('/', QString::SkipEmptyParts);
-	for (int i=0; i < tag_names.size(); ++i) {
-		qDebug() << tag_names[i];
-	}
+	//boost::thread thrd(&get_table);
+	//boost::thread thrd2(&get_data);
+	//thrd.join();
 
-	//SetItsHome();
-
-	boost::thread thrd(&get_data);
-	thrd.join();
+	MyTimerSpi spi;
 
 
 	return app.exec();

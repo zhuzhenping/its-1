@@ -91,7 +91,7 @@ void AppLog::InitLog()
 	if (m_is_running) { return; }	//日志线程开始运行后不能再改变值.
 
 	//配置文件中有配置，读取配置；否则用默认值
-	std::string conf_path = Global::GetInstance()->GetAppConfigPath();
+	std::string conf_path = Global::GetInstance()->GetConfigDir()+"config.xml";
 	do 
 	{
 		if (!QFile::exists(conf_path.c_str())) { break; }
@@ -192,7 +192,7 @@ void AppLog::OpenLogFile() {
 		m_file_path.replace(m_file_path.find('\\'),1,"/");
 	}
 	std::string file_dir = m_file_path.substr(0, m_file_path.rfind("/") + 1);
-	if (!IsDirExist(file_dir)) { MakeDir(file_dir); }
+	if (!Directory::IsDirExist(file_dir)) { Directory::MakeDir(file_dir); }
 
 	m_file = fopen(m_file_path.c_str(), "a");
 	if (NULL == m_file) {

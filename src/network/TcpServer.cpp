@@ -1,10 +1,10 @@
-#include "NetworkAsio/TcpServer.h"
+#include "network/TcpServer.h"
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 
 using namespace boost::asio;
 
-namespace network_asio {
+//namespace network_asio {
 
 TcpServer::TcpServer(short port, SocketReaderSpi* spi, TcpServerConnSpi* conn_spi)
 	: spi_(spi)
@@ -57,4 +57,3 @@ void TcpServer::OnRun()
 	}
 }
 
-}

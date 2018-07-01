@@ -1,8 +1,8 @@
-#include "NetworkAsio/TcpSession.h"
+#include "network/TcpSession.h"
 #include <boost/thread.hpp>
-#include "Common/AppLog.h"
+#include "common/AppLog.h"
 
-namespace network_asio {
+//namespace network_asio {
 
 #define EXPIRES 5000 //∫¡√Î
 #define NUMBER_ 6 // 
@@ -93,7 +93,7 @@ void TcpSession::Send(char* buf, int len) {
 	TcpMessage msg;
 	msg.encode_header(buf, len);
 
-	itstation::common::MutexLocker locker(&write_message_mutex_);
+	Locker locker(&write_message_mutex_);
 	bool write_in_progress = !write_message_.empty();
 	write_message_.push_back(msg);
 	if (!write_in_progress){
@@ -106,7 +106,7 @@ void TcpSession::Send(char* buf, int len) {
 void TcpSession::handle_write(const boost::system::error_code& error){
 	
 	if (!error){
-		itstation::common::MutexLocker locker(&write_message_mutex_);
+		Locker locker(&write_message_mutex_);
 
 		write_message_.front().clear_data();
 		write_message_.pop_front();
@@ -179,4 +179,3 @@ void TcpSession::handle_read_body(const boost::system::error_code& error )
 	}
 }
 
-}

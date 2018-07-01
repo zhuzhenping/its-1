@@ -12,7 +12,7 @@
 
 CtpDataServer::CtpDataServer() : m_market_api(NULL), is_init_(false)//, tick_tcp_server_(NULL)
 {
-	XmlConfig config(Global::GetInstance()->GetAppConfigPath());
+	XmlConfig config(Global::GetInstance()->GetConfigDir()+"config.xml");
 	if (!config.Load()) { 
 		APP_LOG(LOG_LEVEL_ERROR) << "config.xml not exist";
 		return ; 
