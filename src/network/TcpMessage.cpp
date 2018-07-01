@@ -6,7 +6,7 @@
 
 //namespace network_asio {
 
-const char *CHECK_CODE = "Kiiik"; // 校验码
+extern const char *CHECK_CODE = "Kiiik"; // 校验码
 
 
 TcpMessage::TcpMessage(void) 

@@ -3,7 +3,7 @@
 
 
 //namespace network_asio {
-
+extern const char *CHECK_CODE;
 
 class TcpMessage
 {

@@ -27,7 +27,7 @@ public:
 	// 全部异步的方式
 	void StartUp();
 	void TearDown();
-	void Send(char* buf, int len);
+	void Send(const char* buf, int len);
 
 private:
 	virtual void OnDisconnect(TcpSession *tcp_sock);

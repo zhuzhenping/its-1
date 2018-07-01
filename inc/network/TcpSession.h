@@ -38,7 +38,7 @@ public:
 	~TcpSession();
 
 	// 用户调此接口发数据
-	void Send(char* buf, int len);
+	void Send(const char* buf, int len);
 
 	tcp::socket& socket() { return socket_; }
 	void start();

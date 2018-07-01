@@ -65,7 +65,7 @@ void TcpClient::handle_connect(const boost::system::error_code& ec) {
 	}
 }
 
-void TcpClient::Send(char* buf, int len){
+void TcpClient::Send(const char* buf, int len){
 	new_session_->Send(buf, len);
 }
 

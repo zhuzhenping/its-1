@@ -8,7 +8,7 @@
 #define NUMBER_ 6 // 
 #define EXPIRES_TIME (is_server_?EXPIRES*NUMBER_ :EXPIRES)
 
-char *CHECK_CODE = "Kiiik"; // 校验码
+extern const char *CHECK_CODE; // 校验码
 #define SEND_HEART_BEAT Send(CHECK_CODE, 6);
 
 TcpSession::TcpSession(boost::asio::io_service& io_service, SocketReaderSpi* spi, SocketDissConnSpi* dis_conn_spi, bool is_server)
@@ -89,7 +89,7 @@ void TcpSession::handle_close() {
 	}
 }
 
-void TcpSession::Send(char* buf, int len) {
+void TcpSession::Send(const char* buf, int len) {
 	TcpMessage msg;
 	msg.encode_header(buf, len);
 
