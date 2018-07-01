@@ -1,10 +1,9 @@
 
 *.o
+*.so
 
-lib/Debug/
-lib/Debug/*.lib
-bin/Debug/
-prj/*/Debug/
+*.dll
+*.lib
 
 *sdf
 *.suo
