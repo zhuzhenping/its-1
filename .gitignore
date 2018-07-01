@@ -2,8 +2,10 @@
 *.o
 
 lib/Debug/
+lib/Debug/*.lib
 bin/Debug/
 prj/*/Debug/
+
 *sdf
 *.suo
 *.pdb
@@ -12,6 +14,7 @@ prj/*/Debug/
 *ipch
 *.exp
 *.ilk
+*.exe
 
 data/
 log/
