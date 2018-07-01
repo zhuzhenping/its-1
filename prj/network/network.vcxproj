@@ -10,47 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\inc\common\AppLog.h" />
-    <ClInclude Include="..\..\inc\common\Condition.h" />
-    <ClInclude Include="..\..\inc\common\DateTime.h" />
-    <ClInclude Include="..\..\inc\common\Directory.h" />
-    <ClInclude Include="..\..\inc\common\ExceptionErr.h" />
-    <ClInclude Include="..\..\inc\common\Global.h" />
-    <ClInclude Include="..\..\inc\common\Locker.h" />
-    <ClInclude Include="..\..\inc\common\Mutex.h" />
-    <ClInclude Include="..\..\inc\common\NonBlockQueueBuffer.h" />
-    <ClInclude Include="..\..\inc\common\PreUT.h" />
-    <ClInclude Include="..\..\inc\common\QueueBuffer.h" />
-    <ClInclude Include="..\..\inc\common\SimpleDateTime.h" />
-    <ClInclude Include="..\..\inc\common\SimpleMath.h" />
-    <ClInclude Include="..\..\inc\common\SpendTime.h" />
-    <ClInclude Include="..\..\inc\common\SpinLock.h" />
-    <ClInclude Include="..\..\inc\common\StatusDefine.h" />
-    <ClInclude Include="..\..\inc\common\Thread.h" />
-    <ClInclude Include="..\..\inc\common\WinAdapteLinux.h" />
-    <ClInclude Include="..\..\inc\common\XmlConfig.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\common\AppLog.cpp" />
-    <ClCompile Include="..\..\src\common\Condition.cpp" />
-    <ClCompile Include="..\..\src\common\DateTime.cpp" />
-    <ClCompile Include="..\..\src\common\Directory.cpp" />
-    <ClCompile Include="..\..\src\common\ExceptionErr.cpp" />
-    <ClCompile Include="..\..\src\common\Global.cpp" />
-    <ClCompile Include="..\..\src\common\Mutex.cpp" />
-    <ClCompile Include="..\..\src\common\SimpleDateTime.cpp" />
-    <ClCompile Include="..\..\src\common\SimpleMath.cpp" />
-    <ClCompile Include="..\..\src\common\SpinLock.cpp" />
-    <ClCompile Include="..\..\src\common\StatusDefine.cpp" />
-    <ClCompile Include="..\..\src\common\Thread.cpp" />
-    <ClCompile Include="..\..\src\common\WinAdapteLinux.cpp" />
-    <ClCompile Include="..\..\src\common\XmlConfig.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{695EFD0B-B924-4F84-A939-0D14A6605855}</ProjectGuid>
+    <ProjectGuid>{28246587-BE8A-42A3-8655-B7D3D525753E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>common</RootNamespace>
+    <RootNamespace>network</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -87,15 +50,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)../inc;$(SolutionDir)../inc/qt/win/include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NETWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../inc;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(SolutionDir)../lib/$(Configuration)\common.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;</AdditionalDependencies>
+      <ImportLibrary>$(SolutionDir)../lib/$(Configuration)\network.lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionDir)../lib/$(Configuration);$(SolutionDir)../lib/ctp;$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>common.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,7 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NETWORK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,6 +78,20 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\inc\network\TcpClient.h" />
+    <ClInclude Include="..\..\inc\network\TcpMessage.h" />
+    <ClInclude Include="..\..\inc\network\TcpServer.h" />
+    <ClInclude Include="..\..\inc\network\TcpSession.h" />
+    <ClInclude Include="..\..\inc\network\Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\network\TcpClient.cpp" />
+    <ClCompile Include="..\..\src\network\TcpMessage.cpp" />
+    <ClCompile Include="..\..\src\network\TcpServer.cpp" />
+    <ClCompile Include="..\..\src\network\TcpSession.cpp" />
+    <ClCompile Include="..\..\src\network\Timer.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

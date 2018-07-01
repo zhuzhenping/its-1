@@ -1,6 +1,6 @@
 # SUBDIRS:=$(shell ls -l . |awk '/^d/ {print $NF}')
 
-SUBDIRS = common datalib ctp account main
+SUBDIRS = common network datalib ctp account main
 prj:
 	@for subdir in $(SUBDIRS); \
 	do \
