@@ -1,0 +1,1 @@
+b2.exe stage --toolset=msvc-12.0 --stagedir="D:\Kiiik\include\boost\lib_vc120" link=static runtime-link=shared threading=multi debug release
