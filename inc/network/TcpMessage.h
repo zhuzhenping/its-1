@@ -1,7 +1,7 @@
 #ifndef TCP_MESSAGE_H
 #define TCP_MESSAGE_H
 
-
+#include <stdlib.h>
 //namespace network_asio {
 extern const char *CHECK_CODE;
 
