@@ -125,10 +125,17 @@ std::string Directory::GetCurrentPath(string path) {
 }
 
 std::string Directory::GetAppPath(){
+#ifdef WIN32
 	char szFullPath[MAX_PATH];
 	ZeroMemory(szFullPath, MAX_PATH);
 	GetModuleFileNameA(NULL, szFullPath, MAX_PATH);
 	return szFullPath;
+#else
+	const int MAXBUFSIZE = 1024;
+	char buf[ MAXBUFSIZE ];
+	getcwd(buf, MAXBUFSIZE);
+	return buf;
+#endif
 }
 
 /*
