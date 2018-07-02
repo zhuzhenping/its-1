@@ -35,17 +35,15 @@ bin： 可执行程序
 
 cfg: 配置文件
 
-data： 存储临时数据，如行情、交易记录等
+data： 存储行情、交易等数据
 
 inc： 头文件
 
 lib： 静态库和动态链接库
 
-prj： 工程文件和Makefile
+prj： 工程文件和Makefile,以及vs2010的solution
 
 shell：linux自动运行脚本
-
-sln： vs2010的solution
 
 src： 代码源文件
 

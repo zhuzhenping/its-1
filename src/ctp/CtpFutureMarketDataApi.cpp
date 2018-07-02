@@ -264,7 +264,7 @@ bool CtpFutureMarketDataApi::Init(const std::string& front_addr_str, MarketDataS
 	}
 
 	if (m_ctp_market_api == NULL) {
-		std::string data_path = Global::GetInstance()->its_home+ "\\data\\ctp.data\\";
+		std::string data_path = Global::GetInstance()->its_home+ "\\log\\ctp\\";
 		if (!Directory::IsDirExist(data_path) && !Directory::MakeDir(data_path)) { err = "MakeDir:"+data_path+" false"; return false;}
 		m_ctp_market_api = CThostFtdcMdApi::CreateFtdcMdApi(data_path.c_str());
 		if (NULL == m_ctp_market_handler) { m_ctp_market_handler = new CtpFutureMarketDataHandler(this); }

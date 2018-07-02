@@ -840,7 +840,7 @@ bool CtpFutureTradeApi::Init(const std::string& front_addr_str, TradeSpi* spi, s
 	spi_ = spi;
 	//char buf[128];GetCurrentDirectoryA(128, buf);
 	//std::string data_path = (std::string)buf + "\\data\\";
-	std::string data_path = Global::GetInstance()->its_home+ "\\data\\ctp.data\\";
+	std::string data_path = Global::GetInstance()->its_home+ "\\log\\ctp\\";
 	if (!Directory::IsDirExist(data_path) && !Directory::MakeDir(data_path)) { err = "MakeDir:"+data_path+" false"; return false;}
 	m_ctp_market_api = CThostFtdcTraderApi::CreateFtdcTraderApi(data_path.c_str());
 	m_ctp_market_handler = new CtpFutureTradeHandler(this);
