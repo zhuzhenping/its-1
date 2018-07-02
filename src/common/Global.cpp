@@ -34,10 +34,7 @@ void Global::Init() {
 	its_home = its_home_c;
 
 
-	string app_path = Directory::GetAppPath();
-	size_t _bgn = app_path.find_last_of("\\") + 1;
-	size_t _end = app_path.find_last_of(".");
-	m_app_name = app_path.substr(_bgn, _end - _bgn);
+	m_app_name = Directory::GetAppName();
 }
 
 std::string Global::GetConfigDir() const

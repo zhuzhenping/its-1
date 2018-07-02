@@ -27,7 +27,7 @@ void get_data() {
 
 class MyTimerSpi : public TimerSpi {
 	virtual void OnTimer() {
-		//APP_LOG(LOG_LEVEL_INFO) << "OnTimer";
+		APP_LOG(LOG_LEVEL_INFO) << "OnTimer";
 	}
 	TimerApi *timer_;
 public:
@@ -46,7 +46,7 @@ int main(int argc,char* argv[])
 
 	boost::thread thrd2(&get_data);
 
-	//MyTimerSpi spi;
+	MyTimerSpi spi;
 
 
 	return app.exec();

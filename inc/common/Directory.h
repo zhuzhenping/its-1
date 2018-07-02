@@ -57,6 +57,8 @@ public:
 	static std::string GetCurrentPath(std::string = "");
 	// 获取应用程序的全路径. ../../app.exe
 	static std::string GetAppPath();
+	// 获取应用程序的名字 app.exe
+	static std::string GetAppName();
 
 	
 	/*// 设置相对路径（相对当前目录）.

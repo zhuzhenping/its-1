@@ -132,8 +132,23 @@ std::string Directory::GetAppPath(){
 #else
 	const int MAXBUFSIZE = 1024;
 	char buf[ MAXBUFSIZE ];
-	getcwd(buf, MAXBUFSIZE);
+	memset(buf, 0 , MAXBUFSIZE);
+	//getcwd(buf, MAXBUFSIZE);
+	int cnt = readlink("/proc/self/exe", buf, MAXBUFSIZE );
 	return buf;
+#endif
+}
+
+std::string Directory::GetAppName(){
+	string app_path = Directory::GetAppPath();
+#ifdef WIN32
+	size_t _bgn = app_path.find_last_of("\\") + 1;
+	size_t _end = app_path.find_last_of(".");
+	return app_path.substr(_bgn, _end - _bgn);
+#else
+	size_t _bgn = app_path.find_last_of("/") + 1;
+	size_t _end = app_path.size();
+	return app_path.substr(_bgn, _end - _bgn);
 #endif
 }
 
