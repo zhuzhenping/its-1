@@ -10,8 +10,8 @@
 	
   <CtpTradeAccount>
     <broker_id>9999</broker_id>
-    <user_id>002907</user_id>
-    <pwd>123456</pwd>
+    <user_id>11010388</user_id>
+    <pwd>635796</pwd>
     <front_addr>tcp://218.202.237.33:10002</front_addr>
   </CtpTradeAccount>
 
@@ -25,10 +25,10 @@
   </DataServer>
   
   <CtpTradeAccount_ACTUAL>
-    <broker_id></broker_id>
-    <user_id></user_id>
-    <pwd></pwd>
-    <front_addr></front_addr>
+    <broker_id>7070</broker_id>
+    <user_id>8720713</user_id>
+    <pwd>1</pwd>
+    <front_addr>tcp://112.64.143.157:41213</front_addr>
   </CtpTradeAccount_ACTUAL>
   
   <DataServer_ACTUAL>

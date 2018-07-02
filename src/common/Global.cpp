@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include "common/Global.h"
 #include "common/Directory.h"
+#include "common/Mutex.h"
 
 Global* Global::m_instance = NULL;
 
@@ -11,6 +12,8 @@ Global::Global()
 }
 
 Global* Global::GetInstance() {
+	static Mutex s_mutex;
+	Locker lock(&s_mutex);
 	if (NULL == m_instance) {
 		m_instance = new Global();
 		m_instance->Init();

@@ -115,7 +115,6 @@ bool Directory::SetItsHome()
 #else
 	if (setenv("ITS_HOME", (char*)value.c_str(), 1)) return false;
 #endif
-	APP_LOG_DBG << "设置ITS_HOME：" << value;
 	return true;
 }
 

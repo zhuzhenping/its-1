@@ -846,7 +846,7 @@ bool CtpFutureTradeApi::Init(const std::string& front_addr_str, TradeSpi* spi, s
 	m_ctp_market_handler = new CtpFutureTradeHandler(this);
 
 	m_ctp_market_api->RegisterSpi(m_ctp_market_handler);
-	char front_addr[128];
+	char front_addr[128] = {0};
 	memcpy(front_addr, front_addr_str.c_str(), 128);
 	m_ctp_market_api->RegisterFront(front_addr);
 	m_ctp_market_api->RegisterFront(front_addr);

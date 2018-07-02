@@ -16,7 +16,7 @@ void get_table()
 {	
 	MySecurityInfoSpi *future = new MySecurityInfoSpi(PRODUCT_FUTURE);
 	future->init();
-	Thread::Sleep(10000);
+	//Thread::Sleep(10000);
 }
 
 void get_data() {
@@ -27,7 +27,7 @@ void get_data() {
 
 class MyTimerSpi : public TimerSpi {
 	virtual void OnTimer() {
-		cout << "##################################" << endl;
+		//APP_LOG(LOG_LEVEL_INFO) << "OnTimer";
 	}
 	TimerApi *timer_;
 public:
@@ -41,12 +41,12 @@ int main(int argc,char* argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	boost::thread thrd(&get_table);
-	thrd.join();
+	/*boost::thread thrd(&get_table);
+	thrd.join();*/
 
 	boost::thread thrd2(&get_data);
 
-	MyTimerSpi spi;
+	//MyTimerSpi spi;
 
 
 	return app.exec();
