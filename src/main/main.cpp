@@ -28,7 +28,7 @@ void get_data() {
 
 class MyTimerSpi : public TimerSpi {
 	virtual void OnTimer() {
-		cout << "1" << endl;
+		cout << "##################################" << endl;
 	}
 	TimerApi *timer_;
 public:
@@ -43,7 +43,7 @@ int main(int argc,char* argv[])
 	QCoreApplication app(argc, argv);
 
 	//boost::thread thrd(&get_table);
-	//boost::thread thrd2(&get_data);
+	boost::thread thrd2(&get_data);
 	//thrd.join();
 
 	MyTimerSpi spi;

@@ -8,7 +8,7 @@
         <AppendComsole>0</AppendComsole>
     </Log>
 	
-	<CtpTradeAccount>
+  <CtpTradeAccount>
     <broker_id>9999</broker_id>
     <user_id>002907</user_id>
     <pwd>123456</pwd>
@@ -24,6 +24,13 @@
 	</ctp_address>
   </DataServer>
   
+  <CtpTradeAccount_ACTUAL>
+    <broker_id></broker_id>
+    <user_id></user_id>
+    <pwd></pwd>
+    <front_addr></front_addr>
+  </CtpTradeAccount_ACTUAL>
+  
   <DataServer_ACTUAL>
 	<broker_id>66666</broker_id>
 	<ctp_address>
@@ -31,7 +38,7 @@
 		<Address IP="tcp://123.124.247.8:41213" />
 		<Address IP="tcp://27.115.78.193:41213" />
 		<Address IP="tcp://180.169.101.178:41213" />
-	</ctp_address>	
+	</ctp_address>
 	
 	<my_address>
 		<Address IP="121.43.232.206" />

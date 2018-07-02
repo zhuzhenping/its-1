@@ -18,13 +18,13 @@ CtpDataServer::CtpDataServer() : m_market_api(NULL), is_init_(false)//, tick_tcp
 		return ; 
 	}
 
-	XmlNodeVec Addresses = config.FindChileren("DataServer/ctp_address", "Address");
+	XmlNodeVec Addresses = config.FindChileren("DataServer_ACTUAL/ctp_address", "Address");
 	for (int i = 0; i < Addresses.size(); ++i) {
 		IPs_.push_back(Addresses[i].GetValue("IP"));
 	}
 	i_ = 0;
 
-	XmlNode node = config.FindNode("DataServer");
+	XmlNode node = config.FindNode("DataServer_ACTUAL");
 	BrokerID_ = node.GetValue("broker_id");
 	TcpServer_port = atoi(node.GetValue("tick_port").c_str());
 
@@ -124,7 +124,7 @@ bool CtpDataServer::StartUp(bool is_day, std::string& err)
 	}
 
 
-	if (!m_market_api->Subscribe(sub_syms_, err)) {
+	if (!m_market_api->Subscribe("rb1810", err)) {
 		err = std::string("SubscribeMarketPrice error : ") + err;
 		return false;
 	}
