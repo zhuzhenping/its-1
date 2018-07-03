@@ -3,13 +3,14 @@
 
 //#include "dataserver/DataApiDefine.h"
 #include "account/TradeEngine.h"
+#include "account/DataEngine.h"
 //#include "ctp/MarketDataApi.h"
 //#include "IndexLib/iMA.h"
 
 
 using namespace std;
 
-class STRATEGY_API Strategy : public TradeEventSpi, public TradeErrorSpi
+class STRATEGY_API Strategy : public TradeEventSpi, public TradeErrorSpi, public DataEventSpi
 {
 public:
 	Strategy();
@@ -35,7 +36,8 @@ private:
 	// OnError
 	virtual void OnTradeError(const string &);
 	
-	
+	virtual void OnTick(FutureTick *);
+	virtual void OnKline(Kline *);
 
 	void UpdateAccount();
 	void UpdateValidOrders();
@@ -61,6 +63,9 @@ private:
 	double target_profit_value_;
 	Symbol symbol_;
 	double last_price_;
+
+	TradeEngine *trade_engine_;
+	DataEngine *data_engine_;
 };
 
 #endif

@@ -56,7 +56,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(SolutionDir)../lib/$(Configuration)\account.lib</ImportLibrary>
+      <ImportLibrary>$(SolutionDir)../lib/$(Configuration)\strategy.lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(SolutionDir)../lib/$(Configuration);$(SolutionDir)../lib/ctp;$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;</AdditionalLibraryDirectories>
       <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;datalib.lib;ctp.lib;account.lib;</AdditionalDependencies>
     </Link>

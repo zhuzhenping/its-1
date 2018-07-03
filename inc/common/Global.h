@@ -57,8 +57,14 @@ using namespace std;
 class COMMON_API Global {
 public:
 	static Global* GetInstance();
-	// 取配置文件夹路径.
+
+	// 取its根目录 its/
+	string GetItsHome() const;
+	// 取配置文件夹路径. its/cfg
 	std::string GetConfigDir() const;
+	// 取config.xml文件路径 its/cfg/config.xml
+	string GetConfigFile() const;
+
 	// 取plugins路径.
 	std::string GetPluginsDir() const;
 	// 获取应用程序名.

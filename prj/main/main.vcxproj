@@ -57,7 +57,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;$(SolutionDir)../lib/$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;ctp.lib;datalib.lib;network.lib;</AdditionalDependencies>
+      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;ctp.lib;datalib.lib;network.lib;strategy.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

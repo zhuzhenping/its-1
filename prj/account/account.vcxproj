@@ -80,10 +80,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\account\CTPMarginCommision.cpp" />
+    <ClCompile Include="..\..\src\account\DataEngine.cpp" />
     <ClCompile Include="..\..\src\account\TradeEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\inc\account\CTPMarginCommision.h" />
+    <ClInclude Include="..\..\inc\account\DataEngine.h" />
     <ClInclude Include="..\..\inc\account\TradeEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -11,6 +11,7 @@
 #include "MySecurityInfoSpi.h"
 #include "CtpDataServer.h"
 #include "network/Timer.h"
+#include "strategy/Strategy.h"
 
 void get_table()
 {	
@@ -43,12 +44,12 @@ public:
 int main(int argc,char* argv[])
 {
 	QCoreApplication app(argc, argv);
-
+	string err;
 	//get_table();
-
-	boost::thread thrd2(&get_data);
-
+	//boost::thread thrd2(&get_data);
 	//MyTimerSpi spi;
+	Strategy *strategy = new Strategy();
+	strategy->Init(err);
 
 
 	return app.exec();

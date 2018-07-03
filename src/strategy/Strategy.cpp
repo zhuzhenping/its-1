@@ -4,6 +4,7 @@
 //#include "dataserver/SubBarsApi.h"
 #include "common/Directory.h"
 #include "common/XmlConfig.h"
+#include "common/AppLog.h"
 //#include "dataserver/RuntimeDataApiManager.h"
 #include "datalib/SymbolInfoSet.h"
 #include "datalib/SimpleMath.h"
@@ -11,6 +12,12 @@
 Strategy::Strategy()
 {
 	strncpy(user_tag_, "002907", sizeof(user_tag_));
+
+	trade_engine_ = TradeEngine::Instance();
+	trade_engine_->SetSpi(this, this);	
+
+	data_engine_ = DataEngine::Instance();
+	data_engine_->SetSpi(this);
 }
 
 Strategy::~Strategy()
@@ -18,8 +25,8 @@ Strategy::~Strategy()
 }
 
 bool Strategy::Init(string &err){
-	if (!SymbolInfoSet::GetInstance()->Init(err)) return false;
 
+	/*
 	// 读配置参数.
 	XmlConfig config(Global::GetInstance()->GetConfigDir() + "config.xml");
 	if (!config.Load()) 
@@ -52,10 +59,16 @@ bool Strategy::Init(string &err){
 
 	
 	if (!SubBars(symbol_, period.c_str())) return false;
-
+	*/
 	// 交易.
-	TradeEngine::Instance()->SetSpi(this, this);	
-	if (!TradeEngine::Instance()->Init(Global::GetInstance()->GetAppConfigPath(), err))return false;
+	
+	if (!trade_engine_->Init(Global::GetInstance()->GetConfigDir()+"config.xml", err)) {
+		APP_LOG(LOG_LEVEL_ERROR) << err;
+		return false;
+	}
+	if (!data_engine_->init("rb1810")) {
+		return false;
+	}
 	
 	return true;
 }
@@ -371,3 +384,63 @@ void Strategy::OnTradeError(const string &err){
 }
 
 
+// OnTick
+void Strategy::OnTick(FutureTick *tick){
+	
+	APP_LOG(LOG_LEVEL_INFO) << tick->symbol.Str() << "\t" << tick->last_price;
+
+	double pre_price = TradeEngine::Instance()->GetPosiPrePrice(tick->symbol);
+	TradeEngine::Instance()->SetPosiLastPrice(tick->symbol, tick->last_price);
+
+	Locker lock(&pos_mutex_);
+	for (int i=0; i < positions_.size(); ++i){
+		if (positions_[i].symbol == tick->symbol){
+			if (PriceUnEqual(pre_price, tick->last_price)) {
+				PriceType pre_profit = float_profit_[i];
+				if (PriceUnEqual(pre_profit, 0.)) {
+					float_profit_[i] = TradeEngine::Instance()->CalcFloatProfit(
+						positions_[i].symbol, positions_[i].direction,
+						positions_[i].open_price, tick->last_price, positions_[i].open_volume);
+					PriceType diff_profit = float_profit_[i] - pre_profit;
+					TradeEngine::Instance()->UpdateAccountProfit(diff_profit);		
+				}
+				else {
+					TradeEngine::Instance()->UpdateAccountProfit(float_profit_[i], true);	
+				}
+			}
+		}
+	}
+
+	/*
+	std::vector<OrderData> orders;
+	TradeEngine::Instance()->GetValidOrder(orders);
+	for (int i=0; i < orders.size(); ++i)
+	{
+		DateTime time = orders[i].submit_time;	
+		int num = atoi(cancel_interval_.substr(0, cancel_interval_.size() - 1).c_str());
+		if (cancel_interval_[1]=='m')
+			time.AddMin(num);
+		else if (cancel_interval_[1]=='s')
+			time.AddSec(num);
+		if (time < tick->date_time) //说明订单超过1分钟未成交
+		{
+			TradeEngine::Instance()->CancelOrder(orders[i]);
+			OrderParamData param;
+			param.symbol = orders[i].symbol;
+			param.limit_price = orders[i].direction == LONG_DIRECTION ? tick->ask_price + price_offset_ : tick->bid_price - price_offset_;
+			param.volume = orders[i].total_volume - orders[i].trade_volume;
+			param.order_price_flag = LIMIT_PRICE_ORDER;
+			strncpy(param.user_tag, user_tag_, sizeof(UserStrategyIdType));
+			param.direction = orders[i].direction;
+			param.open_close_flag = orders[i].open_close_flag;
+			param.hedge_flag = HF_SPECULATION;
+			TradeEngine::Instance()->SubmitOrder(param);
+		}
+	}
+	*/
+}
+
+
+void Strategy::OnKline(Kline *kline) {
+
+}

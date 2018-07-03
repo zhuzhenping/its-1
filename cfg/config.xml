@@ -5,7 +5,7 @@
         <Level>LEVEL_DEBUG</Level>
         <MaxSize>1024000</MaxSize>
         <MaxNum>100</MaxNum>
-        <AppendComsole>0</AppendComsole>
+        <AppendComsole>1</AppendComsole>
     </Log>
 	
   <CtpTradeAccount>

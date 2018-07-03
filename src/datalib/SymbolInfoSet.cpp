@@ -6,7 +6,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QDate>
 #include "common/Directory.h"
-
+#include "common/AppLog.h"
 
 
 SymbolInfoSet* SymbolInfoSet::inst_ = NULL;
@@ -79,20 +79,8 @@ bool SymbolInfoSet::Init(std::string& err)
 	Locker locker(&mutex_);
 	if (is_init_) { return true; }
 
-	char* its_home = getenv("ITS_HOME");
-	if(NULL == its_home) 
-	{ 
-		err = "the env_var ITS_HOME is not set";
-		return false;
-	}
-	//DBTableFactory* factory = DBTableFactory::GetInstance();
-	//if (!factory->Init(its_home))
-	//{
-	//	err = "DBTableFactory初始化失败";
-	//	return false;
-	//}
-
-	std::string trading_conf_path = std::string(its_home) + "/cfg/TradingTime.xml";
+	string its_home = Global::GetInstance()->GetItsHome();
+	std::string trading_conf_path = Global::GetInstance()->GetConfigDir() + "TradingTime.xml";
 	if (!Directory::IsDirExist(trading_conf_path.c_str()))
 	{
 		err = trading_conf_path + " is not exist";
@@ -676,6 +664,10 @@ SymbolInfoSet* SymbolInfoSet::GetInstance()
 {
 	if (NULL == inst_) {
 		inst_ = new SymbolInfoSet();
+		string err;
+		if (!inst_->Init(err)) {
+			APP_LOG(LOG_LEVEL_ERROR) << err;
+		}
 	}
 
 	return inst_;

@@ -21,12 +21,18 @@
     <ClCompile Include="..\..\src\account\TradeEngine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\account\DataEngine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\inc\account\CTPMarginCommision.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\inc\account\TradeEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\account\DataEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

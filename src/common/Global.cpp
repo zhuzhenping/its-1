@@ -37,6 +37,14 @@ void Global::Init() {
 	m_app_name = Directory::GetAppName();
 }
 
+string Global::GetItsHome() const {
+	return its_home;
+}
+
+string Global::GetConfigFile() const {
+	return its_home + "/cfg/config.xml";
+}
+
 std::string Global::GetConfigDir() const
 {
 	return its_home + "/cfg/";
@@ -44,7 +52,7 @@ std::string Global::GetConfigDir() const
 
 std::string Global::GetPluginsDir() const
 {
-	return its_home + "/bin/plugins/";
+	return its_home + "/bin/Debug/plugins/";
 }
 
 std::string Global::GetAppName() const
