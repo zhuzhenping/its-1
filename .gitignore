@@ -15,7 +15,7 @@
 *.exe
 
 prj/*/Debug/
-bin/
+bin/Debug/
 lib/
 
 data/
