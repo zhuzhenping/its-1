@@ -15,9 +15,11 @@
 void get_table()
 {	
 	MySecurityInfoSpi *future = new MySecurityInfoSpi(PRODUCT_FUTURE);
-	future->init();
-	Thread::Sleep(10000);
-	future->denit();
+	if (future->init()) {
+		Thread::Sleep(10000);
+		future->denit();
+	}
+	
 }
 
 void get_data() {
@@ -42,9 +44,9 @@ int main(int argc,char* argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	get_table();
+	//get_table();
 
-	//boost::thread thrd2(&get_data);
+	boost::thread thrd2(&get_data);
 
 	//MyTimerSpi spi;
 
