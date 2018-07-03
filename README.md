@@ -22,7 +22,7 @@ git clone https://github.com/wudian/its.git
 
 （linux）
 
-sh shell/init_env.sh
+sh bin/init_env.sh
 
 make
 
@@ -31,7 +31,7 @@ make
 用vs2010打开sln/its.sln
 
 # 目录结构说明
-bin： 可执行程序
+bin： 可执行程序、linux脚本等
 
 cfg: 配置文件
 
@@ -42,8 +42,6 @@ inc： 头文件
 lib： 静态库和动态链接库
 
 prj： 工程文件和Makefile,以及vs2010的solution
-
-shell：linux自动运行脚本
 
 src： 代码源文件
 

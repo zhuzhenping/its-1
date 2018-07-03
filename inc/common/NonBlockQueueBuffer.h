@@ -17,7 +17,7 @@ public:
 
 	virtual void Push(const T& item)
 	{
-		common::Locker locker(&queue_lock_);
+		Locker locker(&queue_lock_);
 		eve_queue_.push_back(item);
 		cond_.Signal();
 	}
@@ -60,7 +60,7 @@ private:
 
 	bool PopEvent(T& item)
 	{
-		common::Locker locker(&queue_lock_);
+		Locker locker(&queue_lock_);
 		if (eve_queue_.size() == 0)
 		{
 			return false;
@@ -74,8 +74,8 @@ private:
 	}
 
 protected:
-	common::Mutex mutex_;
-	common::Condition cond_;
+	Mutex mutex_;
+	Condition cond_;
 	std::deque<T> eve_queue_;
 	SpinLock queue_lock_;
 };

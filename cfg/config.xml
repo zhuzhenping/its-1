@@ -10,8 +10,8 @@
 	
   <CtpTradeAccount>
     <broker_id>9999</broker_id>
-    <user_id>11010388</user_id>
-    <pwd>635796</pwd>
+    <user_id>002907</user_id>
+    <pwd>123456</pwd>
     <front_addr>tcp://218.202.237.33:10002</front_addr>
   </CtpTradeAccount>
 

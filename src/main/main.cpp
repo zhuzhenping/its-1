@@ -41,12 +41,12 @@ int main(int argc,char* argv[])
 {
 	QCoreApplication app(argc, argv);
 
-	/*boost::thread thrd(&get_table);
-	thrd.join();*/
+	boost::thread thrd(&get_table);
+	thrd.join();
 
-	boost::thread thrd2(&get_data);
+	//boost::thread thrd2(&get_data);
 
-	MyTimerSpi spi;
+	//MyTimerSpi spi;
 
 
 	return app.exec();

@@ -37,12 +37,19 @@ using namespace std;
 #define ACCOUNT_API  __declspec(dllimport)
 #endif // ACCOUNT_EXPORTS
 
+#ifdef STRATEGY_EXPORTS
+#define STRATEGY_API __declspec(dllexport)
+#else
+#define STRATEGY_API  __declspec(dllimport)
+#endif
+
 #else	//LINUX平台，定义导出宏为空.
 #define COMMON_API
 #define NETWORK_API
 #define DATALIB_API
 #define CTP_API
 #define ACCOUNT_API
+#define STRATEGY_API
 
 #define nullptr NULL
 #endif  //WIN32

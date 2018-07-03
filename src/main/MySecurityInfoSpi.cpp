@@ -146,8 +146,8 @@ MySecurityInfoSpi::MySecurityInfoSpi(ProductIdType product)
 		}
 	}
 
-	/*day_open_time_ = common::Time(8, 20);
-	night_open_time_ = common::Time(20, 20);
+	/*day_open_time_ = Time(8, 20);
+	night_open_time_ = Time(20, 20);
 	SetInterval(6000);
 	StartTimer();*/
 }
