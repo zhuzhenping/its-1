@@ -81,6 +81,7 @@ public:
 	virtual ~MySecurityInfoSpi();
 
 	bool init();
+	void denit() { trade_api->Deinit(); }
 
 private:
 	/*virtual bool DoDayOpen() ;
@@ -101,7 +102,7 @@ private:
 			WriteFile();
 			infos_.clear();
 
-			trade_api->Deinit();
+			
 		}		
 	}
 
