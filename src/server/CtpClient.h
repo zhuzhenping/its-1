@@ -8,7 +8,7 @@
 #include "common/AppLog.h"
 #include "ctp/MarketDataApi.h"
 #include "datalib/DataServerStruct.h"
-#include "TickServer.h"
+#include "DataService.h"
 
 //namespace itstation {
 
@@ -52,7 +52,7 @@ private:
 	string BrokerID_;
 	int TcpServer_port;
 
-	//TickServer* tick_tcp_server_;
+	//DataService* tick_tcp_server_;
 	bool is_init_;
 	std::string sub_syms_;
 

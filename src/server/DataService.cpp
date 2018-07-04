@@ -1,10 +1,10 @@
-﻿#include "TickServer.h"
+﻿#include "DataService.h"
 #include <algorithm>
 #include <common/AppLog.h>
 #include "datalib/SymbolInfoSet.h"
 
 
-void SessionContainer::Append(TcpSession* sock)
+void DataObj::Append(TcpSession* sock)
 {
 	if (tick_){
 		Locker lock(&tick_mutex_);
@@ -20,7 +20,7 @@ void SessionContainer::Append(TcpSession* sock)
 	
 }
 
-void SessionContainer::Remove(TcpSession* sock)
+void DataObj::Remove(TcpSession* sock)
 {
 	Locker locker(&sub_sess_mutex_);
 	std::list<TcpSession*>::iterator iter = std::find(sub_sessions_.begin(), sub_sessions_.end(), sock);
@@ -30,14 +30,14 @@ void SessionContainer::Remove(TcpSession* sock)
 	}
 }
 
-void SessionContainer::SetTick(FutureTick* tick) 
+void DataObj::SetTick(FutureTick* tick) 
 {
 	Locker locker(&tick_mutex_);
 	if (NULL != tick_) { free(tick_); }
 	tick_ = tick;
 }
 
-FutureTick* SessionContainer::GetTick() {
+FutureTick* DataObj::GetTick() {
 	Locker locker(&tick_mutex_);
 	if (tick_){
 		return new FutureTick(*tick_);
@@ -46,7 +46,7 @@ FutureTick* SessionContainer::GetTick() {
 		return NULL;
 }
 
-void SessionContainer::Send(char* buf, int len)
+void DataObj::Send(char* buf, int len)
 {
 	Locker locker(&sub_sess_mutex_);
 	std::list<TcpSession*>::iterator iter;
@@ -59,7 +59,7 @@ void SessionContainer::Send(char* buf, int len)
 
 /*
 
-void SessionContainer::SendTick(TcpSession* sock) 
+void DataObj::SendTick(TcpSession* sock) 
 { 
 	Locker locker(&tick_mutex_);
 	if (NULL != tick_)
@@ -72,14 +72,14 @@ void SessionContainer::SendTick(TcpSession* sock)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TickServer::TickServer(int port) : sub_sym_sessions_(NULL)
+DataService::DataService(int port) : sub_sym_sessions_(NULL)
 {
 	tcp_server_ = new TcpServer(port, this, this);
 	
-	sub_sym_sessions_ = new Symbol2Sessions();
+	sub_sym_sessions_ = new Symbol2DataObj();
 }
 
-TickServer::~TickServer(void)
+DataService::~DataService(void)
 {
 	delete tcp_server_;
 
@@ -87,36 +87,36 @@ TickServer::~TickServer(void)
 	if (NULL != sub_sym_sessions_) { delete sub_sym_sessions_; }
 }
 
-bool TickServer::Init(std::string& err)
+bool DataService::Init(std::string& err)
 {
 	SymbolInfoSet* sym_info = SymbolInfoSet::Instance();
 
 	const std::vector<Symbol>& futures = sym_info->FutureSymbols();
 	for (int i=0; i<futures.size(); ++i)
 	{
-		SessionContainer** sess = sub_sym_sessions_->Data(futures[i]);
+		DataObj** sess = sub_sym_sessions_->Data(futures[i]);
 		if (sess == NULL) 
 		{ 
 			APP_LOG(LOG_LEVEL_WARN) << "InitContainer error: " << futures[i].Str() << " not in container";
 			continue; 
 		}
-		*sess = new SessionContainer();
+		*sess = new DataObj();
 	}
 	return true;
 }
 
-bool TickServer::StartUp(std::string& err)
+bool DataService::StartUp(std::string& err)
 {
 	Locker locker(&sub_sym_sessions_mutex_);
 	SymbolInfoSet* sym_info = SymbolInfoSet::Instance();
 
-	Symbol2Sessions* tmp_container = new Symbol2Sessions();
+	Symbol2DataObj* tmp_container = new Symbol2DataObj();
 	const std::vector<Symbol>& futures = sym_info->FutureSymbols();
 	for (int i=0; i<futures.size(); ++i)
 	{
-		SessionContainer** sess = tmp_container->Data(futures[i]);
+		DataObj** sess = tmp_container->Data(futures[i]);
 		if (sess == NULL) { continue; }
-		SessionContainer** pre_tick_reg = sub_sym_sessions_->Data(futures[i]);
+		DataObj** pre_tick_reg = sub_sym_sessions_->Data(futures[i]);
 		if (pre_tick_reg != NULL && *pre_tick_reg != NULL)
 		{
 			*sess = *pre_tick_reg;
@@ -124,7 +124,7 @@ bool TickServer::StartUp(std::string& err)
 		}
 		else
 		{
-			*sess = new SessionContainer();
+			*sess = new DataObj();
 		}
 	}
 	sub_sym_sessions_->Clear();
@@ -134,22 +134,22 @@ bool TickServer::StartUp(std::string& err)
 	return true;
 }
 
-void TickServer::OnAccept(TcpSession* sock)
+void DataService::OnAccept(TcpSession* sock)
 {
 	Locker locker(&sess_symbols_mutex);
 	sess_symbols_[sock] = std::list<Symbol>();
 }
 
-SessionContainer* TickServer::GetSessionContainer(const Symbol& sym)
+DataObj* DataService::GetSessionContainer(const Symbol& sym)
 {
 	Locker locker(&sub_sym_sessions_mutex_);	
 
-	SessionContainer** sess = sub_sym_sessions_->Data(sym);
+	DataObj** sess = sub_sym_sessions_->Data(sym);
 	if (sess == NULL || *sess == NULL) { return NULL; }
 	return *sess;
 }
 
-void TickServer::OnReceive(TcpSession *tcp_sock, char* buf, int len)
+void DataService::OnReceive(TcpSession *tcp_sock, char* buf, int len)
 {
 	if (len <= sizeof(ProtocolHead)) { return; }
 
@@ -189,14 +189,14 @@ void TickServer::OnReceive(TcpSession *tcp_sock, char* buf, int len)
 }
 
 
-void TickServer::OnDiscon(TcpSession *tcp_sock)
+void DataService::OnDiscon(TcpSession *tcp_sock)
 {
 	Locker locker(&sess_symbols_mutex);
 	Session2Symbols::iterator iter = sess_symbols_.find(tcp_sock);
 	if (iter != sess_symbols_.end()) {
 		list<Symbol> &sym_list = iter->second;
 		for (list<Symbol>::iterator sym_iter = sym_list.begin(); sym_iter!=sym_list.end(); ++sym_iter){
-			SessionContainer* sess_cont = GetSessionContainer(*sym_iter);
+			DataObj* sess_cont = GetSessionContainer(*sym_iter);
 			if(sess_cont)sess_cont->Remove(tcp_sock);
 		}
 		sess_symbols_.erase(iter);
@@ -209,7 +209,7 @@ void TickServer::OnDiscon(TcpSession *tcp_sock)
 	}
 }
 
-void TickServer::Subscribe(TcpSession *tcp_sock, const Symbol& sym)
+void DataService::Subscribe(TcpSession *tcp_sock, const Symbol& sym)
 {
 	Locker locker(&sess_symbols_mutex);
 	Session2Symbols::iterator iter = sess_symbols_.find(tcp_sock);
@@ -219,14 +219,14 @@ void TickServer::Subscribe(TcpSession *tcp_sock, const Symbol& sym)
 	std::list<Symbol>::iterator sym_iter = std::find(sym_list.begin(), sym_list.end(), sym);
 	if (sym_iter != sym_list.end()) { return; }  //不重复订阅.
 
-	SessionContainer* sess = GetSessionContainer(sym);
+	DataObj* sess = GetSessionContainer(sym);
 	if (sess == NULL) { return; }
 
 	sess->Append(tcp_sock);
 	sym_list.push_back(sym);
 }
 
-void TickServer::UnSubscribe(TcpSession *tcp_sock, const Symbol& sym)
+void DataService::UnSubscribe(TcpSession *tcp_sock, const Symbol& sym)
 {
 	Locker locker(&sess_symbols_mutex);
 	Session2Symbols::iterator iter = sess_symbols_.find(tcp_sock);
@@ -237,15 +237,15 @@ void TickServer::UnSubscribe(TcpSession *tcp_sock, const Symbol& sym)
 	if (sym_iter == sym_list.end()) { return; }  //未订阅
 	sym_list.erase(sym_iter);
 
-	SessionContainer* sess = GetSessionContainer(sym);
+	DataObj* sess = GetSessionContainer(sym);
 	if (sess)sess->Remove(tcp_sock);
 	
 }
 
-int TickServer::SendTick(const Symbol& sym, char* buf, int len)
+int DataService::SendTick(const Symbol& sym, char* buf, int len)
 {
 	Locker locker(&sess_symbols_mutex);
-	SessionContainer* sess = GetSessionContainer(sym);
+	DataObj* sess = GetSessionContainer(sym);
 	if (sess == NULL) 
 	{ 
 		APP_LOG(LOG_LEVEL_WARN) << "unknow symbol: " << sym.Str();

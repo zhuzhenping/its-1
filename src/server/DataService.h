@@ -6,6 +6,7 @@
 #include "common/SpinLock.h"
 #include "datalib/Symbol2T.h"
 #include "datalib/Protocol.h"
+#include "network/Timer.h"
 #include <list>
 #include <map>
 
@@ -13,9 +14,9 @@
 
 	
 
-class SessionContainer {
+class DataObj : public TimerSpi {
 public:
-	SessionContainer() : tick_(NULL) {}
+	DataObj() : tick_(NULL) {}
 
 	void Append(TcpSession* sock);
 	void Remove(TcpSession* sock);
@@ -23,9 +24,10 @@ public:
 	void SetTick(FutureTick* tick);
 	FutureTick* GetTick();
 
-	//void SendTick(TcpSession* sock);
-
 	void Send(char* buf, int len);
+
+private:
+	virtual OnTimer();
 
 private:
 	FutureTick* tick_;
@@ -36,21 +38,22 @@ private:
 	
 };
 
-typedef Symbol2T<SessionContainer> Symbol2Sessions;
+typedef Symbol2T<DataObj> Symbol2DataObj;
 typedef std::map<TcpSession*, std::list<Symbol> > Session2Symbols;
 
 
-class TickServer : public TcpServerConnSpi, public SocketReaderSpi
+class DataService
 {
 public:
-	TickServer(int port);
-	virtual ~TickServer(void);
+	DataService();
+	~DataService(void);
 
+	// call it everyday, to update instruments
 	bool Init(std::string& err);
-	bool StartUp(std::string& err);	//每天调用一次.
+	void Denit();
 
-
-	int SendTick(const Symbol& sym, char* buf, int len);
+	// call by ctp
+	void PushTick(FutureTick* tick);
 
 private:
 	void Subscribe(TcpSession *tcp_sock, const Symbol& sym);
@@ -60,14 +63,14 @@ private:
 	virtual void OnDiscon(TcpSession *tcp_sock);
 	virtual void OnReceive(TcpSession *tcp_sock, char* buf, int len);
 
-	SessionContainer* GetSessionContainer(const Symbol& sym);
+	DataObj* GetSessionContainer(const Symbol& sym);
 
 private:
 	TcpServer* tcp_server_;
 
 	std::list<TcpSession*> all_symbol_sessions_;	//订阅所有品种的session集.
 
-	Symbol2Sessions* sub_sym_sessions_;// 订阅了某个symbol的session集.
+	Symbol2DataObj* sub_sym_sessions_;// 订阅了某个symbol的session集.
 	SpinLock sub_sym_sessions_mutex_;
 
 	Session2Symbols sess_symbols_;	//每个socket维护一个订阅列表，当socket断开时能快速取消订阅该socket的行情.

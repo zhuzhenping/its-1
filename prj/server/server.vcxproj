@@ -10,10 +10,25 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\server\AutoRun.cpp" />
+    <ClCompile Include="..\..\src\server\CtpClient.cpp" />
+    <ClCompile Include="..\..\src\server\main.cpp" />
+    <ClCompile Include="..\..\src\server\MySecurityInfoSpi.cpp" />
+    <ClCompile Include="..\..\src\server\Server.cpp" />
+    <ClCompile Include="..\..\src\server\DataService.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\server\AutoRun.h" />
+    <ClInclude Include="..\..\src\server\CtpClient.h" />
+    <ClInclude Include="..\..\src\server\MySecurityInfoSpi.h" />
+    <ClInclude Include="..\..\src\server\Server.h" />
+    <ClInclude Include="..\..\src\server\DataService.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF0B1E17-5592-4E65-90A9-8708D0B7C6A8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>tickserver</RootNamespace>
+    <RootNamespace>server</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,19 +92,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\tickserver\AutoRun.h" />
-    <ClInclude Include="..\..\src\tickserver\CtpClient.h" />
-    <ClInclude Include="..\..\src\tickserver\MySecurityInfoSpi.h" />
-    <ClInclude Include="..\..\src\tickserver\TickServer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\tickserver\AutoRun.cpp" />
-    <ClCompile Include="..\..\src\tickserver\CtpClient.cpp" />
-    <ClCompile Include="..\..\src\tickserver\main.cpp" />
-    <ClCompile Include="..\..\src\tickserver\MySecurityInfoSpi.cpp" />
-    <ClCompile Include="..\..\src\tickserver\TickServer.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

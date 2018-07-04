@@ -90,7 +90,7 @@ bool  CtpClient::InitTcp(std::string& err)
 	
 	if (NULL == tick_tcp_server_)
 	{
-		tick_tcp_server_ = new TickServer(TcpServer_port);
+		tick_tcp_server_ = new DataService(TcpServer_port);
 		if (!tick_tcp_server_->Init(err))
 		{
 			delete tick_tcp_server_;
