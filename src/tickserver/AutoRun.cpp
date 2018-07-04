@@ -25,12 +25,12 @@ AutoRun::~AutoRun(void)
 
 void AutoRun::StartUp()
 {
-	std::string err;
+	/*std::string err;
 	if (!ctp_client_->InitTcp(err))
 	{
 		APP_LOG(LOG_LEVEL_ERROR)  << "tcp listen error: " << err ;
 		return;
-	}
+	}*/
 
 	SetInterval(10000);
 	StartTimer();
@@ -59,8 +59,8 @@ bool AutoRun::DoDayClose(){
 bool AutoRun::DoNightOpen(){
 	APP_LOG(LOG_LEVEL_INFO)<<"DoNightOpen";
 	string err;
-	if (instrument_table_->init()) {
-		instrument_table_->denit();
+	if (instrument_table_->Init()) {
+		instrument_table_->Denit();
 		APP_LOG(LOG_LEVEL_ERROR)<<"get instrument_table_  fail";
 	}
 

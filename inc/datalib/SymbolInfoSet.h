@@ -64,11 +64,9 @@ struct TradeSectionTime
 class DATALIB_API SymbolInfoSet
 {
 public:
-	SymbolInfoSet(void);
-	~SymbolInfoSet(void);
-
-	bool Init(std::string& err);
+	static SymbolInfoSet* Instance();
 	void Deinit();
+
 	const std::vector<Symbol>& FutureSymbols() { return future_symbols_; }
 	const std::vector<Symbol>& NightFutureSymbols() { return night_future_symbols_; }
 	const std::vector<Symbol>& StockASymbols() { return stock_a_symbols_; }
@@ -98,9 +96,11 @@ public:
 
 	static void GetTradingTime(const Symbol& sym, XmlConfig* conf, std::vector<TradeSectionTime>& times);
 
-	static SymbolInfoSet* GetInstance();
-
+	~SymbolInfoSet(void);
 private:
+	SymbolInfoSet(void);
+	bool Init(std::string& err);
+
 	bool IsNightTrading(Symbol& sym, XmlConfig* settings);
 	void InseerFutureInfo(Symbol& sym, InstrumentInfo& info, bool zhuli_info = true);
 

@@ -21,7 +21,7 @@ public:
 	void SetSpi(DataEventSpi *spi);
 	virtual ~DataEngine();
 
-	bool init(string symbols);
+	bool Init(string symbols);
 
 private:
 	DataEngine();

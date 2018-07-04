@@ -52,8 +52,6 @@ public:
 
 	int SendTick(const Symbol& sym, char* buf, int len);
 
-	
-
 private:
 	void Subscribe(TcpSession *tcp_sock, const Symbol& sym);
 	void UnSubscribe(TcpSession *tcp_sock, const Symbol& sym);

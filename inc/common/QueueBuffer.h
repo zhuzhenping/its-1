@@ -22,7 +22,7 @@ public:
 		assert(LEN > 0);
 	}
 
-	virtual bool Comsume(const T& val) = 0;
+	virtual bool Consume(const T& val) = 0;
 
 	inline void Push(const T& val) {
 		while (get_empty_size() == 0)
@@ -67,7 +67,7 @@ private:
 				m_full_mutex.Unlock();
 			}
 
-			if (!Comsume(m_buf[tail_idx])) continue;
+			if (!Consume(m_buf[tail_idx])) continue;
 			idx_lock.Lock();
 			tail_idx = (tail_idx + 1) % LEN;
 			m_empty_size++;

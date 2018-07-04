@@ -251,7 +251,7 @@ private:
 	public:
 		CtpRequestBuffer(CtpFutureTradeApi* market_trade_api) : m_market_trade_api(market_trade_api) {}
 	private:
-		virtual bool Comsume(const RequestType& val);
+		virtual bool Consume(const RequestType& val);
 		bool QueryAccount();
 		bool QueryPosition();
 		bool QueryOrder();

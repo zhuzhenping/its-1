@@ -11,7 +11,7 @@ Global::Global()
 {
 }
 
-Global* Global::GetInstance() {
+Global* Global::Instance() {
 	static Mutex s_mutex;
 	Locker lock(&s_mutex);
 	if (NULL == m_instance) {

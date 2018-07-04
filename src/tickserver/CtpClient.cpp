@@ -10,10 +10,10 @@
 
 
 
-CtpClient::CtpClient() : m_market_api(NULL), is_init_(false), tick_tcp_server_(NULL)
+CtpClient::CtpClient() : m_market_api(NULL), is_init_(false)//, tick_tcp_server_(NULL)
 {
 	
-	XmlConfig config(Global::GetInstance()->GetConfigFile());
+	XmlConfig config(Global::Instance()->GetConfigFile());
 	if (!config.Load()) { 
 		APP_LOG(LOG_LEVEL_ERROR) << "config.xml not exist";
 		return ; 
@@ -40,11 +40,51 @@ CtpClient::~CtpClient(void)
 
 void CtpClient::OnMarketPrice(BaseTick* tick)
 {
-	if (is_init_) { tick_tcp_server_->SendTick(tick->symbol, (char*)tick, sizeof(FutureTick)); }
+	//if (is_init_) { tick_tcp_server_->SendTick(tick->symbol, (char*)tick, sizeof(FutureTick)); }
+	FutureTick* cpy_tick = new FutureTick(*(FutureTick*)tick);
 
-	APP_LOG(LOG_LEVEL_INFO)<<tick->symbol.instrument << tick->last_price;
+	Locker locker(&ticks_lock_);
+	ticks_.push(cpy_tick);
+	cond_.Signal();
 }
 
+int CtpClient::TickSize()
+{
+	Locker locker(&ticks_lock_);
+	return ticks_.size();
+}
+
+void CtpClient::OnRun()
+{
+	while (IsRuning())
+	{
+		while (TickSize() == 0)
+		{
+			mutex_.Lock();
+			cond_.Wait(&mutex_);
+			mutex_.Unlock();
+		}
+
+		FutureTick* tick = NULL;
+		while ((tick = PopTick()) != NULL)
+		{
+			APP_LOG(LOG_LEVEL_INFO)<<tick->symbol.instrument << tick->last_price;
+			//data_writer_->PushTick(tick);
+			delete tick;
+		}
+	}
+}
+
+FutureTick* CtpClient::PopTick()
+{
+	Locker locker(&ticks_lock_);
+	if (0 == ticks_.size()) { return NULL; }
+	FutureTick* tick = ticks_.front();
+	ticks_.pop();
+	return tick;
+}
+
+/*
 bool  CtpClient::InitTcp(std::string& err)
 {
 	
@@ -60,14 +100,14 @@ bool  CtpClient::InitTcp(std::string& err)
 	}
 
 	return true;
-}
+}*/
 
 bool CtpClient::StartUp(bool is_day, std::string& err)
 {
-	if (!tick_tcp_server_->StartUp(err))
+	/*if (!tick_tcp_server_->StartUp(err))
 	{
 		return false;
-	}
+	}*/
 	
 
 	if (NULL == m_market_api)
@@ -94,12 +134,7 @@ bool CtpClient::StartUp(bool is_day, std::string& err)
 		return false;
 	}
 
-	SymbolInfoSet* info_set = SymbolInfoSet::GetInstance();
-	if (!info_set->Init(err))
-	{
-		return false;
-	}
-
+	SymbolInfoSet* info_set = SymbolInfoSet::Instance();
 	sub_syms_ = "";
 	if (is_day)
 	{
@@ -142,7 +177,7 @@ void CtpClient::DoAfterMarket(bool is_day)
 		m_market_api->Deinit();
 	}
 
-	SymbolInfoSet::GetInstance()->Deinit();
+	SymbolInfoSet::Instance()->Deinit();
 	is_init_ = false;
 }
 

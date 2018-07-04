@@ -164,7 +164,7 @@ void CtpFutureMarketDataHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataF
 	FutureTick tick;
 	strcpy(tick.symbol.instrument, depth_market_data->InstrumentID);
 	tick.symbol.product = PRODUCT_FUTURE;
-	tick.symbol.exchange = SymbolInfoSet::GetInstance()->GetFutureExchange(depth_market_data->InstrumentID);
+	tick.symbol.exchange = SymbolInfoSet::Instance()->GetFutureExchange(depth_market_data->InstrumentID);
 
 	Date tick_date(depth_market_data->ActionDay);
 	Time tick_time(depth_market_data->UpdateTime, depth_market_data->UpdateMillisec);	
@@ -201,7 +201,7 @@ void CtpFutureMarketDataHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataF
 	tick.today_low = depth_market_data->LowestPrice > 1e100 ? NAN : depth_market_data->LowestPrice;
 	tick.amount = depth_market_data->Turnover;
 	if (tick.symbol.exchange == EXCHANGE_CZCE) { // 乘以合约数量乘数.
-		tick.amount *= SymbolInfoSet::GetInstance()->GetVolMulti(tick.symbol);
+		tick.amount *= SymbolInfoSet::Instance()->GetVolMulti(tick.symbol);
 	}
 	tick.pre_settlement = depth_market_data->PreSettlementPrice;
 
@@ -264,7 +264,7 @@ bool CtpFutureMarketDataApi::Init(const std::string& front_addr_str, MarketDataS
 	}
 
 	if (m_ctp_market_api == NULL) {
-		std::string data_path = Global::GetInstance()->its_home+ "\\log\\ctp\\";
+		std::string data_path = Global::Instance()->its_home+ "\\log\\ctp\\";
 		if (!Directory::IsDirExist(data_path) && !Directory::MakeDir(data_path)) { err = "MakeDir:"+data_path+" false"; return false;}
 		m_ctp_market_api = CThostFtdcMdApi::CreateFtdcMdApi(data_path.c_str());
 		if (NULL == m_ctp_market_handler) { m_ctp_market_handler = new CtpFutureMarketDataHandler(this); }
@@ -349,8 +349,6 @@ bool CtpFutureMarketDataApi::Login(const std::string& broker_id, const std::stri
 		err = error_msg_;
 		return false; 
 	}
-
-	if (!SymbolInfoSet::GetInstance()->Init(err)) return false;
 
 	QDateTime now_t = QDateTime::currentDateTime();
 	low_time_.date = Date(now_t.date().year(), now_t.date().month(), now_t.date().day());

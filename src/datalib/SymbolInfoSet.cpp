@@ -79,8 +79,8 @@ bool SymbolInfoSet::Init(std::string& err)
 	Locker locker(&mutex_);
 	if (is_init_) { return true; }
 
-	string its_home = Global::GetInstance()->GetItsHome();
-	std::string trading_conf_path = Global::GetInstance()->GetConfigDir() + "TradingTime.xml";
+	string its_home = Global::Instance()->GetItsHome();
+	std::string trading_conf_path = Global::Instance()->GetConfigDir() + "TradingTime.xml";
 	if (!Directory::IsDirExist(trading_conf_path.c_str()))
 	{
 		err = trading_conf_path + " is not exist";
@@ -660,16 +660,15 @@ void SymbolInfoSet::Deinit()
 	is_init_ = false;
 }
 
-SymbolInfoSet* SymbolInfoSet::GetInstance()
+SymbolInfoSet* SymbolInfoSet::Instance()
 {
 	if (NULL == inst_) {
 		inst_ = new SymbolInfoSet();
-		string err;
-		if (!inst_->Init(err)) {
-			APP_LOG(LOG_LEVEL_ERROR) << err;
-		}
 	}
-
+	string err;
+	if (!inst_->Init(err)) {
+		APP_LOG(LOG_LEVEL_ERROR) << err;
+	}
 	return inst_;
 }
 

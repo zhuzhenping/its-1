@@ -96,7 +96,7 @@ public:
 
 public:
 	~AppLog();
-	static AppLog* GetInstance();
+	static AppLog* Instance();
 
 	void set_level(LogLevel level) { m_level = level; }
 	LogLevel get_level() const { return m_level; }
@@ -107,7 +107,7 @@ public:
 	
 private:
 	AppLog();
-	virtual bool Comsume(const LogData& val);
+	virtual bool Consume(const LogData& val);
 	void InitLog();
 
 	LogLevel StringToLevel(const char* value);
@@ -204,7 +204,7 @@ class AppLogFinisher
 {
 public:
 	void operator=(AppLogInput& input) {
-		AppLog::GetInstance()->Push(LogData(input.m_level, input.m_file_name, input.m_line, input.m_message));
+		AppLog::Instance()->Push(LogData(input.m_level, input.m_file_name, input.m_line, input.m_message));
 	};
 };
 

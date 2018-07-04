@@ -13,7 +13,7 @@ class NonBlockQueueBuffer : public Thread
 public:
 	NonBlockQueueBuffer() {}
 
-	virtual void Comsume(T& item) = 0;
+	virtual void Consume(T& item) = 0;
 
 	virtual void Push(const T& item)
 	{
@@ -37,7 +37,7 @@ private:
 			T item;
 			while (PopEvent(item))
 			{
-				Comsume(item);
+				Consume(item);
 			}
 		}
 
@@ -51,7 +51,7 @@ private:
 			T item;
 			while (PopEvent(item))
 			{
-				Comsume(item);
+				Consume(item);
 			}
 		}
 

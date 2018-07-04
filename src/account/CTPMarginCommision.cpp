@@ -68,15 +68,13 @@ PriceType CTPMarginCommision::CalcCommision(const Symbol &symbol, OpenCloseFlag 
 void CTPMarginCommision::Init() {
 	api_->SetSecurityInfoSpi(this);
 
-	info_set_ = SymbolInfoSet::GetInstance();
-	std::string err;
-	if (!info_set_->Init(err)) { assert(false); return; }
+	info_set_ = SymbolInfoSet::Instance();
 	for (std::vector<Symbol>::const_iterator iter = info_set_->FutureSymbols().begin(); iter != info_set_->FutureSymbols().end(); ++iter) {
 		margins_[iter->instrument] = LocalMargin();
 		commisions_[iter->instrument] = LocalCommision();
 	}
 
-	std::string its_home = Global::GetInstance()->GetItsHome();
+	std::string its_home = Global::Instance()->GetItsHome();
 
 	std::string margin_path = its_home + "/data/FutureMargin.txt";	
 	if (Directory::IsDirExist(margin_path)) {

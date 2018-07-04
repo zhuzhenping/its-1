@@ -50,7 +50,7 @@ bool TradeEngine::Init(const std::string& conf_path, std::string& err)
 	if (is_init_) { return true; }
 	re_qry_pos_ = false;
 
-	//string cfg_pth = Global::GetInstance()->GetConfigDir()+conf_path;
+	//string cfg_pth = Global::Instance()->GetConfigDir()+conf_path;
 	XmlConfig config(conf_path);
 	if (!config.Load()) 
 	{

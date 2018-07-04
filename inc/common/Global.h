@@ -56,7 +56,7 @@ using namespace std;
 
 class COMMON_API Global {
 public:
-	static Global* GetInstance();
+	static Global* Instance();
 
 	// 取its根目录 its/
 	string GetItsHome() const;

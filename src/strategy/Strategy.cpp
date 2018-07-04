@@ -28,7 +28,7 @@ bool Strategy::Init(string &err){
 
 	/*
 	// 读配置参数.
-	XmlConfig config(Global::GetInstance()->GetConfigDir() + "config.xml");
+	XmlConfig config(Global::Instance()->GetConfigDir() + "config.xml");
 	if (!config.Load()) 
 	{
 		err = "load config error";
@@ -42,20 +42,20 @@ bool Strategy::Init(string &err){
 	l_ma_.Period = atoi(node.GetValue("long_ma").c_str());
 	state_ = 0;
 	int jump_nums = atoi(node.GetValue("jump_nums").c_str());
-	price_offset_ = SymbolInfoSet::GetInstance()->GetPriceTick(symbol_) * jump_nums;
+	price_offset_ = SymbolInfoSet::Instance()->GetPriceTick(symbol_) * jump_nums;
 	submit_hands_ = atoi(node.GetValue("submit_hands").c_str());
 	cancel_interval_ = node.GetValue("cancel_interval");
 	target_profit_value_ = atof(node.GetValue("target_profit_value").c_str());
 	
 	
 	// 行情.
-	RuntimeDataApiManager* run_api_manager = new RuntimeDataApiManager(SubBarsApi::GetInstance());
-	SubBarsApi::GetInstance()->SetRunApiManager(run_api_manager); //设置实时行情接口		
-	if (!run_api_manager->CreateApi(Global::GetInstance()->GetAppConfigPath(), err))	return false;
+	RuntimeDataApiManager* run_api_manager = new RuntimeDataApiManager(SubBarsApi::Instance());
+	SubBarsApi::Instance()->SetRunApiManager(run_api_manager); //设置实时行情接口		
+	if (!run_api_manager->CreateApi(Global::Instance()->GetAppConfigPath(), err))	return false;
 
 	DateTime now(NULL);
 	run_api_manager->InitApi(RuntimeDataApiManager::ALL_API, now.time.hour > 18 || now.time.hour < 5);
-	if (!SubBarsApi::GetInstance()->Init(Global::GetInstance()->GetAppConfigPath(), err)) 	return false;
+	if (!SubBarsApi::Instance()->Init(Global::Instance()->GetAppConfigPath(), err)) 	return false;
 
 	
 	if (!SubBars(symbol_, period.c_str())) return false;
@@ -65,11 +65,11 @@ bool Strategy::Init(string &err){
 	timer_ = new TimerApi(10000, this);
 	timer_->Start(3000);
 	
-	if (!trade_engine_->Init(Global::GetInstance()->GetConfigFile(), err)) {
+	if (!trade_engine_->Init(Global::Instance()->GetConfigFile(), err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << err;
 		return false;
 	}
-	if (!data_engine_->init("rb1810")) {
+	if (!data_engine_->Init("rb1810")) {
 		return false;
 	}
 	
@@ -106,9 +106,9 @@ bool Strategy::SubBars(const Symbol& symbol, const std::string& period)
 	DateTime now(NULL);
 	info.mode_data = now.date.year * 10000LL + now.date.month * 100LL + now.date.day;
 	info.mode_data *= 100000000LL;
-	if (!SubBarsApi::GetInstance()->SubBars(info, this))
+	if (!SubBarsApi::Instance()->SubBars(info, this))
 	{
-		cout << "SubBars error: " << SubBarsApi::GetInstance()->GetLastError() << endl;
+		cout << "SubBars error: " << SubBarsApi::Instance()->GetLastError() << endl;
 		return false;
 	}
 	return true;

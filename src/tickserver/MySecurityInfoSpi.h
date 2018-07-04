@@ -80,8 +80,8 @@ public:
 	MySecurityInfoSpi(ProductIdType product);
 	virtual ~MySecurityInfoSpi();
 
-	bool init();
-	void denit() { trade_api->Deinit(); }
+	bool Init();
+	void Denit() { trade_api->Deinit(); }
 
 private:
 	/*virtual bool DoDayOpen() ;

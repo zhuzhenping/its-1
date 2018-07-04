@@ -40,7 +40,7 @@ AppLog::~AppLog()
 	}
 }
 
-bool AppLog::Comsume(const LogData& val) 
+bool AppLog::Consume(const LogData& val) 
 {
 	if (LOG_LEVEL_OFF != m_level && val.level <= m_level) {
 		RollLogFile();
@@ -75,7 +75,7 @@ bool AppLog::Comsume(const LogData& val)
 	return true;
 }
 
-AppLog* AppLog::GetInstance() 
+AppLog* AppLog::Instance() 
 {
 	if (NULL == m_instance) {
 		m_instance = new AppLog();
@@ -91,7 +91,7 @@ void AppLog::InitLog()
 	if (m_is_running) { return; }	//日志线程开始运行后不能再改变值.
 
 	//配置文件中有配置，读取配置；否则用默认值
-	std::string conf_path = Global::GetInstance()->GetConfigDir()+"config.xml";
+	std::string conf_path = Global::Instance()->GetConfigDir()+"config.xml";
 	do 
 	{
 		if (!QFile::exists(conf_path.c_str())) { break; }
@@ -109,7 +109,7 @@ void AppLog::InitLog()
 	} while (0);
 
 	// 设置log文件的名字.
-	std::string app_name = Global::GetInstance()->GetAppName();
+	std::string app_name = Global::Instance()->GetAppName();
 	if (app_name == "")
 	{
 		if (QCoreApplication::instance() != NULL)
@@ -122,8 +122,8 @@ void AppLog::InitLog()
 		}
 	}
 	
-	m_file_path = Global::GetInstance()->its_home + "/log/" + app_name + ".log";
-	m_err_file_path = Global::GetInstance()->its_home + "/log/" + app_name + "_Error.log";
+	m_file_path = Global::Instance()->its_home + "/log/" + app_name + ".log";
+	m_err_file_path = Global::Instance()->its_home + "/log/" + app_name + "_Error.log";
 	OpenLogFile();
 	m_is_running = true;
 }

@@ -89,11 +89,8 @@ TickServer::~TickServer(void)
 
 bool TickServer::Init(std::string& err)
 {
-	SymbolInfoSet* sym_info = SymbolInfoSet::GetInstance();
-	if (!sym_info->Init(err))
-	{
-		return false;
-	}
+	SymbolInfoSet* sym_info = SymbolInfoSet::Instance();
+
 	const std::vector<Symbol>& futures = sym_info->FutureSymbols();
 	for (int i=0; i<futures.size(); ++i)
 	{
@@ -111,13 +108,7 @@ bool TickServer::Init(std::string& err)
 bool TickServer::StartUp(std::string& err)
 {
 	Locker locker(&sub_sym_sessions_mutex_);
-	SymbolInfoSet* sym_info = SymbolInfoSet::GetInstance();
-	if (!sym_info->Init(err))
-	{
-		return false;
-	}
-
-	
+	SymbolInfoSet* sym_info = SymbolInfoSet::Instance();
 
 	Symbol2Sessions* tmp_container = new Symbol2Sessions();
 	const std::vector<Symbol>& futures = sym_info->FutureSymbols();

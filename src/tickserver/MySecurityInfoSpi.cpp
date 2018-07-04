@@ -12,8 +12,8 @@ using namespace std;
   
 SymbolChineseName::SymbolChineseName()
 {
-	std::string its_home = Global::GetInstance()->GetItsHome();
-	std::string conf_path = Global::GetInstance()->GetConfigDir() + "ChineseName.xml";
+	std::string its_home = Global::Instance()->GetItsHome();
+	std::string conf_path = Global::Instance()->GetConfigDir() + "ChineseName.xml";
 	XmlConfig xml_config(conf_path);
 	xml_config.Load();
 	XmlNodeVec nodes = xml_config.FindChileren("ChiName", "Node");
@@ -23,7 +23,7 @@ SymbolChineseName::SymbolChineseName()
 		name_dict_[nodes[i].GetValue("Product")] = nodes[i].GetValue("Name");
 	}
 
-	/*std::string its_home = Global::GetInstance()->its_home;
+	/*std::string its_home = Global::Instance()->its_home;
 	std::string conf_path = its_home + "/data/FutureChiName.ini";
 	settings_ = new QSettings(conf_path.c_str(), QSettings::IniFormat);
 	settings_->setIniCodec("UTF-8");
@@ -111,8 +111,8 @@ MySecurityInfoSpi::MySecurityInfoSpi(ProductIdType product)
 	else
 		assert(false);
 
-	std::string conf_path = Global::GetInstance()->GetConfigDir() + "config.xml";
-	trade_time_path = Global::GetInstance()->GetConfigDir() + "TradingTime.xml";
+	std::string conf_path = Global::Instance()->GetConfigDir() + "config.xml";
+	trade_time_path = Global::Instance()->GetConfigDir() + "TradingTime.xml";
 	if (!QFile::exists(conf_path.c_str()) || !QFile::exists(trade_time_path.c_str()))
 	{
 		APP_LOG(LOG_LEVEL_ERROR) << conf_path << "或." << trade_time_path << "不存在.";
@@ -171,7 +171,7 @@ bool MySecurityInfoSpi::DoNightOpen(){
 */
 
 //bool MySecurityInfoSpi::SlotTimeOut() {	
-bool MySecurityInfoSpi::init() {
+bool MySecurityInfoSpi::Init() {
 	DateTime now(NULL);
 	
 	std::string err;

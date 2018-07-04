@@ -27,7 +27,7 @@ void DataEngine::SetSpi(DataEventSpi *spi) {
 }
 
 DataEngine::DataEngine() : m_market_api(NULL) {
-	XmlConfig config(Global::GetInstance()->GetConfigDir()+"config.xml");
+	XmlConfig config(Global::Instance()->GetConfigDir()+"config.xml");
 	if (!config.Load()) { 
 		APP_LOG(LOG_LEVEL_ERROR) << "config.xml not exist";
 		return ; 
@@ -49,7 +49,7 @@ DataEngine::~DataEngine() {
 }
 
 
-bool DataEngine::init(string symbols) {
+bool DataEngine::Init(string symbols) {
 	if (NULL == m_market_api)
 	{
 		m_market_api = MarketDataApiFactory::CreateMarketDataApi("CTP_FUTURE");
