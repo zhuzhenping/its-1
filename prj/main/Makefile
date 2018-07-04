@@ -20,10 +20,11 @@ BIN_PATH := $(SOLUTION_DIR)/bin
 INCLUDE_PATH := $(SOLUTION_DIR)/inc
 LIB_PATH := $(SOLUTION_DIR)/lib
 
+NAME := $(shell basename `pwd`)
 
-TARGET := $(shell basename `pwd`)
+TARGET := $(NAME)
 MODULE_TYPE := executable
-SRCDIRS := $(SOLUTION_DIR)/src/main
+SRCDIRS := $(SOLUTION_DIR)/src/$(NAME)
 CPPFLAGS := -I$(INCLUDE_PATH)/ -I$(INCLUDE_PATH)/qt/linux/include
 LDFLAGS := -L$(LIB_PATH)/$(BUILD_TYPE) -L$(LIB_PATH)/boost -L$(LIB_PATH)/qt -L$(LIB_PATH)/ctp -lboost_thread -lpthread -lboost_system -lQtCore -lQtXml -lcommon -lctp  -ldatalib -lnetwork -laccount -lstrategy -lthosttraderapi -lthostmduserapi
 

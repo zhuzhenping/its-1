@@ -57,6 +57,7 @@ bool AutoRun::DoDayClose(){
 }
 
 bool AutoRun::DoNightOpen(){
+	APP_LOG(LOG_LEVEL_INFO)<<"DoNightOpen";
 	string err;
 	if (instrument_table_->init()) {
 		instrument_table_->denit();
@@ -68,7 +69,6 @@ bool AutoRun::DoNightOpen(){
 		APP_LOG(LOG_LEVEL_ERROR)<<"DoNightOpen fail:"<<err;
 		return false;
 	}
-	APP_LOG(LOG_LEVEL_INFO)<<"DoNightOpen";
 	return true;
 }
 
