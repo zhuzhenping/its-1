@@ -352,14 +352,14 @@ void Strategy::UpdatePositions(){
 	for (int i=0;i<positions.size();++i){
 		APP_LOG(LOG_LEVEL_INFO)
 			<< ("\t") << positions[i].symbol.instrument
-			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "多" : "空")
-			<< positions[i].open_volume << "手"
+			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "long" : "short")
+			<< positions[i].open_volume << "hand"
 			//<< (" 昨仓:") << positions[i].yestd_volume
 			//<< (" 可平:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
-			<< ("\t持仓均价:") << positions[i].open_price;
+			<< ("\topen_price:") << positions[i].open_price;
 	}
 	if (positions.size()==0){
-		APP_LOG(LOG_LEVEL_INFO) << "仓位清零";
+		APP_LOG(LOG_LEVEL_INFO) << "no position";
 	}
 }
 // OnOrder OnTrade

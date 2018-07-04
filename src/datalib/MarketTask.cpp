@@ -66,11 +66,11 @@ void TimedStateTaskManager::OnTimer()
 
 bool NonTradingTask::IsNextHoliday(Date date)
 {
-	date++;
+	++date;
 	while (date.WeekDay() > 5)
 	{
 		if (date.IsHoliday()) return true;
-		date++;
+		++date;
 	}
 	return date.IsHoliday();
 }
@@ -92,7 +92,7 @@ int NonTradingTask::ToNextState()
 	if (now.time < manager_->night_close_time_)
 	{
 		Date date = now.date;
-		date--;
+		--date;
 		if (date.IsTradingDay() && !IsNextHoliday(date))
 		{
 			return NIGHT_OPEN_ID;
