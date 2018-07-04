@@ -60,9 +60,12 @@ bool Strategy::Init(string &err){
 	
 	if (!SubBars(symbol_, period.c_str())) return false;
 	*/
-	// 交易.
 	
-	if (!trade_engine_->Init(Global::GetInstance()->GetConfigDir()+"config.xml", err)) {
+	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");
+	timer_ = new TimerApi(10000, this);
+	timer_->Start(3000);
+	
+	if (!trade_engine_->Init(Global::GetInstance()->GetConfigFile(), err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << err;
 		return false;
 	}
@@ -117,8 +120,8 @@ void Strategy::OnUpdateKline(const Bars *_bars, bool is_new){
 
 	//cout << "OnTick: " << bars->symbol.instrument << "  "  << bars->DimCount << "  " << bars->UpdateTime.Str() << "  " << bars->LastPrice << endl;
 
-	double pre_price = TradeEngine::Instance()->GetPosiPrePrice(bars->symbol);
-	TradeEngine::Instance()->SetPosiLastPrice(bars->symbol, bars->LastPrice);
+	double pre_price = trade_engine_->GetPosiPrePrice(bars->symbol);
+	trade_engine_->SetPosiLastPrice(bars->symbol, bars->LastPrice);
 
 	Locker lock(&pos_mutex_);
 	for (int i=0; i < positions_.size(); ++i){
@@ -126,21 +129,21 @@ void Strategy::OnUpdateKline(const Bars *_bars, bool is_new){
 			if (PriceUnEqual(pre_price, bars->LastPrice)) {
 				PriceType pre_profit = float_profit_[i];
 				if (PriceUnEqual(pre_profit, 0.)) {
-					float_profit_[i] = TradeEngine::Instance()->CalcFloatProfit(
+					float_profit_[i] = trade_engine_->CalcFloatProfit(
 						positions_[i].symbol, positions_[i].direction,
 						positions_[i].open_price, bars->LastPrice, positions_[i].open_volume);
 					PriceType diff_profit = float_profit_[i] - pre_profit;
-					TradeEngine::Instance()->UpdateAccountProfit(diff_profit);		
+					trade_engine_->UpdateAccountProfit(diff_profit);		
 				}
 				else {
-					TradeEngine::Instance()->UpdateAccountProfit(float_profit_[i], true);	
+					trade_engine_->UpdateAccountProfit(float_profit_[i], true);	
 				}
 			}
 		}
 	}
 	
 	std::vector<OrderData> orders;
-	TradeEngine::Instance()->GetValidOrder(orders);
+	trade_engine_->GetValidOrder(orders);
 	for (int i=0; i < orders.size(); ++i)
 	{
 		DateTime time = orders[i].submit_time;	
@@ -151,7 +154,7 @@ void Strategy::OnUpdateKline(const Bars *_bars, bool is_new){
 			time.AddSec(num);
 		if (time < bars->UpdateTime) //说明订单超过1分钟未成交
 		{
-			TradeEngine::Instance()->CancelOrder(orders[i]);
+			trade_engine_->CancelOrder(orders[i]);
 			OrderParamData param;
 			param.symbol = orders[i].symbol;
 			param.limit_price = orders[i].direction == LONG_DIRECTION ? bars->AskPrice[0] + price_offset_ : bars->BidPrice[0] - price_offset_;
@@ -161,7 +164,7 @@ void Strategy::OnUpdateKline(const Bars *_bars, bool is_new){
 			param.direction = orders[i].direction;
 			param.open_close_flag = orders[i].open_close_flag;
 			param.hedge_flag = HF_SPECULATION;
-			TradeEngine::Instance()->SubmitOrder(param);
+			trade_engine_->SubmitOrder(param);
 		}
 	}
 
@@ -180,13 +183,13 @@ void Strategy::OnKlineFinish(const Bars *_bars){
 		if (s_ma_.Value[1] < l_ma_.Value[1] && s_ma_.Value[0] > l_ma_.Value[0])
 		{
 			state_ = 1;
-			TradeEngine::Instance()->Buy(bars->symbol, bars->AskPrice[0] + price_offset_, submit_hands_);
+			trade_engine_->Buy(bars->symbol, bars->AskPrice[0] + price_offset_, submit_hands_);
 			cout << "buy open\n";
 		}
 		else if (s_ma_.Value[1] > l_ma_.Value[1] && s_ma_.Value[0] < l_ma_.Value[0])
 		{
 			state_ = -1;
-			TradeEngine::Instance()->SellShort(bars->symbol, bars->BidPrice[0] - price_offset_, submit_hands_);
+			trade_engine_->SellShort(bars->symbol, bars->BidPrice[0] - price_offset_, submit_hands_);
 			cout << "sell open\n";
 		}
 		break;
@@ -195,10 +198,10 @@ void Strategy::OnKlineFinish(const Bars *_bars){
 			if (s_ma_.Value[1] > l_ma_.Value[1] && s_ma_.Value[0] < l_ma_.Value[0])
 			{
 				PositionData long_pos;
-				TradeEngine::Instance()->GetLongPositionBySymbol(long_pos, bars->symbol);
+				trade_engine_->GetLongPositionBySymbol(long_pos, bars->symbol);
 
 				state_ = 0;
-				TradeEngine::Instance()->Sell(bars->symbol, bars->BidPrice[0] - price_offset_, long_pos.enable_today_volume);
+				trade_engine_->Sell(bars->symbol, bars->BidPrice[0] - price_offset_, long_pos.enable_today_volume);
 				cout << "sell close\n";
 			}
 		}
@@ -209,16 +212,16 @@ void Strategy::OnKlineFinish(const Bars *_bars){
 			if (s_ma_.Value[1] < l_ma_.Value[1] && s_ma_.Value[0] > l_ma_.Value[0])
 			{
 				PositionData short_pos;
-				TradeEngine::Instance()->GetShortPositionBySymbol(short_pos, bars->symbol);
+				trade_engine_->GetShortPositionBySymbol(short_pos, bars->symbol);
 
 				state_ = 0;
-				TradeEngine::Instance()->BuyCover(bars->symbol, bars->AskPrice[0] + price_offset_, short_pos.enable_today_volume);
+				trade_engine_->BuyCover(bars->symbol, bars->AskPrice[0] + price_offset_, short_pos.enable_today_volume);
 				cout << "buy close\n";
 			}
 		}
 	}
 
-	TradeEngine::Instance()->QryCtpAccount();
+	trade_engine_->QryCtpAccount();
 	cout << "OnBar:  " << bars->End[0].Str() << "  O:" << bars->Open[0] << "  H:" << bars->High[0] << "  L:" << bars->Low[0]
 	<< "  C:" <<bars->Close[0] << "  V:" << bars->Volume[0] << endl;
 }
@@ -230,7 +233,7 @@ void Strategy::OnInitKline(const Bars *_bars){
 	s_ma_.Update(bars);
 	l_ma_.Update(bars);
 
-	TradeEngine::Instance()->SetPosiLastPrice(bars->symbol, bars->LastPrice);
+	trade_engine_->SetPosiLastPrice(bars->symbol, bars->LastPrice);
 
 	// OnBar	
 
@@ -244,7 +247,7 @@ void Strategy::OnInitKline(const Bars *_bars){
 
 void Strategy::UpdateAccount(){
 	AccountData account;
-	TradeEngine::Instance()->GetAccount(account);
+	trade_engine_->GetAccount(account);
 	cout << "资金账号：\n"
 		<< "静态权益"<<account.static_balance<<" 总盈亏"<<account.close_profit<<" 手续费"<<account.commision
 		<< " 动态权益"<<account.asset_balance << " 占用保证金"<<account.margin_balance 
@@ -253,12 +256,12 @@ void Strategy::UpdateAccount(){
 	// 账户资金到某个设定金额，自动全部平仓： 资金止盈，总的资金量达到设定值.
 	if (account.asset_balance > target_profit_value_){
 		PositionData long_pos, short_pos;
-		double last_price = TradeEngine::Instance()->GetPosiPrePrice(symbol_);
-		if (TradeEngine::Instance()->GetLongPositionBySymbol(long_pos, symbol_)){
-			TradeEngine::Instance()->Sell(symbol_, last_price-price_offset_, long_pos.enable_today_volume+long_pos.enable_yestd_volume);
+		double last_price = trade_engine_->GetPosiPrePrice(symbol_);
+		if (trade_engine_->GetLongPositionBySymbol(long_pos, symbol_)){
+			trade_engine_->Sell(symbol_, last_price-price_offset_, long_pos.enable_today_volume+long_pos.enable_yestd_volume);
 		}
-		if (TradeEngine::Instance()->GetShortPositionBySymbol(short_pos, symbol_)){
-			TradeEngine::Instance()->BuyCover(symbol_, last_price+price_offset_, short_pos.enable_today_volume+short_pos.enable_yestd_volume);
+		if (trade_engine_->GetShortPositionBySymbol(short_pos, symbol_)){
+			trade_engine_->BuyCover(symbol_, last_price+price_offset_, short_pos.enable_today_volume+short_pos.enable_yestd_volume);
 		}
 	}
 }
@@ -299,7 +302,7 @@ std::string OrderStatusStr(OrderStatus status)
 
 void Strategy::UpdateValidOrders(){
 	vector<OrderData> validOrders;
-	TradeEngine::Instance()->GetValidOrder(validOrders);
+	trade_engine_->GetValidOrder(validOrders);
 	cout<<"有效单列表：\n";
 	for (int i=0;i<validOrders.size();++i){
 		cout<< ("委托编号:") << validOrders[i].order_id
@@ -317,7 +320,7 @@ void Strategy::UpdateValidOrders(){
 }
 void Strategy::UpdateTrades(){
 	vector<TradeData> trades;
-	TradeEngine::Instance()->GetAllTrade(trades);
+	trade_engine_->GetAllTrade(trades);
 	cout<<"成交单列表：\n";
 	for (int i=0;i<trades.size();++i){
 		cout<< ("合约") << trades[i].symbol.instrument
@@ -335,16 +338,16 @@ void Strategy::UpdatePositions(){
 	double all_profit = 0.;//总浮动盈亏.
 	pos_mutex_.Lock();
 	positions_.clear();
-	TradeEngine::Instance()->GetAllPosition(positions_);
+	trade_engine_->GetAllPosition(positions_);
 	for (std::vector<PositionData>::const_iterator iter = positions_.begin(); iter != positions_.end(); ++iter) {
 		float_profit_.push_back(iter->position_profit);
 		all_profit += iter->position_profit;
 	}
 	pos_mutex_.Unlock();
-	TradeEngine::Instance()->UpdateAccountProfit(all_profit);
+	trade_engine_->UpdateAccountProfit(all_profit);
 
 	vector<PositionData> positions;
-	TradeEngine::Instance()->GetAllPosition(positions);
+	trade_engine_->GetAllPosition(positions);
 	cout<<"持仓列表：\n";
 	for (int i=0;i<positions.size();++i){
 		cout<< ("持仓合约:") << positions[i].symbol.instrument
@@ -384,13 +387,36 @@ void Strategy::OnTradeError(const string &err){
 }
 
 
+void Strategy::OnTimer() {
+	static int state_;
+	switch (state_)
+	{
+	case 0:
+		state_ = 1;
+		trade_engine_->Buy(symbol_, last_price_+10, 1);
+		APP_LOG(LOG_LEVEL_INFO) << "buy open";
+		break;
+	case 1:
+		PositionData long_pos;
+		trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
+
+		state_ = 0;
+		trade_engine_->Sell(symbol_, last_price_ - 10, long_pos.enable_today_volume);
+		APP_LOG(LOG_LEVEL_INFO) << "sell close";
+		break;
+	}
+
+	trade_engine_->QryCtpAccount();
+}
+
+
 // OnTick
 void Strategy::OnTick(FutureTick *tick){
-	
-	APP_LOG(LOG_LEVEL_INFO) << tick->symbol.Str() << "\t" << tick->last_price;
+	last_price_ = tick->last_price;
+	//APP_LOG(LOG_LEVEL_INFO) << tick->symbol.Str() << "\t" << tick->last_price;
 
-	double pre_price = TradeEngine::Instance()->GetPosiPrePrice(tick->symbol);
-	TradeEngine::Instance()->SetPosiLastPrice(tick->symbol, tick->last_price);
+	double pre_price = trade_engine_->GetPosiPrePrice(tick->symbol);
+	trade_engine_->SetPosiLastPrice(tick->symbol, tick->last_price);
 
 	Locker lock(&pos_mutex_);
 	for (int i=0; i < positions_.size(); ++i){
@@ -398,14 +424,14 @@ void Strategy::OnTick(FutureTick *tick){
 			if (PriceUnEqual(pre_price, tick->last_price)) {
 				PriceType pre_profit = float_profit_[i];
 				if (PriceUnEqual(pre_profit, 0.)) {
-					float_profit_[i] = TradeEngine::Instance()->CalcFloatProfit(
+					float_profit_[i] = trade_engine_->CalcFloatProfit(
 						positions_[i].symbol, positions_[i].direction,
 						positions_[i].open_price, tick->last_price, positions_[i].open_volume);
 					PriceType diff_profit = float_profit_[i] - pre_profit;
-					TradeEngine::Instance()->UpdateAccountProfit(diff_profit);		
+					trade_engine_->UpdateAccountProfit(diff_profit);		
 				}
 				else {
-					TradeEngine::Instance()->UpdateAccountProfit(float_profit_[i], true);	
+					trade_engine_->UpdateAccountProfit(float_profit_[i], true);	
 				}
 			}
 		}
@@ -413,7 +439,7 @@ void Strategy::OnTick(FutureTick *tick){
 
 	/*
 	std::vector<OrderData> orders;
-	TradeEngine::Instance()->GetValidOrder(orders);
+	trade_engine_->GetValidOrder(orders);
 	for (int i=0; i < orders.size(); ++i)
 	{
 		DateTime time = orders[i].submit_time;	
@@ -424,7 +450,7 @@ void Strategy::OnTick(FutureTick *tick){
 			time.AddSec(num);
 		if (time < tick->date_time) //说明订单超过1分钟未成交
 		{
-			TradeEngine::Instance()->CancelOrder(orders[i]);
+			trade_engine_->CancelOrder(orders[i]);
 			OrderParamData param;
 			param.symbol = orders[i].symbol;
 			param.limit_price = orders[i].direction == LONG_DIRECTION ? tick->ask_price + price_offset_ : tick->bid_price - price_offset_;
@@ -434,7 +460,7 @@ void Strategy::OnTick(FutureTick *tick){
 			param.direction = orders[i].direction;
 			param.open_close_flag = orders[i].open_close_flag;
 			param.hedge_flag = HF_SPECULATION;
-			TradeEngine::Instance()->SubmitOrder(param);
+			trade_engine_->SubmitOrder(param);
 		}
 	}
 	*/
