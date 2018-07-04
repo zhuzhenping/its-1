@@ -352,11 +352,14 @@ void Strategy::UpdatePositions(){
 	for (int i=0;i<positions.size();++i){
 		APP_LOG(LOG_LEVEL_INFO)
 			<< ("\t") << positions[i].symbol.instrument
-			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "买入" : "卖空")
+			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "多" : "空")
 			<< positions[i].open_volume << "手"
 			//<< (" 昨仓:") << positions[i].yestd_volume
 			//<< (" 可平:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
 			<< ("\t持仓均价:") << positions[i].open_price;
+	}
+	if (positions.size()==0){
+		APP_LOG(LOG_LEVEL_INFO) << "仓位清零";
 	}
 }
 // OnOrder OnTrade
@@ -397,6 +400,8 @@ void Strategy::OnTimer() {
 		if (long_pos.today_volume == 0) {
 			state_ = 1;
 			trade_engine_->Buy(symbol_, last_price_+10, 1);
+		} else {
+			trade_engine_->Sell(symbol_, last_price_ - 10, long_pos.enable_today_volume);
 		}
 		
 		break;

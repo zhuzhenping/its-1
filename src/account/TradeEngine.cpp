@@ -563,7 +563,7 @@ void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 			}
 		}
 
-		SendTradeEventData(TradeEventData::POSITION_EVENT, order_data->user_tag, NULL);
+		//SendTradeEventData(TradeEventData::POSITION_EVENT, order_data->user_tag, NULL);
 	}
 
 	all_orders_[order_data->order_id] = *order_data;
