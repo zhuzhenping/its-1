@@ -80,12 +80,14 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\tickserver\AutoRun.h" />
     <ClInclude Include="..\..\src\tickserver\CtpClient.h" />
+    <ClInclude Include="..\..\src\tickserver\MySecurityInfoSpi.h" />
     <ClInclude Include="..\..\src\tickserver\TickServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\tickserver\AutoRun.cpp" />
     <ClCompile Include="..\..\src\tickserver\CtpClient.cpp" />
     <ClCompile Include="..\..\src\tickserver\main.cpp" />
+    <ClCompile Include="..\..\src\tickserver\MySecurityInfoSpi.cpp" />
     <ClCompile Include="..\..\src\tickserver\TickServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

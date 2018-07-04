@@ -22,6 +22,7 @@
 		<Address IP="tcp://180.168.146.187:10010" />
 		<Address IP="tcp://180.168.146.187:10011" />
 	</ctp_address>
+	<tick_port>1234</tick_port>
   </DataServer>
   
   <CtpTradeAccount_ACTUAL>

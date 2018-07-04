@@ -78,13 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\main\CtpDataServer.cpp" />
     <ClCompile Include="..\..\src\main\main.cpp" />
-    <ClCompile Include="..\..\src\main\MySecurityInfoSpi.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\main\CtpDataServer.h" />
-    <ClInclude Include="..\..\src\main\MySecurityInfoSpi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,7 +4,7 @@
 #include "DataLib/MarketTask.h"
 #include "CtpClient.h"
 #include "common/DateTime.h"
-
+#include "MySecurityInfoSpi.h"
 class QDate;
 
 //namespace itstation {
@@ -23,9 +23,8 @@ private:
 	virtual bool DoNightClose();
 
 	CtpClient* ctp_client_;
+	MySecurityInfoSpi *instrument_table_;
 };
-
-
 
 
 #endif

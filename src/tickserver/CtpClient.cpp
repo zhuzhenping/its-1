@@ -42,7 +42,7 @@ void CtpClient::OnMarketPrice(BaseTick* tick)
 {
 	if (is_init_) { tick_tcp_server_->SendTick(tick->symbol, (char*)tick, sizeof(FutureTick)); }
 
-	cout<<tick->symbol.instrument<<"  " << tick->date_time.Str() << "  "<<tick->last_price<<endl;
+	APP_LOG(LOG_LEVEL_INFO)<<tick->symbol.instrument << tick->last_price;
 }
 
 bool  CtpClient::InitTcp(std::string& err)
@@ -50,8 +50,6 @@ bool  CtpClient::InitTcp(std::string& err)
 	
 	if (NULL == tick_tcp_server_)
 	{
-		
-		cout << "listen on " << TcpServer_port << endl;
 		tick_tcp_server_ = new TickServer(TcpServer_port);
 		if (!tick_tcp_server_->Init(err))
 		{

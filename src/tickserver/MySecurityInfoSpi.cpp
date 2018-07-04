@@ -12,8 +12,8 @@ using namespace std;
   
 SymbolChineseName::SymbolChineseName()
 {
-	std::string its_home = getenv("ITS_HOME");
-	std::string conf_path = its_home + "/cfg/ChineseName.xml";
+	std::string its_home = Global::GetInstance()->GetItsHome();
+	std::string conf_path = Global::GetInstance()->GetConfigDir() + "ChineseName.xml";
 	XmlConfig xml_config(conf_path);
 	xml_config.Load();
 	XmlNodeVec nodes = xml_config.FindChileren("ChiName", "Node");

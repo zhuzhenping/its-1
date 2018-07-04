@@ -10,7 +10,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 	QCoreApplication app(argc, argv);
-	APP_LOG(LOG_LEVEL_INFO) << "TickServer 开始 --- ";
 	AutoRun *task = new AutoRun();
 	task->StartUp();
 	app.exec();

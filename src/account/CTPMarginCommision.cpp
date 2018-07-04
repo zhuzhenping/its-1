@@ -3,6 +3,7 @@
 #include <QtCore/QDate>
 #include "common/Directory.h"
 #include "datalib/SymbolInfoSet.h"
+#include "common/Global.h"
 
 using namespace std;
 
@@ -75,7 +76,7 @@ void CTPMarginCommision::Init() {
 		commisions_[iter->instrument] = LocalCommision();
 	}
 
-	std::string its_home = getenv("ITS_HOME");
+	std::string its_home = Global::GetInstance()->GetItsHome();
 
 	std::string margin_path = its_home + "/data/FutureMargin.txt";	
 	if (Directory::IsDirExist(margin_path)) {

@@ -14,11 +14,13 @@ AutoRun::AutoRun() : TimedStateTaskManager(), ctp_client_(NULL)
 	day_close_time_ = Time(15, 20, 0);
 	night_open_time_ = Time(20, 40, 0);
 	ctp_client_ = new CtpClient();
+	instrument_table_ = new MySecurityInfoSpi(PRODUCT_FUTURE);
 }
 
 AutoRun::~AutoRun(void)
 {
 	delete ctp_client_;
+	delete instrument_table_;
 }
 
 void AutoRun::StartUp()
@@ -26,7 +28,7 @@ void AutoRun::StartUp()
 	std::string err;
 	if (!ctp_client_->InitTcp(err))
 	{
-		cout << "tcp listen error: " << err << endl;
+		APP_LOG(LOG_LEVEL_ERROR)  << "tcp listen error: " << err ;
 		return;
 	}
 
@@ -35,45 +37,46 @@ void AutoRun::StartUp()
 }
 
 bool AutoRun::DoDayOpen(){
+	APP_LOG(LOG_LEVEL_INFO) << "DoDayOpen";
 	string err;
 	if (!ctp_client_->StartUp(true, err))
 	{
-		cout << "日盘初始化失败: " << err << endl;
-		APP_LOG(LOG_LEVEL_ERROR)<<"CTP日盘初始化失败："<<err;
+		APP_LOG(LOG_LEVEL_ERROR)<<"DoDayOpen fail:"<<err;
 		return false;
 	}
-	cout << "CTP日盘初始化成功."<<endl;
 	return true;
 }
 
 bool AutoRun::DoDayClose(){
 	if (NULL != ctp_client_)
 	{
-		cout << "退出接口...";
 		ctp_client_->DoAfterMarket(true);
-		cout << "     退出成功." << endl;
+		APP_LOG(LOG_LEVEL_INFO) << "DoDayClose";
 	}
 	return true;
 }
 
 bool AutoRun::DoNightOpen(){
 	string err;
+	if (instrument_table_->init()) {
+		instrument_table_->denit();
+		APP_LOG(LOG_LEVEL_ERROR)<<"get instrument_table_  fail";
+	}
+
 	if (!ctp_client_->StartUp(false, err))
 	{
-		cout << "夜盘初始化失败:" << err << endl;
-		APP_LOG(LOG_LEVEL_ERROR)<<"CTP夜盘初始化失败:"<<err;
+		APP_LOG(LOG_LEVEL_ERROR)<<"DoNightOpen fail:"<<err;
 		return false;
 	}
-	cout << "CTP夜盘初始化成功."<<endl;
+	APP_LOG(LOG_LEVEL_INFO)<<"DoNightOpen";
 	return true;
 }
 
 bool AutoRun::DoNightClose(){
 	if (NULL != ctp_client_)
 	{
-		cout << "退出接口...";
 		ctp_client_->DoAfterMarket(false);
-		cout << "     退出成功." << endl;
+		APP_LOG(LOG_LEVEL_INFO)<<"DoNightClose";
 	}
 	return true;
 }

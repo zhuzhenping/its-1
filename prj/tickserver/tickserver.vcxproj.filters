@@ -24,6 +24,9 @@
     <ClInclude Include="..\..\src\tickserver\CtpClient.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\tickserver\MySecurityInfoSpi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\tickserver\AutoRun.cpp">
@@ -36,6 +39,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\tickserver\TickServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tickserver\MySecurityInfoSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
