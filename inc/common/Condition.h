@@ -1,6 +1,6 @@
 ﻿/*!
 * \brief       条件锁，配合Mutex使用.
-* \author      吴典@众安科技虚拟实验室.
+* \author      吴典@上海：18621528717
 * \date        -
 *
 * \usage

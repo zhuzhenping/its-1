@@ -11,18 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{630BDE4A-EBAF-4026-A55B-6052723F3621}</ProjectGuid>
+    <ProjectGuid>{DF0B1E17-5592-4E65-90A9-8708D0B7C6A8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>datalib</RootNamespace>
+    <RootNamespace>tickserver</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -50,15 +50,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;DATALIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)../inc;$(SolutionDir)../inc/ctp/ctp/win;$(SolutionDir)../inc/qt/win/include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../inc;$(SolutionDir)../inc/qt/win/include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(SolutionDir)../lib/$(Configuration)\datalib.lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)../lib/$(Configuration);$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;network.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;$(SolutionDir)../lib/$(Configuration);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;ctp.lib;datalib.lib;network.lib;strategy.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,37 +68,25 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;DATALIB_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\inc\datalib\DataServerStruct.h" />
-    <ClInclude Include="..\..\inc\datalib\Func.h" />
-    <ClInclude Include="..\..\inc\datalib\MarketDefine.h" />
-    <ClInclude Include="..\..\inc\datalib\MarketTask.h" />
-    <ClInclude Include="..\..\inc\datalib\Protocol.h" />
-    <ClInclude Include="..\..\inc\datalib\SearchIndex.h" />
-    <ClInclude Include="..\..\inc\datalib\SimpleMath.h" />
-    <ClInclude Include="..\..\inc\datalib\StateTask.h" />
-    <ClInclude Include="..\..\inc\datalib\Symbol2T.h" />
-    <ClInclude Include="..\..\inc\datalib\SymbolChanger.h" />
-    <ClInclude Include="..\..\inc\datalib\SymbolInfoSet.h" />
-    <ClInclude Include="E:\its\MaDemo\include\dataserver\Array.h" />
+    <ClInclude Include="..\..\src\tickserver\AutoRun.h" />
+    <ClInclude Include="..\..\src\tickserver\CtpClient.h" />
+    <ClInclude Include="..\..\src\tickserver\TickServer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\datalib\Func.cpp" />
-    <ClCompile Include="..\..\src\datalib\MarketTask.cpp" />
-    <ClCompile Include="..\..\src\datalib\SearchIndex.cpp" />
-    <ClCompile Include="..\..\src\datalib\SimpleMath.cpp" />
-    <ClCompile Include="..\..\src\datalib\StateTask.cpp" />
-    <ClCompile Include="..\..\src\datalib\SymbolChanger.cpp" />
-    <ClCompile Include="..\..\src\datalib\SymbolInfoSet.cpp" />
+    <ClCompile Include="..\..\src\tickserver\AutoRun.cpp" />
+    <ClCompile Include="..\..\src\tickserver\CtpClient.cpp" />
+    <ClCompile Include="..\..\src\tickserver\main.cpp" />
+    <ClCompile Include="..\..\src\tickserver\TickServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

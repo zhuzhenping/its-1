@@ -462,7 +462,9 @@ void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 	order_mutex_.Lock();
 	if (order_data->order_id == 0) // ·Ïµ¥.
 	{		
-		APP_LOG(LOG_LEVEL_ERROR) << order_data->symbol.Str() << "\t" << order_data->status_msg;
+		if (!is_qry){
+			APP_LOG(LOG_LEVEL_ERROR) << order_data->symbol.Str() << "\t" << order_data->status_msg;
+		}		
 		rejected_orders_.push_back(*order_data); 
 		order_mutex_.Unlock();
 		/*if (!is_qry || (is_qry && is_last))

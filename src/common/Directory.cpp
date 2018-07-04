@@ -4,7 +4,6 @@
 #include "common/Directory.h"
 #include "common/AppLog.h"
 
-//namespace zhongan {
 
 bool Directory::IsDirExist(const std::string& dir_path)
 {

@@ -303,9 +303,10 @@ std::string OrderStatusStr(OrderStatus status)
 void Strategy::UpdateValidOrders(){
 	vector<OrderData> validOrders;
 	trade_engine_->GetValidOrder(validOrders);
-	cout<<"有效单列表：\n";
+	APP_LOG(LOG_LEVEL_INFO) << "有效单列表：";
 	for (int i=0;i<validOrders.size();++i){
-		cout<< ("委托编号:") << validOrders[i].order_id
+		APP_LOG(LOG_LEVEL_INFO)
+			<< ("委托编号:") << validOrders[i].order_id
 			<< (" 合约:") << validOrders[i].symbol.instrument
 			<< (" 买卖:") << (validOrders[i].direction == LONG_DIRECTION ? "买入" : "卖空")
 			<< (" 开平:") << OpenCloseStr(validOrders[i].open_close_flag)
@@ -314,25 +315,24 @@ void Strategy::UpdateValidOrders(){
 			<< (" 成交数量:") << validOrders[i].trade_volume
 			<< (" 委托时间:") << validOrders[i].submit_time.time.Str()
 			<< (" 状态:") << OrderStatusStr(validOrders[i].status)
-			<< (" 状态信息:") << validOrders[i].status_msg<<endl;
+			<< (" 状态信息:") << validOrders[i].status_msg;
 	}
-	cout<<"\n";
 }
 void Strategy::UpdateTrades(){
 	vector<TradeData> trades;
 	trade_engine_->GetAllTrade(trades);
-	cout<<"成交单列表：\n";
+	APP_LOG(LOG_LEVEL_INFO) <<"成交单列表：";
 	for (int i=0;i<trades.size();++i){
-		cout<< ("合约") << trades[i].symbol.instrument
+		APP_LOG(LOG_LEVEL_INFO)
+			<< ("合约") << trades[i].symbol.instrument
 			<< (" 委托编号:") << trades[i].order_id
 			<< (" 成交编号:") << trades[i].trade_id
 			<< (" 买卖:") << (trades[i].direction == LONG_DIRECTION ? "买入" : "卖空")
 			<< (" 开平:") << OpenCloseStr(trades[i].open_close_flag)
 			<< (" 成交价:") << trades[i].trade_price
 			<< (" 数量:") << trades[i].trade_volume
-			<< (" 成交时间:") << trades[i].trade_time.time.Str()<<endl;
+			<< (" 成交时间:") << trades[i].trade_time.time.Str();
 	}
-	cout<<"\n";
 }
 void Strategy::UpdatePositions(){
 	double all_profit = 0.;//总浮动盈亏.
@@ -348,26 +348,26 @@ void Strategy::UpdatePositions(){
 
 	vector<PositionData> positions;
 	trade_engine_->GetAllPosition(positions);
-	cout<<"持仓列表：\n";
+	//APP_LOG(LOG_LEVEL_INFO) <<"持仓列表：";
 	for (int i=0;i<positions.size();++i){
-		cout<< ("持仓合约:") << positions[i].symbol.instrument
-			<< (" 买卖:") << (positions[i].direction == LONG_DIRECTION ? "买入" : "卖空")
-			<< (" 总持仓:") << positions[i].open_volume
-			<< (" 昨仓:") << positions[i].yestd_volume
-			<< (" 可平:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
-			<< (" 持仓均价:") << positions[i].open_price<<endl;
+		APP_LOG(LOG_LEVEL_INFO)
+			<< ("\t") << positions[i].symbol.instrument
+			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "买入" : "卖空")
+			<< positions[i].open_volume << "手"
+			//<< (" 昨仓:") << positions[i].yestd_volume
+			//<< (" 可平:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
+			<< ("\t持仓均价:") << positions[i].open_price;
 	}
-	cout<<"\n";
 }
 // OnOrder OnTrade
 void Strategy::OnTradeEvent(TradeEventData& event){
 	if (event.type == TradeEventData::ACCOUNT_EVENT) {
-		UpdateAccount();
+		//UpdateAccount();
 		return;
 	}
 	else if (event.type == TradeEventData::ORDER_EVENT)
 	{
-		UpdateValidOrders();
+		//UpdateValidOrders();
 	}
 	else if (event.type == TradeEventData::TRADE_EVENT)
 	{
@@ -388,25 +388,28 @@ void Strategy::OnTradeError(const string &err){
 
 
 void Strategy::OnTimer() {
+	PositionData long_pos;
+	trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
 	static int state_;
 	switch (state_)
 	{
 	case 0:
-		state_ = 1;
-		trade_engine_->Buy(symbol_, last_price_+10, 1);
-		APP_LOG(LOG_LEVEL_INFO) << "buy open";
+		if (long_pos.today_volume == 0) {
+			state_ = 1;
+			trade_engine_->Buy(symbol_, last_price_+10, 1);
+		}
+		
 		break;
 	case 1:
-		PositionData long_pos;
-		trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
-
-		state_ = 0;
-		trade_engine_->Sell(symbol_, last_price_ - 10, long_pos.enable_today_volume);
-		APP_LOG(LOG_LEVEL_INFO) << "sell close";
+		if (long_pos.enable_today_volume > 0){
+			state_ = 0;
+			trade_engine_->Sell(symbol_, last_price_ - 10, long_pos.enable_today_volume);
+		}
+		
 		break;
 	}
 
-	trade_engine_->QryCtpAccount();
+	//trade_engine_->QryCtpAccount();
 }
 
 
