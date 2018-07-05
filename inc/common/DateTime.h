@@ -11,7 +11,7 @@
 //namespace common {
 class XmlConfig;
 
-#define COMMON_DATA_END Date()
+#define COMMON_DATE_END Date()
 
 #pragma pack(1)
 struct COMMON_API Date 
@@ -29,8 +29,8 @@ struct COMMON_API Date
 	bool operator<=(const Date& date) const;
 	bool operator>=(const Date& date) const;
 	bool operator!=(const Date& date) const;
-	void operator--(); // 昨天
-	void operator++(); // 明天
+	void operator--(); // 昨天.
+	void operator++(); // 明天.
 
 	std::string Str() const;
 	std::string FolderStr() const;
@@ -38,9 +38,9 @@ struct COMMON_API Date
 	bool IsValid() const;
 	bool IsHoliday(XmlConfig* config = NULL) const;
 	bool IsTradingDay(XmlConfig* config = NULL) const;
-	Date PreTradingDay(XmlConfig* config = NULL) const; //上一交易日
+	Date PreTradingDay(XmlConfig* config = NULL) const; //上一交易日.
 	Date NextTradingDay(XmlConfig* config = NULL) const;
-	int WeekDay() const; //星期日为7
+	int WeekDay() const; //星期日为7.
 
 	void AddDays(int day);
 	int operator-(const Date& date);
@@ -78,7 +78,7 @@ struct COMMON_API DateTime
 	Time time;
 
 	DateTime() : date(), time() {}
-	DateTime(void* p);  //获取当前时间
+	DateTime(void* p);  //获取当前时间.
 	DateTime(const Date& d, const Time& t) : date(d), time(t) {}
 
 	DateTime(const DateTime& date_time) :date(date_time.date), time(date_time.time) {}
@@ -109,8 +109,10 @@ struct COMMON_API DateTime
 	DateTime& operator*(const DateTime& date_time) { return *this; }
 	DateTime& operator/(const DateTime& date_time) { return *this; }
 
-	//返回当前时间所在的交易日
+	//返回当前时间所在的交易日.
 	static Date CurrentTradingDay(DateTime time = DateTime(NULL));
+	// 从此刻到下一分钟的毫秒数.
+	static double ToNextMin();
 };
 
 //COMMON_API DateTime operator+(const DateTime& t1, const Time& t2);

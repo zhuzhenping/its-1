@@ -30,7 +30,7 @@
     <ClCompile Include="..\..\src\server\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\server\DataService.cpp">
+    <ClCompile Include="..\..\src\server\DataWriter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="..\..\src\server\CtpClient.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\server\DataService.h">
+    <ClInclude Include="..\..\src\server\DataWriter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

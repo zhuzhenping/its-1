@@ -22,24 +22,8 @@ SymbolChineseName::SymbolChineseName()
 	{
 		name_dict_[nodes[i].GetValue("Product")] = nodes[i].GetValue("Name");
 	}
-
-	/*std::string its_home = Global::Instance()->its_home;
-	std::string conf_path = its_home + "/data/FutureChiName.ini";
-	settings_ = new QSettings(conf_path.c_str(), QSettings::IniFormat);
-	settings_->setIniCodec("UTF-8");
-
-	conf_path = its_home + "/cfg/ChineseName.xml";	
-	XmlConfig xml_config(conf_path);
-	xml_config.Load();
-	XmlNodeVec nodes = xml_config.FindChileren("ChiName", "Node");
-	QString key = "ChiName/";
-	for (int i=0; i < nodes.size(); ++i)
-	{
-		
-		settings_->setValue(key + nodes[i].GetValue("Product").c_str(), nodes[i].GetValue("Name").c_str());
-	}*/
-
 }
+
 std::string SymbolChineseName::ChiName(const std::string& inst, const std::string& name)
 {
 	std::string eng_name = PrefixStr(inst);

@@ -140,13 +140,13 @@ struct KlineExt1 : public Kline
 };
 
 //期货、期权K线数据.
-struct KlineExt2 : public KlineExt1
+struct FutureKline : public KlineExt1
 {
 	VolumeType open_interest;
 	PriceType pre_settle_price;
 	VolumeType pre_open_interest;
 
-	KlineExt2() : KlineExt1(), open_interest(), pre_settle_price(), pre_open_interest() {}
+	FutureKline() : KlineExt1(), open_interest(), pre_settle_price(), pre_open_interest() {}
 	void clear() { KlineExt1::clear(); open_interest = 0; pre_settle_price = 0; pre_open_interest = 0; }
 };
 

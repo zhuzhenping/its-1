@@ -4,7 +4,7 @@
 
 #include "network/TcpServer.h"
 #include "datalib/Protocol.h"
-#include "DataService.h"
+//#include "DataService.h"
 
 class Server : public TcpServerConnSpi, public SocketReaderSpi
 {

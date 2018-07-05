@@ -101,7 +101,7 @@ struct RunKlineRequt : public ProtocolHead {
 
 struct RunKlineRsp{
 	KlineInfo kline_info;
-	KlineExt2 kline;
+	FutureKline kline;
 };
 struct HisDataRequt : public ProtocolHead, public HisDataParam {
 	int req_id;		//客户端请求id

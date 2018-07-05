@@ -84,6 +84,7 @@
     <ClInclude Include="..\..\inc\datalib\MarketDefine.h" />
     <ClInclude Include="..\..\inc\datalib\MarketTask.h" />
     <ClInclude Include="..\..\inc\datalib\Protocol.h" />
+    <ClInclude Include="..\..\inc\datalib\ReadWriteDataFile.h" />
     <ClInclude Include="..\..\inc\datalib\SearchIndex.h" />
     <ClInclude Include="..\..\inc\datalib\SimpleMath.h" />
     <ClInclude Include="..\..\inc\datalib\StateTask.h" />
@@ -95,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\datalib\Func.cpp" />
     <ClCompile Include="..\..\src\datalib\MarketTask.cpp" />
+    <ClCompile Include="..\..\src\datalib\ReadWriteDataFile.cpp" />
     <ClCompile Include="..\..\src\datalib\SearchIndex.cpp" />
     <ClCompile Include="..\..\src\datalib\SimpleMath.cpp" />
     <ClCompile Include="..\..\src\datalib\StateTask.cpp" />

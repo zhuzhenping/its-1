@@ -508,3 +508,11 @@ Date DateTime::CurrentTradingDay(DateTime time)
 	return time.date.NextTradingDay();
 }
 
+double DateTime::ToNextMin() {
+	DateTime now(NULL);
+	Time next = now.time;
+	next.sec = 0;
+	next.milsec = 0;
+	next.AddMin(1);
+	return ((next-now.time)*1000);
+}

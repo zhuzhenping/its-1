@@ -8,7 +8,7 @@
 #include "common/AppLog.h"
 #include "ctp/MarketDataApi.h"
 #include "datalib/DataServerStruct.h"
-#include "DataService.h"
+//#include "DataService.h"
 
 //namespace itstation {
 

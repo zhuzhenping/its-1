@@ -13,17 +13,17 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\server\AutoRun.cpp" />
     <ClCompile Include="..\..\src\server\CtpClient.cpp" />
+    <ClCompile Include="..\..\src\server\DataWriter.cpp" />
     <ClCompile Include="..\..\src\server\main.cpp" />
     <ClCompile Include="..\..\src\server\MySecurityInfoSpi.cpp" />
     <ClCompile Include="..\..\src\server\Server.cpp" />
-    <ClCompile Include="..\..\src\server\DataService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\server\AutoRun.h" />
     <ClInclude Include="..\..\src\server\CtpClient.h" />
+    <ClInclude Include="..\..\src\server\DataWriter.h" />
     <ClInclude Include="..\..\src\server\MySecurityInfoSpi.h" />
     <ClInclude Include="..\..\src\server\Server.h" />
-    <ClInclude Include="..\..\src\server\DataService.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF0B1E17-5592-4E65-90A9-8708D0B7C6A8}</ProjectGuid>
