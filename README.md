@@ -45,16 +45,21 @@ prj： 工程文件和Makefile,以及vs2010的solution
 
 src： 代码源文件
 
-# 功能模块简介
+# dll模块
 common: log、datetime、queue、thread等基础元素
-
-datalib: 定义tick、kline、order、trade、position等
 
 network: 基于boost asio的tcp通讯库
 
+datalib: 定义tick、kline、order、trade、position等
+
 ctp: 期货的(行情+交易)的接口
 
-accout: 资金结算模块
+accout: 资金结算、行情数据整合
 
-strategy： 交易策略，tick驱动的追逐趋势的快速交易
+strategy： 交易策略，tick驱动的、结合分钟K线的追逐趋势的快速交易
+
+# exe模块
+main： 客户端，执行strategy
+
+server：收集tick、撮合K线，数据落地&推给客户端使用
 
