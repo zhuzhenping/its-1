@@ -4,8 +4,8 @@
 #include "common/SpendTime.h"
 #include "common/Directory.h"
 #include "datalib/SymbolChanger.h"
-#include "DataLib/SymbolInfoSet.h"
-#include "DataLib/ReadWriteDataFile.h"
+#include "datalib/SymbolInfoSet.h"
+#include "datalib/ReadWriteDataFile.h"
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
 #include <QtCore/QDate>

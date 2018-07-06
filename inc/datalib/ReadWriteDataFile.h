@@ -5,8 +5,8 @@
 #include <deque>
 #include <QtCore/QFile>
 #include "common/Global.h"
-#include "DataLib/DataServerStruct.h"
-#include "DataLib/Protocol.h"
+#include "datalib/DataServerStruct.h"
+#include "datalib/Protocol.h"
 #include "common/ExceptionErr.h"
 #include "common/AppLog.h"
 

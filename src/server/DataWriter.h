@@ -4,8 +4,8 @@
 #include <deque>
 #include <iostream>
 #include "common/SpinLock.h"
-#include "DataLib/SearchIndex.h"
-#include "DataLib/Symbol2T.h"
+#include "datalib/SearchIndex.h"
+#include "datalib/Symbol2T.h"
 #include "network/Timer.h"
 
 class DataObj : public TimerSpi
