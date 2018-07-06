@@ -24,7 +24,7 @@ protected:
 	int task_id_; //非负数  状态信息.
 };
 
-class DATALIB_API StateTaskManager
+class StateTaskManager
 {
 public:
 	StateTaskManager();

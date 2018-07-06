@@ -10,7 +10,7 @@
 class ReConnSpi
 {
 public:
-	//网络第一次连接。 如果网络断开，则success为false
+	//try to connect, but if connect fail, success==false
 	virtual void SockConn(bool success) = 0;
 	//网络断开
 	virtual void SockDisconn() = 0;

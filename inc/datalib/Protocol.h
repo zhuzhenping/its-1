@@ -6,17 +6,22 @@
 //namespace itstation {
 
 #define REQ_HIS_DATA '0'
-#define REQ_HIS_DATA2 '1' //采用最新的K线压缩算法
-#define REQ_RUN_TICK '2'
+#define REQ_HIS_DATA2 '1' //采用最新的K线压缩算法.
+#define REQ_RUN_DATA '2' // request tick and kline
 #define REQ_LOGIN '3'
 #define REQ_RUN_KLINE '4'
 
 #define RSP_LOGIN 'a'
 #define RSP_HIS_DATA 'b'
-#define RSP_HIS_DATA2 'c' //采用最新的K线压缩算法
+#define RSP_HIS_DATA2 'c' //采用最新的K线压缩算法.
 #define RSP_STRATEGY_DEBUG 'd'
 #define STRATEGY_PRINT_MSG 'e'
 #define STRATEGY_EXIT_MSG 'f'
+// RSP DATA
+#define RSP_RUN_TICK 'g'
+#define RSP_RUN_KLINE 'h'
+#define RSP_HIS_TICK 'i'
+#define RSP_HIS_KLINE 'j'
 
 #define FUTURE_INFO_PACKAGE 'A'
 #define STOCK_INFO_PACKAGE 'B'
@@ -26,11 +31,11 @@
 #define OPTION_INFO_PACKAGE 'F'
 typedef char ClientRequestType;
 
-#define COUNT_MOD_ALL '0'	//所有K线,只支持日线及以上级别
-#define COUNT_MOD_IN_NUMBER '1'	//按K线数量计数。一般用于实盘，直接向服务端请求K线，与缓存模式无关，与tick无关
-#define COUNT_MOD_TIME_RANGE '2'	//按时间范围计数
-#define COUNT_MOD_NONE '3'		//只订阅TICK，不请求K线
-typedef char KlineCountMode;	//K线计数方式
+#define COUNT_MOD_ALL '0'	//所有K线,只支持日线及以上级别.
+#define COUNT_MOD_IN_NUMBER '1'	//按K线数量计数。一般用于实盘，直接向服务端请求K线，与缓存模式无关，与tick无关.
+#define COUNT_MOD_TIME_RANGE '2'	//按时间范围计数.
+#define COUNT_MOD_NONE '3'		//只订阅TICK，不请求K线.
+typedef char KlineCountMode;	//K线计数方式.
 
 #define HIS_STOCK_TICK		'1'
 #define HIS_FUTURE_TICK		'2'
@@ -39,7 +44,7 @@ typedef char KlineCountMode;	//K线计数方式
 #define HIS_SPOT_TICK		'5'
 #define HIS_KLINE_EXT_1		'6'
 #define HIS_KLINE_EXT_2		'7'
-#define HIS_OPTION_TICK		'9' //后面加的
+#define HIS_OPTION_TICK		'9' //后面加的.
 typedef char HisDataType;
 
 #define SYMBOL_FOR_ALL Symbol(PRODUCT_STOCK, EXCHANGE_SSE, "999999")
@@ -57,9 +62,9 @@ struct HisDataParam {
 	DimensionType dim;
 	short dim_count;
 	KlineCountMode count_mode;
-	//表示K线根数或起止日期(例：2014101620150305)
-	//请求历史数据时，明确写结束日期为今日，服务端不发送今日未结束的K线
-	//请求实时数据时，把结束日期填为0，则收到当前交易日未结束的K线
+	//表示K线根数或起止日期(例：2014101620150305).
+	//请求历史数据时，明确写结束日期为今日，服务端不发送今日未结束的K线.
+	//请求实时数据时，把结束日期填为0，则收到当前交易日未结束的K线.
 	long long mode_data;	
 
 	HisDataParam() : symbol(Symbol()), dim(DIMENSION_MINUTE)
@@ -84,39 +89,60 @@ struct HisDataParam {
 };
 
 
-struct RunTickRequt : public ProtocolHead {
+struct RunDataReq : public ProtocolHead {
+	bool is_sub;	//true:订阅  false:取消订阅.
 	int num;
-	bool is_sub;	//true:订阅  false:取消订阅
 	Symbol symbols[0];
-	RunTickRequt() : ProtocolHead(REQ_RUN_TICK), num(0), is_sub(true) {}
+	RunDataReq() : ProtocolHead(REQ_RUN_DATA), num(0), is_sub(true) {}
 };
+
+struct RunTickRsp : public ProtocolHead {
+	FutureTick tick;
+	RunTickRsp() : ProtocolHead(RSP_RUN_TICK){}
+};
+struct RunKlineRsp : public ProtocolHead {
+	FutureKline kline;
+	RunKlineRsp() : ProtocolHead(RSP_RUN_KLINE){}
+};
+struct HisTickRsp : public ProtocolHead {
+	int num;
+	FutureTick ticks[0];
+	HisTickRsp() : ProtocolHead(RSP_HIS_TICK), num(0) {}
+};
+
+struct HisKlineRsp : public ProtocolHead {
+	int num;
+	FutureKline klines[0];
+	HisKlineRsp() : ProtocolHead(RSP_HIS_KLINE), num(0) {}
+};
+
+
+
+
 
 
 struct RunKlineRequt : public ProtocolHead {
 	int num;
-	bool is_sub;	//true:订阅  false:取消订阅
+	bool is_sub;	//true:订阅  false:取消订阅.
 	KlineInfo kline_infos[0];
 	RunKlineRequt() : ProtocolHead(REQ_RUN_KLINE), num(0), is_sub(true) {}
 };
 
-struct RunKlineRsp{
-	KlineInfo kline_info;
-	FutureKline kline;
-};
+
 struct HisDataRequt : public ProtocolHead, public HisDataParam {
-	int req_id;		//客户端请求id
-	bool cache_mode; //是否使用缓存模式
+	int req_id;		//客户端请求id.
+	bool cache_mode; //是否使用缓存模式.
 	HisDataRequt() : ProtocolHead(REQ_HIS_DATA), HisDataParam(), cache_mode(false) {}
 };
 
 struct HisDataResponse : public ProtocolHead {
-	int req_id;		//客户端请求id
-	bool cache_mode;  //是否使用缓存模式
-	int actual_end_date;//实际结束日期
+	int req_id;		//客户端请求id.
+	bool cache_mode;  //是否使用缓存模式.
+	int actual_end_date;//实际结束日期.
 	bool is_last;
 	HisDataType data_type;
-	int trading_day; //tick分包发送时，表示数据的交易日
-	int data_len; //长度为0表示请求的交易日没有数据
+	int trading_day; //tick分包发送时，表示数据的交易日.
+	int data_len; //长度为0表示请求的交易日没有数据.
 	char data[0];
 	HisDataResponse() : ProtocolHead(RSP_HIS_DATA) {}
 };
@@ -166,14 +192,14 @@ struct OptionInfoPackage : public ProtocolHead {
 
 
 struct StrategyDebugResponse : public ProtocolHead {
-	int unit_id; //策略id，启动成功后返回
-	bool secced; //是否成功
-	char error_msg[128]; //错误信息
+	int unit_id; //策略id，启动成功后返回.
+	bool secced; //是否成功.
+	char error_msg[128]; //错误信息.
 	StrategyDebugResponse() : ProtocolHead(RSP_STRATEGY_DEBUG) {}
 };
 
 struct StrategyExitMsg : public ProtocolHead {
-	int unit_id; //策略id
+	int unit_id; //策略id.
 	StrategyExitMsg() : ProtocolHead(STRATEGY_EXIT_MSG) {}
 };
 

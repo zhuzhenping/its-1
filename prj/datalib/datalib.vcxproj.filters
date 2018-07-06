@@ -33,15 +33,6 @@
     <ClInclude Include="..\..\inc\datalib\Func.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="E:\its\MaDemo\include\dataserver\Array.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\inc\datalib\StateTask.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\inc\datalib\MarketTask.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\inc\datalib\Symbol2T.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -52,6 +43,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\inc\datalib\ReadWriteDataFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\datalib\Array.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -66,12 +60,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\datalib\Func.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\datalib\StateTask.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\datalib\MarketTask.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\datalib\SearchIndex.cpp">

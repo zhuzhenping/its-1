@@ -8,6 +8,7 @@
 #include <sstream>
 #include "datalib/MarketDefine.h"
 #include "common/SimpleDateTime.h"
+#include "datalib/Array.h"
 
 //namespace itstation {
 
@@ -110,10 +111,12 @@ struct KlineInfo
 	Symbol symbol;
 	DimensionType dimension;
 	unsigned short dimen_cnt;
+
+	KlineInfo() : dimension(DIMENSION_MINUTE), dimen_cnt(1) {}
 };
 
 //K线数据.
-struct Kline 
+struct Kline : public KlineInfo
 {
 	SimpleDateTime b_time;
 	SimpleDateTime e_time;
@@ -148,6 +151,16 @@ struct FutureKline : public KlineExt1
 
 	FutureKline() : KlineExt1(), open_interest(), pre_settle_price(), pre_open_interest() {}
 	void clear() { KlineExt1::clear(); open_interest = 0; pre_settle_price = 0; pre_open_interest = 0; }
+};
+
+
+typedef Array<FutureTick> TickSeries;
+typedef Array<FutureKline> KlineSeries;
+
+//tick、kline union for strategy
+struct Bars {
+	FutureTick tick;
+	KlineSeries klines;
 };
 
 //股票财务数据.

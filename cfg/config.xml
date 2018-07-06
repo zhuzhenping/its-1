@@ -16,13 +16,16 @@
   </CtpTradeAccount>
 
   <DataServer>
-	<broker_id>9999</broker_id>
-	<ctp_address>
-		<Address IP="tcp://180.168.146.187:10031" />
-		<Address IP="tcp://180.168.146.187:10010" />
-		<Address IP="tcp://180.168.146.187:10011" />
-	</ctp_address>
-	<tick_port>1234</tick_port>
+	  <broker_id>9999</broker_id>
+	  <ctp_address>
+		  <Address IP="tcp://180.168.146.187:10031" />
+		  <Address IP="tcp://180.168.146.187:10010" />
+		  <Address IP="tcp://180.168.146.187:10011" />
+	  </ctp_address>
+    <my_address>
+      <Address IP="127.0.01" />
+    </my_address>
+	  <port>1234</port>
   </DataServer>
   
   <CtpTradeAccount_ACTUAL>
@@ -33,19 +36,18 @@
   </CtpTradeAccount_ACTUAL>
   
   <DataServer_ACTUAL>
-	<broker_id>66666</broker_id>
-	<ctp_address>
-		<Address IP="tcp://180.169.101.177:41213" />
-		<Address IP="tcp://123.124.247.8:41213" />
-		<Address IP="tcp://27.115.78.193:41213" />
-		<Address IP="tcp://180.169.101.178:41213" />
-	</ctp_address>
+	  <broker_id>66666</broker_id>
+	  <ctp_address>
+		  <Address IP="tcp://180.169.101.177:41213" />
+		  <Address IP="tcp://123.124.247.8:41213" />
+		  <Address IP="tcp://27.115.78.193:41213" />
+		  <Address IP="tcp://180.169.101.178:41213" />
+	  </ctp_address>
 	
-	<my_address>
-		<Address IP="121.43.232.206" />
-	</my_address>
-	<tick_port>3335</tick_port>
-	<kline_port>3333</kline_port>
+	  <my_address>
+		  <Address IP="127.0.0.1" />
+	  </my_address>
+	  <port>3335</port>
   </DataServer_ACTUAL>
   
   

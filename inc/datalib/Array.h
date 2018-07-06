@@ -1,8 +1,8 @@
 ﻿#ifndef ITSTATION_DATASERVER_ARRAY_H_
 #define ITSTATION_DATASERVER_ARRAY_H_
 
-#include "datalib/DataServerStruct.h"
 #include "common/SpinLock.h"
+#include "common/DateTime.h"
 #include <assert.h>
 #include <exception>
 #include <stdexcept>
@@ -175,6 +175,5 @@ template <typename T> T Array<T>::ZERO_ = T();
 
 typedef Array<double> NumericSeries;
 typedef Array<DateTime> DateTimeSeries;
-
 
 #endif

@@ -11,10 +11,10 @@
 class DataEventSpi {
 public:
 	virtual void OnTick(FutureTick *) = 0;
-	virtual void OnKline(Kline *) = 0;
 };
 
-class ACCOUNT_API DataEngine : public MarketDataSpi
+//this class is not be used !
+class DataEngine : public MarketDataSpi
 {
 public:
 	static DataEngine *Instance();

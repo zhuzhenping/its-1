@@ -18,9 +18,6 @@
     <ClCompile Include="..\..\src\server\MySecurityInfoSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\server\Server.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\server\AutoRun.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\server\MySecurityInfoSpi.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\server\Server.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\server\AutoRun.h">

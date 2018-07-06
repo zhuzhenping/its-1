@@ -16,8 +16,8 @@ Strategy::Strategy()
 	trade_engine_ = TradeEngine::Instance();
 	trade_engine_->SetSpi(this, this);	
 
-	data_engine_ = DataEngine::Instance();
-	data_engine_->SetSpi(this);
+	//data_engine_ = DataEngine::Instance();
+	//data_engine_->SetSpi(this);
 }
 
 Strategy::~Strategy()
@@ -69,9 +69,9 @@ bool Strategy::Init(string &err){
 		APP_LOG(LOG_LEVEL_ERROR) << err;
 		return false;
 	}
-	if (!data_engine_->Init("rb1810")) {
+	/*if (!data_engine_->Init("rb1810")) {
 		return false;
-	}
+	}*/
 	
 	return true;
 }
@@ -419,6 +419,7 @@ void Strategy::OnTimer() {
 
 
 // OnTick
+/*
 void Strategy::OnTick(FutureTick *tick){
 	last_price_ = tick->last_price;
 	//APP_LOG(LOG_LEVEL_INFO) << tick->symbol.Str() << "\t" << tick->last_price;
@@ -443,7 +444,7 @@ void Strategy::OnTick(FutureTick *tick){
 				}
 			}
 		}
-	}
+	}*/
 
 	/*
 	std::vector<OrderData> orders;
@@ -472,9 +473,5 @@ void Strategy::OnTick(FutureTick *tick){
 		}
 	}
 	*/
-}
 
 
-void Strategy::OnKline(Kline *kline) {
-
-}

@@ -1,7 +1,7 @@
 ﻿#ifndef ITS_STRATEGY_MARKET_TASK_H_
 #define ITS_STRATEGY_MARKET_TASK_H_
 
-#include "datalib/StateTask.h"
+#include "network/StateTask.h"
 #include "network/Timer.h"
 #include "common/DateTime.h"
 
@@ -20,7 +20,7 @@
 #define NIGHT_OPEN_ID	3
 #define NIGHT_CLOSE_ID	4
 
-class DATALIB_API TimedStateTaskManager : public StateTaskManager, public TimerSpi
+class NETWORK_API TimedStateTaskManager : public StateTaskManager, public TimerSpi
 {
 public:
 	friend class NonTradingTask; 

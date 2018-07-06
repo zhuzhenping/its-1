@@ -58,7 +58,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)../lib/$(Configuration)\datalib.lib</ImportLibrary>
       <AdditionalLibraryDirectories>$(SolutionDir)../lib/$(Configuration);$(SolutionDir)../lib/boost;$(SolutionDir)../lib/qt;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;network.lib;</AdditionalDependencies>
+      <AdditionalDependencies>QtCore4.lib;QtXml4.lib;common.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,27 +79,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\inc\datalib\Array.h" />
     <ClInclude Include="..\..\inc\datalib\DataServerStruct.h" />
     <ClInclude Include="..\..\inc\datalib\Func.h" />
     <ClInclude Include="..\..\inc\datalib\MarketDefine.h" />
-    <ClInclude Include="..\..\inc\datalib\MarketTask.h" />
     <ClInclude Include="..\..\inc\datalib\Protocol.h" />
     <ClInclude Include="..\..\inc\datalib\ReadWriteDataFile.h" />
     <ClInclude Include="..\..\inc\datalib\SearchIndex.h" />
     <ClInclude Include="..\..\inc\datalib\SimpleMath.h" />
-    <ClInclude Include="..\..\inc\datalib\StateTask.h" />
     <ClInclude Include="..\..\inc\datalib\Symbol2T.h" />
     <ClInclude Include="..\..\inc\datalib\SymbolChanger.h" />
     <ClInclude Include="..\..\inc\datalib\SymbolInfoSet.h" />
-    <ClInclude Include="E:\its\MaDemo\include\dataserver\Array.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\datalib\Func.cpp" />
-    <ClCompile Include="..\..\src\datalib\MarketTask.cpp" />
     <ClCompile Include="..\..\src\datalib\ReadWriteDataFile.cpp" />
     <ClCompile Include="..\..\src\datalib\SearchIndex.cpp" />
     <ClCompile Include="..\..\src\datalib\SimpleMath.cpp" />
-    <ClCompile Include="..\..\src\datalib\StateTask.cpp" />
     <ClCompile Include="..\..\src\datalib\SymbolChanger.cpp" />
     <ClCompile Include="..\..\src\datalib\SymbolInfoSet.cpp" />
   </ItemGroup>
