@@ -1,5 +1,6 @@
 #include "datalib/Func.h"
 #include <stdlib.h>
+#include <math.h>
 #ifndef WIN32
 #include <algorithm>
 using namespace std;
