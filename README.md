@@ -1,5 +1,5 @@
 # linux/win上运行的tick驱动的期货自动交易程序
-> 作者 吴典@上海  手机/微信（18621528717）
+> 作者 吴典@上海  Phone/Vx（18621528717）
 
 # 环境(qt和boost无需安装，工程已自带)
 qt4.8.6
@@ -48,13 +48,13 @@ src： 代码源文件
 # dll模块
 common: log、datetime、queue、thread等基础元素
 
-network: 基于boost asio的tcp通讯库
+network: 基于boost asio的tcp通讯库、定时器、开盘收盘自动操作等
 
 datalib: 定义tick、kline、order、trade、position等
 
 ctp: 期货的(行情+交易)的接口
 
-accout: 资金结算、行情数据整合
+accout: 资金结算
 
 strategy： 交易策略，tick驱动的、结合分钟K线的追逐趋势的快速交易
 
