@@ -12,4 +12,4 @@ echo "export its=/home/wd/its">>~/.bashrc
 echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${its}/lib/qt:${its}/lib/ctp:${its}/lib/Debug:${its}/lib/Release">>~/.bashrc
 
 echo "[credential]
-        helper = store">>${its}/.git/config
+        helper = store">>.git/config
