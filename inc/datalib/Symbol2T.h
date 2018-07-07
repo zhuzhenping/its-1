@@ -12,9 +12,11 @@ template<class T>
 class Symbol2T
 {
 public:
+/*
 #ifndef EachHandle
 	typedef  void (*EachHandle)(T* data, void* user_data);
 #endif
+*/
 
 	Symbol2T() 
 	{
@@ -48,14 +50,14 @@ public:
 		return data_[i];
 	}
 
-	void ForEach(EachHandle hdl, void* user_data = NULL)
+	/*void ForEach(EachHandle hdl, void* user_data = NULL)
 	{
 		for (int i=0; i<size_; ++i)
 		{
 			if (NULL == data_[i]) { continue; }
 			hdl(data_[i], user_data);			
 		}
-	}
+	}*/
 
 	void Clear()
 	{

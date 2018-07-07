@@ -23,7 +23,7 @@ AutoRun::~AutoRun(void)
 	delete instrument_table_;
 }
 
-void AutoRun::StartUp()
+void AutoRun::Init()
 {
 	/*std::string err;
 	if (!ctp_client_->InitTcp(err))
@@ -39,7 +39,7 @@ void AutoRun::StartUp()
 bool AutoRun::DoDayOpen(){
 	APP_LOG(LOG_LEVEL_INFO) << "DoDayOpen";
 	string err;
-	if (!ctp_client_->StartUp(true, err))
+	if (!ctp_client_->Init(true, err))
 	{
 		APP_LOG(LOG_LEVEL_ERROR)<<"DoDayOpen fail:"<<err;
 		return false;
@@ -50,7 +50,7 @@ bool AutoRun::DoDayOpen(){
 bool AutoRun::DoDayClose(){
 	if (NULL != ctp_client_)
 	{
-		ctp_client_->DoAfterMarket(true);
+		ctp_client_->Denit();
 		APP_LOG(LOG_LEVEL_INFO) << "DoDayClose";
 	}
 	return true;
@@ -64,7 +64,7 @@ bool AutoRun::DoNightOpen(){
 		APP_LOG(LOG_LEVEL_ERROR)<<"get instrument_table_  fail";
 	}
 
-	if (!ctp_client_->StartUp(false, err))
+	if (!ctp_client_->Init(false, err))
 	{
 		APP_LOG(LOG_LEVEL_ERROR)<<"DoNightOpen fail:"<<err;
 		return false;
@@ -75,7 +75,7 @@ bool AutoRun::DoNightOpen(){
 bool AutoRun::DoNightClose(){
 	if (NULL != ctp_client_)
 	{
-		ctp_client_->DoAfterMarket(false);
+		ctp_client_->Denit();
 		APP_LOG(LOG_LEVEL_INFO)<<"DoNightClose";
 	}
 	return true;

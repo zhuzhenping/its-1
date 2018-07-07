@@ -4,6 +4,7 @@
 //#include "dataserver/DataApiDefine.h"
 #include "account/TradeEngine.h"
 //#include "account/DataEngine.h"
+#include "network/Client.h"
 #include "network/Timer.h"
 //#include "ctp/MarketDataApi.h"
 //#include "IndexLib/iMA.h"
@@ -11,13 +12,14 @@
 
 using namespace std;
 
-class STRATEGY_API Strategy : public TradeEventSpi, public TradeErrorSpi, public TimerSpi//, public DataEventSpi
+class STRATEGY_API Strategy : public TradeEventSpi, public TradeErrorSpi, public TimerSpi, public ClientSpi//, public DataEventSpi
 {
 public:
 	Strategy();
 	virtual ~Strategy();
 	
 	bool Init(string &);
+	void Denit();
 
 private:
 	/*
@@ -32,6 +34,8 @@ private:
 	*/
 
 	virtual void OnTimer();
+	virtual void OnData(Bars *);
+	virtual void OnError(const string &);
 
 	// OnOrder OnTrade
 	virtual void OnTradeEvent(TradeEventData& event);
@@ -69,6 +73,7 @@ private:
 	//DataEngine *data_engine_;
 
 	TimerApi *timer_;
+	Client *client_;
 };
 
 #endif

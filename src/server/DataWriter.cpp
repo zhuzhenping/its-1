@@ -1,4 +1,8 @@
 ﻿#include "DataWriter.h"
+#include <QtCore/QStringList>
+#include <QtCore/QSettings>
+#include <QtCore/QDate>
+#include <QtCore/QFile>
 #include "common/Global.h"
 #include "common/AppLog.h"
 #include "common/SpendTime.h"
@@ -6,18 +10,16 @@
 #include "datalib/SymbolChanger.h"
 #include "datalib/SymbolInfoSet.h"
 #include "datalib/ReadWriteDataFile.h"
-#include <QtCore/QStringList>
-#include <QtCore/QSettings>
-#include <QtCore/QDate>
-#include <QtCore/QFile>
+#include "network/Server.h"
 
-
+extern Server *g_server_; // tick server and kline server
+static const int TICK_SIZE = sizeof(FutureTick);
 
 DataObj::DataObj(const Symbol& symbol, bool is_night)
 	: symbol_(symbol)
-	, cur_pos_(-1)
+	, cur_pos_(0)
 	, is_night_(is_night)
-	, tick_size_(sizeof(FutureTick))
+	, is_first_tick_(true)
 {
 	MakeDataDir();
 }
@@ -35,32 +37,55 @@ void DataObj::MakeDataDir(){
 	}
 
 	char tick_time_str[16] = {0};
-	sprintf(tick_time_str, "/%04d%02d%02d/", now.date.year, now.date.month, now.date.day);
+	sprintf(tick_time_str, "%04d%02d%02d/", now.date.year, now.date.month, now.date.day);
 
-	tick_path_ = Global::Instance()->its_home + "/data/Tick/" + tick_time_str + symbol_.instrument + ".data";
-	string folder = Global::Instance()->its_home + "/data/Minute/";
+	string folder = Global::Instance()->its_home + "/data/Tick/" + tick_time_str;
 	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
+	tick_path_ = folder + symbol_.instrument + ".data";
+	folder = Global::Instance()->its_home + "/data/Minute/";
 	min_path_ = folder + symbol_.instrument + ".data";
-	folder = Global::Instance()->its_home + "/data/Day/";
+	/*folder = Global::Instance()->its_home + "/data/Day/";
 	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
-	day_path_ = folder + symbol_.instrument + ".data";
+	day_path_ = folder + symbol_.instrument + ".data";*/
 }
 
 void DataObj::PushTick(FutureTick* tick)
 {
-	FutureTick* cpy_tick = (FutureTick*)malloc(tick_size_);
-	memcpy(cpy_tick, tick, tick_size_);
+	RunTickRsp rsp;
+	rsp.tick = *tick;
+	g_server_->Send(symbol_, (char*)&rsp, sizeof(RunTickRsp));
 
-	Locker locker(&mutex_);
+	{
+		Locker lock(&kline_mutex_);
+		kline_.update(tick, is_first_tick_);
+		is_first_tick_ = false;
+	}
+
+	FutureTick* cpy_tick = (FutureTick*)malloc(TICK_SIZE);
+	memcpy(cpy_tick, tick, TICK_SIZE);
+
+	Locker locker(&ticks_mutex_);
 	ticks_[cur_pos_++] = cpy_tick;
-	if (cur_pos_ == TICK_QUEUE_LEN - 1)
+	if (cur_pos_ == TICK_QUEUE_LEN)
 	{
 		SaveTick();
+		cur_pos_ = 0;
 	}
 }
 
 void DataObj::OnTimer() {
+	
+	Locker lock(&kline_mutex_);
+	{
+		Locker locker(&min_klines_mutex_);
+		min_klines_.push_back(kline_);
+	}
+	RunKlineRsp rsp;
+	rsp.kline = kline_;
+	g_server_->Send(symbol_, (char*)&rsp, sizeof(RunKlineRsp));
 
+	kline_.clear();
+	is_first_tick_ = true;
 }
 
 void DataObj::SaveMinKline() {
@@ -91,8 +116,6 @@ void DataObj::SaveTick()
 {
 	APP_LOG_DBG<<"write tick:"<<symbol_.instrument;
 
-	Locker locker(&ticks_mutex_);
-
 	FILE* fp = fopen(tick_path_.c_str(), "ab+");
 	if (fp == NULL)
 	{
@@ -105,27 +128,31 @@ void DataObj::SaveTick()
 		return;
 	}
 
-	for (int i=0; i <= cur_pos_; ++i)
-		fwrite(ticks_[i], tick_size_, 1, fp);
+	for (int i=0; i < TICK_QUEUE_LEN; ++i)
+		fwrite(ticks_[i], TICK_SIZE, 1, fp);
 
 	fclose(fp);
 
 
-	for (int i=0; i <= cur_pos_; ++i)
+	for (int i=0; i < TICK_QUEUE_LEN; ++i)
 	{
 		free(ticks_[i]);
 		ticks_[i] = NULL;
 	}
-	cur_pos_ = -1;
 }
 
 void DataObj::DoAfterMarket()
 {
-	Locker locker(&mutex_);
-	if (min_klines_.size() == 0) { return; }
+	{
+		Locker locker(&min_klines_mutex_);
+		if (min_klines_.size() == 0) { return; }
+		SaveMinKline();
+	}
 
-	SaveMinKline();
-	SaveTick();
+	{
+		Locker locker(&ticks_mutex_);
+		SaveTick();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -134,24 +161,31 @@ DataWriter::DataWriter()
 	, is_night_(false)
 	, data_objs_(NULL)
 {
-	
 	data_objs_ = new Symbol2DataObj();
+	timer_ = new TimerApi(60000, this);
 }
 
 DataWriter::~DataWriter(void)
 {
 	//Denit();   销毁不需要执行收盘作业
 	delete data_objs_;
+	delete timer_;
 }
 
 bool DataWriter::Init(std::string& err, bool is_night)
 {
-	Locker locker(&mutex_);
+	Locker locker(&data_objs_mutex_);
 	if (is_init_) { return true; }
 	is_night_ = is_night;
 
+	string folder = Global::Instance()->its_home + "/data/Tick/"; 
+	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
+	folder = Global::Instance()->its_home + "/data/Minute/";
+	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
+
 	if (!InitContainer(err)) { return false; }
 
+	timer_->Start(DateTime::ToNextMin());
 	is_init_ = true;
 	return true;
 }
@@ -160,7 +194,7 @@ void DataWriter::Denit()
 {
 	if (!is_init_) { return; }
 	DoAfterMarket();
-
+	timer_->Stop();
 	is_init_ = false;
 }
 
@@ -209,7 +243,7 @@ DataObj* DataWriter::GetDataObj(const Symbol& sym)
 
 void DataWriter::PushTick(FutureTick* tick)
 {
-	Locker locker(&mutex_);
+	Locker locker(&data_objs_mutex_);
 	if (!is_init_) { 
 		APP_LOG(LOG_LEVEL_ERROR) << "has not init";
 		return; 
@@ -226,11 +260,20 @@ void DataWriter::PushTick(FutureTick* tick)
 	
 }
 
+void DataWriter::OnTimer() {
+	Locker locker(&data_objs_mutex_);
+	if (!is_init_) return;
+	for (int i = 0; i < data_objs_->Size(); ++i) {
+		DataObj *obj = data_objs_->Data(i);
+		if (obj) obj->OnTimer();
+	}
+}
+
 /*
 template<class T>
 void DataWriter::GetTodayDatas(const Symbol& sym, std::deque<T>& result)
 {
-	Locker locker(&mutex_);
+	Locker locker(&data_objs_mutex_);
 	if (!is_init_) { 
 		APP_LOG(LOG_LEVEL_ERROR) << "has not init";
 		return; 
@@ -245,18 +288,22 @@ void DataWriter::GetTodayDatas(const Symbol& sym, std::deque<T>& result)
 	obj->GetTodayDatas(result);
 }*/
 
+/*
 void WriteKline(DataObj* obj, void* rh)
 {
 	DataWriter* data_file = (DataWriter*)rh;
 	if (NULL == data_file) { return; }
 
 	obj->DoAfterMarket();
-}
+}*/
 
 void DataWriter::DoAfterMarket()
 {
-	Locker locker(&mutex_);
-	data_objs_->ForEach(WriteKline, this);
+	Locker locker(&data_objs_mutex_);
+	for (int i = 0; i < data_objs_->Size(); ++i) {
+		data_objs_->Data(i)->DoAfterMarket();
+	}
+	//data_objs_->ForEach(WriteKline, this);
 	
 
 	if (!is_night_)

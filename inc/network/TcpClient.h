@@ -24,9 +24,9 @@ public:
 	TcpClient(const char *ip, const char *port, SocketReaderSpi* read_spi = NULL, ReConnSpi* re_conn_spi = NULL);
 	virtual ~TcpClient(void);
 
-	// 全部异步的方式
-	void StartUp();
-	void TearDown();
+	// all in asyn
+	void Init();
+	void Denit();
 	void Send(const char* buf, int len);
 
 private:

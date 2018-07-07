@@ -29,11 +29,8 @@ int main(int argc,char* argv[])
 	//get_table();
 	//boost::thread thrd2(&get_data);
 	//MyTimerSpi spi;
-	/*Strategy *strategy = new Strategy();
-	strategy->Init(err);*/
-
-	MyTimerSpi spi;
-	spi.api->Start(DateTime::ToNextMin());
+	Strategy *strategy = new Strategy();
+	strategy->Init(err);
 
 
 	return app.exec();

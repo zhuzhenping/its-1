@@ -24,7 +24,7 @@ struct BaseTick/* : CommDataHead.*/
 	SimpleDateTime date_time;			
 	PriceType last_price;
 	VolumeType volume;	//当天的总成交量.
-	double amount;		//当天的总成交额.
+	PriceType amount;		//当天的总成交额.
 	//为了行情体系的简单，添加以下字段.
 	PriceType pre_close;
 	PriceType today_open;
@@ -67,6 +67,11 @@ struct FutureTick : public BaseTick
 	PriceType bid_price;	
 	VolumeType ask_volume;
 	VolumeType bid_volume;	
+	std::string Str() const {
+		char tmp[256] = {0};
+		sprintf(tmp, "%s,%s,%g,%d", symbol.Str().c_str(), date_time.Str().c_str(), last_price, volume);
+		return tmp;
+	}
 };
 
 //期权Tick数据.
@@ -125,7 +130,8 @@ struct Kline : public KlineInfo
 	PriceType low;
 	PriceType close;
 	//PriceType volume; 
-	VolumeType volume;
+	VolumeType volume; // last tick volume - first tick volume
+	VolumeType sum_volume; // last tick volue
 	
 	Kline() : open(), high(), low(), close(), volume(), b_time(), e_time() {}
 	void clear() { open = 0; high = 0; low = 0; close = 0; volume = 0; }
@@ -151,6 +157,43 @@ struct FutureKline : public KlineExt1
 
 	FutureKline() : KlineExt1(), open_interest(), pre_settle_price(), pre_open_interest() {}
 	void clear() { KlineExt1::clear(); open_interest = 0; pre_settle_price = 0; pre_open_interest = 0; }
+	void update(FutureTick *tick, bool first/*first tick in 1 min*/) {
+		if (first) {
+			symbol = tick->symbol;
+			SimpleDateTime dt(time(NULL));
+			dt.time.sec = dt.time.mil_sec = 0;
+			b_time = dt;
+			dt.time.AddMin(1);
+			e_time = dt;
+			open = tick->last_price;
+			high = tick->last_price;
+			low = tick->last_price;
+			close = tick->last_price;
+			volume = 0;
+			sum_volume = tick->volume;
+			amount = tick->amount;
+			pre_close = tick->pre_close;
+			up_limit = tick->up_limit;
+			drop_limit = tick->drop_limit;
+			open_interest = tick->open_interest;
+			pre_settle_price = tick->pre_settlement;
+			pre_open_interest = tick->pre_open_interest;
+		} else {
+			if (tick->last_price > high) high = tick->last_price;
+			if (tick->last_price < low) low = tick->last_price;
+			close = tick->last_price;
+			volume += (tick->volume - sum_volume);
+			sum_volume = tick->volume;
+			amount = tick->amount;
+			open_interest = tick->open_interest;
+		}
+	}
+	std::string Str() const {
+		char tmp[256] = {0};
+		sprintf(tmp, "%s,%s-%s,%g,%g,%g,%g,%d", symbol.Str().c_str(), b_time.Str().c_str(), e_time.Str().c_str(), 
+			open, high, low, close, volume);
+		return tmp;
+	}
 };
 
 

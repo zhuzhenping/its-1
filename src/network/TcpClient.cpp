@@ -12,28 +12,26 @@ TcpClient::TcpClient(const char *ip, const char* port, SocketReaderSpi* read_spi
 	, query_(tcp::v4(), ip, port)
 	, first_connect_(true)
 {
-	Start();
+	Thread::Start();
 
 	endpoint_iterator = resolver_.resolve(query_);
-	
+	new_session_ = new TcpSession(io_service_, read_spi_, this);
 }
 
 TcpClient::~TcpClient(void){
-	Stop();
+	Thread::Stop();
+	Thread::Join();
 	delete new_session_;
 	io_service_.stop();
 }
 
 
-void TcpClient::StartUp(){
-	new_session_ = new TcpSession(io_service_, read_spi_, this);
-	
+void TcpClient::Init(){	
 	boost::asio::async_connect(new_session_->socket(), endpoint_iterator, 
 		boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
-	
 }
 
-void TcpClient::TearDown(){
+void TcpClient::Denit(){
 	Stop();
 	new_session_->socket().close();
 	/*delete new_session_;
@@ -73,7 +71,7 @@ void TcpClient::Send(const char* buf, int len){
 void TcpClient::OnDisconnect(TcpSession *tcp_sock){
 	if (re_conn_spi_)re_conn_spi_->SockDisconn();
 	
-	StartUp();
+	Init();
 }
 
 void TcpClient::OnRun()

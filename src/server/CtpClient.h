@@ -8,7 +8,7 @@
 #include "common/AppLog.h"
 #include "ctp/MarketDataApi.h"
 #include "datalib/DataServerStruct.h"
-//#include "DataService.h"
+#include "DataWriter.h"
 
 //namespace itstation {
 
@@ -18,11 +18,9 @@ public:
 	CtpClient();
 	~CtpClient(void);
 
-	bool StartUp(bool is_day, std::string& err);
+	bool Init(bool is_day, std::string& err);
 
-	//bool InitTcp(std::string& err);
-
-	void DoAfterMarket(bool is_day);
+	void Denit();
 
 
 private:
@@ -46,19 +44,17 @@ private:
 
 private:
 	MarketDataApi *m_market_api;
+	DataWriter *data_writer_;
 
 	vector<string> IPs_;
 	int i_; // 所用IP的索引.
 	string BrokerID_;
-	int TcpServer_port;
 
-	//DataService* tick_tcp_server_;
 	bool is_init_;
 	std::string sub_syms_;
 
 	std::queue<FutureTick*> ticks_;
 	SpinLock ticks_lock_;
-
 	Mutex mutex_;
 	Condition cond_;
 };

@@ -10,37 +10,32 @@
 
 
 
-CtpClient::CtpClient() : m_market_api(NULL), is_init_(false)//, tick_tcp_server_(NULL)
-{
-	
+CtpClient::CtpClient() : m_market_api(NULL), is_init_(false), i_(0)
+{	
 	XmlConfig config(Global::Instance()->GetConfigFile());
 	if (!config.Load()) { 
 		APP_LOG(LOG_LEVEL_ERROR) << "config.xml not exist";
 		return ; 
 	}
-
 	XmlNodeVec Addresses = config.FindChileren("DataServer/ctp_address", "Address");
 	for (int i = 0; i < Addresses.size(); ++i) {
 		IPs_.push_back(Addresses[i].GetValue("IP"));
 	}
-	i_ = 0;
-
 	XmlNode node = config.FindNode("DataServer");
 	BrokerID_ = node.GetValue("broker_id");
-	TcpServer_port = atoi(node.GetValue("tick_port").c_str());
 	
+	m_market_api = MarketDataApiFactory::CreateMarketDataApi("CTP_FUTURE");
+	data_writer_ = new DataWriter;
 }
 
 CtpClient::~CtpClient(void)
 {
-	//TODO:
-	//if (m_market_api) { delete m_market_api; }
-	//delete tick_tcp_server_;	
+	delete m_market_api;
+	delete data_writer_;
 }
 
 void CtpClient::OnMarketPrice(BaseTick* tick)
 {
-	//if (is_init_) { tick_tcp_server_->SendTick(tick->symbol, (char*)tick, sizeof(FutureTick)); }
 	FutureTick* cpy_tick = new FutureTick(*(FutureTick*)tick);
 
 	Locker locker(&ticks_lock_);
@@ -69,7 +64,7 @@ void CtpClient::OnRun()
 		while ((tick = PopTick()) != NULL)
 		{
 			APP_LOG(LOG_LEVEL_INFO)<<tick->symbol.instrument << tick->last_price;
-			//data_writer_->PushTick(tick);
+			data_writer_->PushTick(tick);
 			delete tick;
 		}
 	}
@@ -84,40 +79,10 @@ FutureTick* CtpClient::PopTick()
 	return tick;
 }
 
-/*
-bool  CtpClient::InitTcp(std::string& err)
+bool CtpClient::Init(bool is_day, std::string& err)
 {
-	
-	if (NULL == tick_tcp_server_)
-	{
-		tick_tcp_server_ = new DataService(TcpServer_port);
-		if (!tick_tcp_server_->Init(err))
-		{
-			delete tick_tcp_server_;
-			tick_tcp_server_ = NULL;
-			return false;
-		}
-	}
-
-	return true;
-}*/
-
-bool CtpClient::StartUp(bool is_day, std::string& err)
-{
-	/*if (!tick_tcp_server_->StartUp(err))
-	{
-		return false;
-	}*/
-	
-
-	if (NULL == m_market_api)
-	{
-		m_market_api = MarketDataApiFactory::CreateMarketDataApi("CTP_FUTURE");
-		if (NULL == m_market_api){
-			err = "create ctp api error";
-			return false;
-		}
-	}
+	if (!data_writer_->Init(err, !is_day)) return false;
+	Thread::Start();
 
 	i_ %= IPs_.size();
 	string IP = IPs_[i_++];
@@ -155,28 +120,19 @@ bool CtpClient::StartUp(bool is_day, std::string& err)
 		}
 	}
 	
-
-	if (!m_market_api->Subscribe(sub_syms_, err)) {
-		err = std::string("SubscribeMarketPrice error : ") + err;
-		return false;
-	}
+	if (!m_market_api->Subscribe(sub_syms_, err)) return false;
 
 	is_init_ = true;
 	return true;
 }
 
-void CtpClient::DoAfterMarket(bool is_day)
+void CtpClient::Denit()
 {
-	if (NULL != m_market_api)
-	{
-		std::string err;
-		//if (!m_market_api->Logout(err)) 
-		//{
-		//	printf("Logout error : %s\n",err.c_str());
-		//}
-		m_market_api->Deinit();
-	}
+	Thread::Stop();
+	Thread::Join();
 
+	if (m_market_api) m_market_api->Deinit();
+	if (data_writer_) data_writer_->Denit();
 	SymbolInfoSet::Instance()->Deinit();
 	is_init_ = false;
 }

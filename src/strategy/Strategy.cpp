@@ -18,10 +18,12 @@ Strategy::Strategy()
 
 	//data_engine_ = DataEngine::Instance();
 	//data_engine_->SetSpi(this);
+	client_ = new Client(this);
 }
 
 Strategy::~Strategy()
 {
+	delete client_;
 }
 
 bool Strategy::Init(string &err){
@@ -72,8 +74,14 @@ bool Strategy::Init(string &err){
 	/*if (!data_engine_->Init("rb1810")) {
 		return false;
 	}*/
+	client_->Init();
+	client_->SubData(symbol_);
 	
 	return true;
+}
+
+void Strategy::Denit() {
+	client_->Denit();
 }
 /*
 bool Strategy::SubBars(const Symbol& symbol, const std::string& period)
@@ -389,8 +397,21 @@ void Strategy::OnTradeError(const string &err){
 	cout << err << endl;
 }
 
+void Strategy::OnData(Bars *bars){
+	//APP_LOG_DBG << bars->tick.Str();
+	static int n = 0;
+	if (bars->klines.Size() > n){
+		APP_LOG_DBG << bars->klines[0].Str();
+		n = bars->klines.Size();
+	}
+	
+}
+void Strategy::OnError(const string &err){
 
+}
 void Strategy::OnTimer() {
+	return;
+
 	PositionData long_pos;
 	trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
 	static int state_;

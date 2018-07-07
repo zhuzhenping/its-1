@@ -3,14 +3,39 @@
 #include "common/Directory.h"
 #include "common/AppLog.h"
 #include "AutoRun.h"
+#include "common/SimpleDateTime.h"
+#include "network/Server.h"
 
 using namespace std;
-//using namespace itstation;
+
+#define TESTING
+
+
+Server *g_server_ = NULL; // tick server and kline server
 
 int main(int argc, char *argv[])
 {
+	XmlConfig config(Global::Instance()->GetConfigFile());
+	if (!config.Load()) return -1;
+	XmlNode node = config.FindNode("DataServer");
+	int TcpServer_port = atoi(node.GetValue("port").c_str());
+	g_server_ = new Server(TcpServer_port);
+
+#ifdef TESTING
+	QCoreApplication app(argc, argv);	
+
+	string err;
+	MySecurityInfoSpi *instrument_table_;
+	instrument_table_ = new MySecurityInfoSpi(PRODUCT_FUTURE);
+	instrument_table_->Init();
+	Thread::Sleep(5000);
+	CtpClient * ctp_client_ = new CtpClient;
+	ctp_client_->Init(true, err);
+	app.exec();
+#else
 	QCoreApplication app(argc, argv);
 	AutoRun *task = new AutoRun();
-	task->StartUp();
+	task->Init();
 	app.exec();
+#endif
 }

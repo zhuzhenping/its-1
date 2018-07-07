@@ -41,7 +41,6 @@ DataEngine::DataEngine() : m_market_api(NULL) {
 
 	XmlNode node = config.FindNode("DataServer_ACTUAL");
 	BrokerID_ = node.GetValue("broker_id");
-	//TcpServer_port = atoi(node.GetValue("tick_port").c_str());
 }
 
 DataEngine::~DataEngine() {

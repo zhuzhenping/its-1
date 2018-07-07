@@ -27,7 +27,7 @@ Client::Client(ClientSpi* spi)
 
 Client::~Client(void)
 {
-	tcp_client_->TearDown();
+	tcp_client_->Denit();
 	delete tcp_client_;
 }
 
@@ -90,7 +90,7 @@ void Client::SockConn(bool success){
 			string IP = IPs_[i_++];
 			if (tcp_client_) delete tcp_client_;
 			tcp_client_ = new TcpClient(IP.c_str(), port_.c_str(), this, this);
-			tcp_client_->StartUp();
+			tcp_client_->Init();
 		}
 	}
 }
@@ -115,13 +115,13 @@ void Client::Init()
 		string IP = IPs_[i_++];
 		if (tcp_client_) delete tcp_client_;
 		tcp_client_ = new TcpClient(IP.c_str(), port_.c_str(), this, this);
-		tcp_client_->StartUp();
+		tcp_client_->Init();
 	}
 }
 
 void Client::Denit(){
 	is_init_ = false;
-	tcp_client_->TearDown();
+	tcp_client_->Denit();
 }
 
 

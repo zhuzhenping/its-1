@@ -23,9 +23,9 @@
 		  <Address IP="tcp://180.168.146.187:10011" />
 	  </ctp_address>
     <my_address>
-      <Address IP="127.0.01" />
+      <Address IP="127.0.0.1" />
     </my_address>
-	  <port>1234</port>
+	<port>1234</port>
   </DataServer>
   
   <CtpTradeAccount_ACTUAL>
@@ -47,7 +47,7 @@
 	  <my_address>
 		  <Address IP="127.0.0.1" />
 	  </my_address>
-	  <port>3335</port>
+	  <port>1234</port>
   </DataServer_ACTUAL>
   
   

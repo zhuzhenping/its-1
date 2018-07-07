@@ -8,7 +8,7 @@
 #include "datalib/Symbol2T.h"
 #include "network/Timer.h"
 
-class DataObj : public TimerSpi
+class DataObj
 {
 	enum {
 		TICK_QUEUE_LEN = 100
@@ -24,15 +24,15 @@ public:
 
 	void SetNightFlag(bool flag) { is_night_ = flag; }
 
+	void OnTimer(); // push kline per min
+
 private:
 	void SaveTick();
 	void SaveMinKline();
 	void MakeDataDir();
 
-	virtual void OnTimer();
-
 private:
-	SpinLock mutex_; 
+	SpinLock min_klines_mutex_; 
 	std::vector<FutureKline> min_klines_;
 
 	int cur_pos_;
@@ -40,13 +40,13 @@ private:
 	SpinLock ticks_mutex_; 
 
 	Symbol symbol_;
-	FutureKline pre_kline_;
+	bool is_first_tick_; // first tick in 1 min
+	FutureKline kline_;
+	SpinLock kline_mutex_; 
 
 	std::string tick_path_;
 	std::string min_path_;
 	std::string day_path_;
-
-	int tick_size_;
 
 	bool is_night_;
 };
@@ -54,32 +54,34 @@ private:
 
 typedef Symbol2T<DataObj> Symbol2DataObj;
 
-// write tick、kline to disk、socket
-class DataWriter
+// write tick、kline to disk and tcp client
+class DataWriter : public TimerSpi
 {
 public:
 	DataWriter();
 	~DataWriter();
-
-
+	
 	bool Init(std::string& err, bool is_night = false);
 	void Denit();
 
 	void PushTick(FutureTick* tick);
 
-	void DoAfterMarket();
-
 private:
 	bool InitContainer(std::string& err);
-
+	void DoAfterMarket();
 	DataObj* GetDataObj(const Symbol& sym);
+
+	virtual void OnTimer();
 
 private:
 	Symbol2DataObj* data_objs_;
+	SpinLock data_objs_mutex_; 
 
 	bool is_init_;
-	SpinLock mutex_; 
 	bool is_night_;
+
+
+	TimerApi *timer_;
 };
 
 #endif

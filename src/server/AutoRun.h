@@ -14,7 +14,7 @@ public:
 	AutoRun();
 	virtual ~AutoRun();
 
-	void StartUp();
+	void Init();
 
 private:
 	virtual bool DoDayOpen();

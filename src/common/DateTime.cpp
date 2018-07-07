@@ -98,7 +98,7 @@ bool Date::IsHoliday(XmlConfig* config) const
 	else
 	{
 		std::string its_home = getenv("ITS_HOME");
-		std::string conf_path = its_home + "\\config\\TradingTime.xml";
+		std::string conf_path = its_home + "\\cfg\\TradingTime.xml";
 		if (!QFile::exists(conf_path.c_str()))
 		{
 			return false;
