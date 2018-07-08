@@ -131,15 +131,23 @@ void Client::SubData(const Symbol& sym)
 	if (std::find(sub_syms_.begin(), sub_syms_.end(), sym) != sub_syms_.end())return;
 	sub_syms_.push_back(sym);
 
-	//sub
-	RunDataReq* req = (RunDataReq*)malloc(sizeof(RunDataReq) + sizeof(Symbol));
+	//get his klines
+	int his_len = sizeof(HisDataReq) + sizeof(Symbol);
+	HisDataReq *his_req = (HisDataReq*)malloc(his_len);
+	his_req->type = REQ_HIS_DATA;
+	his_req->num = 1;
+	memcpy((char*)his_req + sizeof(HisDataReq), &sym, sizeof(Symbol));
+	//sub runtime tick and kline
+	int len = sizeof(RunDataReq) + sizeof(Symbol);
+	RunDataReq* req = (RunDataReq*)malloc(len);
 	req->type = REQ_RUN_DATA;
 	req->num = 1;
 	req->is_sub = true;
 	memcpy((char*)req + sizeof(RunDataReq), &sym, sizeof(Symbol));
 	if (is_init_){
 		Locker locker(&lock_);
-		tcp_client_->Send((char*)req, sizeof(RunDataReq) + sizeof(Symbol));
+		tcp_client_->Send((char*)his_req, his_len);
+		tcp_client_->Send((char*)req, len);
 	}	
 	free(req);
 

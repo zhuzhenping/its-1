@@ -6,9 +6,8 @@
 #include "common/SpinLock.h"
 #include "datalib/Symbol2T.h"
 #include "datalib/Protocol.h"
-#include <list>
 #include <map>
-
+#include <vector>
 
 
 class SessionContainer {
@@ -29,6 +28,10 @@ private:
 typedef Symbol2T<SessionContainer> Symbol2Sessions;
 typedef std::map<TcpSession*, std::list<Symbol> > Session2Symbols;
 
+class DataSpi {
+public:
+	virtual void GetKlines(const Symbol& sym, std::vector<FutureKline>& ) = 0;
+};
 
 class NETWORK_API Server : public TcpServerConnSpi, public SocketReaderSpi
 {
@@ -36,6 +39,7 @@ public:
 	Server(int port);
 	virtual ~Server(void);
 
+	void SetDataSpi(DataSpi *data_spi) { data_spi_ = data_spi; }
 	void Send(const Symbol& sym, char* buf, int len);
 
 private:
@@ -55,6 +59,8 @@ private:
 
 	Session2Symbols sess_symbols_;	//每个socket维护一个订阅列表，当socket断开时能快速取消订阅该socket的行情.
 	SpinLock sess_symbols_mutex;
+
+	DataSpi *data_spi_;
 };
 
 

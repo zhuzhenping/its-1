@@ -49,6 +49,11 @@ void DataObj::MakeDataDir(){
 	day_path_ = folder + symbol_.instrument + ".data";*/
 }
 
+void DataObj::GetKlines(std::vector<FutureKline> &klines) {
+	Locker lock(&min_klines_mutex_);
+	klines.assign(min_klines_.begin(), min_klines_.end());
+}
+
 void DataObj::PushTick(FutureTick* tick)
 {
 	RunTickRsp rsp;
@@ -163,6 +168,7 @@ DataWriter::DataWriter()
 {
 	data_objs_ = new Symbol2DataObj();
 	timer_ = new TimerApi(60000, this);
+	g_server_->SetDataSpi(this);
 }
 
 DataWriter::~DataWriter(void)
@@ -258,6 +264,14 @@ void DataWriter::PushTick(FutureTick* tick)
 	
 	obj->PushTick(tick);
 	
+}
+
+void DataWriter::GetKlines(const Symbol& sym, std::vector<FutureKline>& klines){
+	Locker locker(&data_objs_mutex_);
+	if (!is_init_) return;
+	DataObj* obj = GetDataObj(sym);
+	if (NULL == obj) return;
+	obj->GetKlines(klines);
 }
 
 void DataWriter::OnTimer() {

@@ -1,12 +1,13 @@
 ﻿#ifndef DATA_SERVER_DATA_HIS_DATA_FILE_H_
 #define DATA_SERVER_DATA_HIS_DATA_FILE_H_
 
-#include <deque>
+#include <vector>
 #include <iostream>
 #include "common/SpinLock.h"
 #include "datalib/SearchIndex.h"
 #include "datalib/Symbol2T.h"
 #include "network/Timer.h"
+#include "network/Server.h"
 
 class DataObj
 {
@@ -16,6 +17,8 @@ class DataObj
 public:
 	DataObj(const Symbol& symbol, bool is_night);
 	~DataObj();
+
+	void GetKlines(std::vector<FutureKline>&);
 
 	// update kline
 	void PushTick(FutureTick* tick);
@@ -55,7 +58,7 @@ private:
 typedef Symbol2T<DataObj> Symbol2DataObj;
 
 // write tick、kline to disk and tcp client
-class DataWriter : public TimerSpi
+class DataWriter : public TimerSpi, public DataSpi
 {
 public:
 	DataWriter();
@@ -65,6 +68,8 @@ public:
 	void Denit();
 
 	void PushTick(FutureTick* tick);
+
+	virtual void GetKlines(const Symbol& sym, std::vector<FutureKline>& );
 
 private:
 	bool InitContainer(std::string& err);

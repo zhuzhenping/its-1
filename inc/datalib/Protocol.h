@@ -96,6 +96,12 @@ struct RunDataReq : public ProtocolHead {
 	RunDataReq() : ProtocolHead(REQ_RUN_DATA), num(0), is_sub(true) {}
 };
 
+struct HisDataReq : public ProtocolHead {
+	int num;
+	Symbol symbols[0];
+	HisDataReq() : ProtocolHead(REQ_HIS_DATA), num(0) {}
+};
+
 struct RunTickRsp : public ProtocolHead {
 	FutureTick tick;
 	RunTickRsp() : ProtocolHead(RSP_RUN_TICK){}
@@ -129,11 +135,12 @@ struct RunKlineRequt : public ProtocolHead {
 };
 
 
+/*
 struct HisDataRequt : public ProtocolHead, public HisDataParam {
 	int req_id;		//客户端请求id.
 	bool cache_mode; //是否使用缓存模式.
 	HisDataRequt() : ProtocolHead(REQ_HIS_DATA), HisDataParam(), cache_mode(false) {}
-};
+};*/
 
 struct HisDataResponse : public ProtocolHead {
 	int req_id;		//客户端请求id.

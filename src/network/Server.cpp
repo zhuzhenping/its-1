@@ -31,7 +31,7 @@ void SessionContainer::Send(char* buf, int len)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-Server::Server(int port) : sub_sym_sessions_(NULL)
+Server::Server(int port) : sub_sym_sessions_(NULL), data_spi_(NULL)
 {
 	tcp_server_ = new TcpServer(port, this, this);
 	
@@ -77,10 +77,7 @@ void Server::OnReceive(TcpSession *tcp_sock, char* buf, int len)
 		{
 			if (len <= sizeof(RunDataReq)) { return; }
 			RunDataReq* run_tick_req = (RunDataReq*)buf;
-			if (run_tick_req->num <= 0 || len != run_tick_req->num * sizeof(Symbol)+ sizeof(RunDataReq)) 
-			{ 
-				return; 
-			}
+			if (run_tick_req->num <= 0 || len != run_tick_req->num * sizeof(Symbol)+ sizeof(RunDataReq)) return;
 
 			Symbol *symbols = (Symbol*)(buf  + sizeof(RunDataReq));
 			if (run_tick_req->is_sub)
@@ -98,6 +95,30 @@ void Server::OnReceive(TcpSession *tcp_sock, char* buf, int len)
 				}
 			}
 
+		}
+		break;
+	case REQ_HIS_DATA:
+		{
+			if (!data_spi_) return;
+			if (len <= sizeof(HisDataReq)) { return; }
+			HisDataReq *his_data_req = (HisDataReq*)buf;
+			if (his_data_req->num <= 0 || len != his_data_req->num * sizeof(Symbol)+ sizeof(HisDataReq))  return;
+			Symbol *symbols = (Symbol*)(buf  + sizeof(HisDataReq));
+			for (int i=0; i < his_data_req->num; ++i)
+			{
+				std::vector<FutureKline> klines;
+				data_spi_->GetKlines(symbols[i], klines);
+				if (klines.empty()) continue;
+				int rsp_len = sizeof(HisKlineRsp)+klines.size()*sizeof(FutureKline);
+				HisKlineRsp *rsp = (HisKlineRsp*)malloc(rsp_len);
+				memset(rsp, 0, rsp_len);
+				rsp->type = RSP_HIS_KLINE;
+				for (std::vector<FutureKline>::iterator iter = klines.begin(); iter != klines.end(); ++iter){
+					memcpy(rsp->klines + rsp->num++, &(*iter), sizeof(FutureKline));
+				}
+				tcp_sock->Send((char*)rsp, rsp_len);
+				free(rsp);
+			}
 		}
 		break;
 	default:
