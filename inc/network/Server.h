@@ -8,6 +8,7 @@
 #include "datalib/Protocol.h"
 #include <map>
 #include <vector>
+#include <list>
 
 
 class SessionContainer {
