@@ -171,6 +171,13 @@ void Client::delete_bars(const Symbol &sym) {
 }
 void Client::SubData(const std::vector<Symbol>& syms)
 {
+	//get his klines
+	int his_len = sizeof(HisDataReq) + sizeof(Symbol) *syms.size();
+	HisDataReq *his_req = (HisDataReq*)malloc(his_len);
+	his_req->type = REQ_HIS_DATA;
+	his_req->num = syms.size();
+	char* his_cp_pos = (char*)his_req + sizeof(HisDataReq);
+	//sub
 	int len = sizeof(RunDataReq) + sizeof(Symbol) * syms.size();
 	RunDataReq* req = (RunDataReq*)malloc(len);
 	req->type = REQ_RUN_DATA;
@@ -187,8 +194,11 @@ void Client::SubData(const std::vector<Symbol>& syms)
 			len -= sizeof(Symbol);
 			continue;
 		}
+		memcpy(his_cp_pos, &syms[i], sizeof(Symbol));
+		his_cp_pos += sizeof(Symbol);
 		memcpy(cp_pos, &syms[i], sizeof(Symbol));
 		cp_pos += sizeof(Symbol);
+
 		tmp_syms.push_back(syms[i]);
 
 		new_bars(syms[i]);
@@ -197,7 +207,8 @@ void Client::SubData(const std::vector<Symbol>& syms)
 
 	if (is_init_){
 		Locker locker(&lock_);
-		tcp_client_->Send((char*)req, sizeof(RunDataReq) + req->num * sizeof(Symbol));
+		tcp_client_->Send((char*)his_req, his_len);
+		tcp_client_->Send((char*)req, len);
 	}
 	free(req);
 }

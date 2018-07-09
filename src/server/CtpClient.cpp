@@ -17,7 +17,7 @@ CtpClient::CtpClient() : m_market_api(NULL), is_init_(false), i_(0)
 		APP_LOG(LOG_LEVEL_ERROR) << "config.xml not exist";
 		return ; 
 	}
-	XmlNodeVec Addresses = config.FindChileren("DataServer/ctp_address", "Address");
+	XmlNodeVec Addresses = config.FindChileren("DataServer_ACTUAL/ctp_address", "Address");
 	for (int i = 0; i < Addresses.size(); ++i) {
 		IPs_.push_back(Addresses[i].GetValue("IP"));
 	}

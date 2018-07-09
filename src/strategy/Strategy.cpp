@@ -65,7 +65,7 @@ bool Strategy::Init(string &err){
 	
 	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");
 	timer_ = new TimerApi(10000, this);
-	timer_->Start(3000);
+	timer_->Start(30000);
 	
 	if (!trade_engine_->Init(Global::Instance()->GetConfigFile(), err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << err;
@@ -399,18 +399,46 @@ void Strategy::OnTradeError(const string &err){
 
 void Strategy::OnData(Bars *bars){
 	//APP_LOG_DBG << bars->tick.Str();
+	double pre_price = trade_engine_->GetPosiPrePrice(bars->tick.symbol);
+	trade_engine_->SetPosiLastPrice(bars->tick.symbol, bars->tick.last_price);
+
+	Locker lock(&pos_mutex_);
+	for (int i=0; i < positions_.size(); ++i){
+		if (positions_[i].symbol == bars->tick.symbol){
+			if (PriceUnEqual(pre_price, bars->tick.last_price)) {
+				PriceType pre_profit = float_profit_[i];
+				if (PriceUnEqual(pre_profit, 0.)) {
+					float_profit_[i] = trade_engine_->CalcFloatProfit(
+						positions_[i].symbol, positions_[i].direction,
+						positions_[i].open_price, bars->tick.last_price, positions_[i].open_volume);
+					PriceType diff_profit = float_profit_[i] - pre_profit;
+					trade_engine_->UpdateAccountProfit(diff_profit);		
+				}
+				else {
+					trade_engine_->UpdateAccountProfit(float_profit_[i], true);	
+				}
+			}
+		}
+	}
+
 	static int n = 0;
 	if (bars->klines.Size() > n){
-		APP_LOG_DBG << bars->klines[0].Str();
+		if (bars->klines.Size()-n ==1){
+			APP_LOG_DBG << bars->klines[0].Str();
+		} else {
+			for (int i=0; i<bars->klines.Size();++i){
+				APP_LOG_DBG << bars->klines[i].Str();
+			}
+		}
+		
 		n = bars->klines.Size();
 	}
-	
 }
 void Strategy::OnError(const string &err){
 
 }
 void Strategy::OnTimer() {
-	return;
+	//return;
 
 	PositionData long_pos;
 	trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
