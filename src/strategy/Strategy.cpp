@@ -29,7 +29,7 @@ Strategy::~Strategy()
 bool Strategy::Init(string &err){
 
 	/*
-	// 读配置参数.
+	// strategy param
 	XmlConfig config(Global::Instance()->GetConfigDir() + "config.xml");
 	if (!config.Load()) 
 	{
@@ -48,19 +48,6 @@ bool Strategy::Init(string &err){
 	submit_hands_ = atoi(node.GetValue("submit_hands").c_str());
 	cancel_interval_ = node.GetValue("cancel_interval");
 	target_profit_value_ = atof(node.GetValue("target_profit_value").c_str());
-	
-	
-	// 行情.
-	RuntimeDataApiManager* run_api_manager = new RuntimeDataApiManager(SubBarsApi::Instance());
-	SubBarsApi::Instance()->SetRunApiManager(run_api_manager); //设置实时行情接口		
-	if (!run_api_manager->CreateApi(Global::Instance()->GetAppConfigPath(), err))	return false;
-
-	DateTime now(NULL);
-	run_api_manager->InitApi(RuntimeDataApiManager::ALL_API, now.time.hour > 18 || now.time.hour < 5);
-	if (!SubBarsApi::Instance()->Init(Global::Instance()->GetAppConfigPath(), err)) 	return false;
-
-	
-	if (!SubBars(symbol_, period.c_str())) return false;
 	*/
 	
 	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");
@@ -84,44 +71,6 @@ void Strategy::Denit() {
 	client_->Denit();
 }
 /*
-bool Strategy::SubBars(const Symbol& symbol, const std::string& period)
-{
-	HisDataParam info;
-	info.symbol = symbol;
-	info.count_mode = COUNT_MOD_TIME_RANGE;
-	info.dim_count = atoi(period.substr(0, period.size() - 1).c_str());
-	if (info.dim_count <= 0 || info.dim_count > 500)
-	{
-		std::cout << "订阅行情失败，无效周期:" << period;
-		return false;
-	}
-	switch (period.at(period.size() - 1))
-	{
-	case 'm':case 'M':
-		info.dim = DIMENSION_MINUTE;
-		break;
-	case 'h':case 'H':
-		info.dim = DIMENSION_HOUR;
-		break;
-	case 'd':case 'D':
-		info.dim = DIMENSION_DAY;
-		break;
-	default:
-		std::cout << "订阅行情失败，无效周期:" << period;
-		return false;
-	}
-
-	DateTime now(NULL);
-	info.mode_data = now.date.year * 10000LL + now.date.month * 100LL + now.date.day;
-	info.mode_data *= 100000000LL;
-	if (!SubBarsApi::Instance()->SubBars(info, this))
-	{
-		cout << "SubBars error: " << SubBarsApi::Instance()->GetLastError() << endl;
-		return false;
-	}
-	return true;
-}
-
 // OnTick
 void Strategy::OnUpdateKline(const Bars *_bars, bool is_new){
 	Bars *bars = (Bars*)_bars;
@@ -397,7 +346,7 @@ void Strategy::OnTradeError(const string &err){
 	cout << err << endl;
 }
 
-void Strategy::OnData(Bars *bars){
+void Strategy::OnData(Bars *bars, bool is_kline_up){
 	//APP_LOG_DBG << bars->tick.Str();
 	double pre_price = trade_engine_->GetPosiPrePrice(bars->tick.symbol);
 	trade_engine_->SetPosiLastPrice(bars->tick.symbol, bars->tick.last_price);
@@ -421,35 +370,37 @@ void Strategy::OnData(Bars *bars){
 		}
 	}
 
-	static int n = 0;
-	if (bars->klines.Size() > n){
-		if (bars->klines.Size()-n ==1){
-			APP_LOG_DBG << bars->klines[0].Str();
-		} else {
-			for (int i=0; i<bars->klines.Size();++i){
-				APP_LOG_DBG << bars->klines[i].Str();
+	if (is_kline_up) {
+		static int n = 0;
+		if (bars->klines.Size() > n){
+			if (bars->klines.Size()-n ==1){
+				APP_LOG_DBG << bars->klines[0].Str();
+			} else {
+				for (int i=bars->klines.Size()-1; i>=0;-i){
+					APP_LOG_DBG << bars->klines[i].Str();
+				}
 			}
+
+			n = bars->klines.Size();
 		}
-		
-		n = bars->klines.Size();
 	}
 }
 void Strategy::OnError(const string &err){
 
 }
 void Strategy::OnTimer() {
-	//return;
-
-	PositionData long_pos;
+	PositionData long_pos, short_pos;
 	trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
-	static int state_;
+	trade_engine_->GetShortPositionBySymbol(short_pos, symbol_);
+	static int state_ = 0;
 	switch (state_)
 	{
-	case 0:
+	case 0: // init
 		if (long_pos.today_volume == 0) {
 			state_ = 1;
 			trade_engine_->Buy(symbol_, last_price_+10, 1);
 		} else {
+			state_ = 0;
 			trade_engine_->Sell(symbol_, last_price_ - 10, long_pos.enable_today_volume);
 		}
 		

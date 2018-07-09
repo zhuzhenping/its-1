@@ -33,13 +33,13 @@ DataEngine::DataEngine() : m_market_api(NULL) {
 		return ; 
 	}
 
-	XmlNodeVec Addresses = config.FindChileren("DataServer_ACTUAL/ctp_address", "Address");
+	XmlNodeVec Addresses = config.FindChileren("DataServer/ctp_address", "Address");
 	for (int i = 0; i < Addresses.size(); ++i) {
 		IPs_.push_back(Addresses[i].GetValue("IP"));
 	}
 	i_ = 0;
 
-	XmlNode node = config.FindNode("DataServer_ACTUAL");
+	XmlNode node = config.FindNode("DataServer");
 	BrokerID_ = node.GetValue("broker_id");
 }
 

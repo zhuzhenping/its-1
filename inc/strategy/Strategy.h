@@ -34,7 +34,7 @@ private:
 	*/
 
 	virtual void OnTimer();
-	virtual void OnData(Bars *);
+	virtual void OnData(Bars *, bool);
 	virtual void OnError(const string &);
 
 	// OnOrder OnTrade

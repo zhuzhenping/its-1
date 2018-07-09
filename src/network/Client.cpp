@@ -49,7 +49,7 @@ void Client::OnReceive(TcpSession *tcp_sock, char* buf, int len)
 			RunKlineRsp *rsp = (RunKlineRsp*)buf;
 			Bars **bars = bars_.Data(rsp->kline.symbol); 
 			(*bars)->klines.Append(rsp->kline);
-			if (spi_) spi_->OnData(*bars);
+			if (spi_) spi_->OnData(*bars, true);
 		}
 		break;
 	case RSP_HIS_TICK:
@@ -65,7 +65,7 @@ void Client::OnReceive(TcpSession *tcp_sock, char* buf, int len)
 			for (int i = 0; i < rsp->num; ++i){
 				(*bars)->klines.Append(rsp->klines[i]);
 			}
-			if (spi_) spi_->OnData(*bars);
+			if (spi_) spi_->OnData(*bars, true);
 		}
 		break;
 	default:

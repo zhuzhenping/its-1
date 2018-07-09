@@ -35,7 +35,7 @@
     <front_addr>tcp://112.64.143.157:41213</front_addr>
   </CtpTradeAccount_ACTUAL>
   
-  <DataServer_ACTUAL>
+  <DataServer1>
 	  <broker_id>66666</broker_id>
 	  <ctp_address>
 		  <Address IP="tcp://180.169.101.177:41213" />
@@ -48,7 +48,7 @@
 		  <Address IP="127.0.0.1" />
 	  </my_address>
 	  <port>1234</port>
-  </DataServer_ACTUAL>
+  </DataServer1>
   
   
     <RuntimeDataApis>

@@ -11,7 +11,7 @@
 
 class ClientSpi {
 public:
-	virtual void OnData(Bars *) = 0;
+	virtual void OnData(Bars *, bool is_kline_update = false) = 0;
 	virtual void OnError(const string &) = 0;
 };
 
