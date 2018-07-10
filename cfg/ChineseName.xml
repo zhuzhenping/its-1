@@ -31,6 +31,7 @@
     <Node Product='hc' Name='热轧卷板' />
     <Node Product='pb' Name='铅' />
     <Node Product='rb' Name='螺纹钢' />
+    <Node Product='sc' Name='原油' />
     <Node Product='wr' Name='线材' />
     <Node Product='zn' Name='锌' />
           

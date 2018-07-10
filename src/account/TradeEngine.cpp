@@ -42,7 +42,7 @@ TradeEngine* TradeEngine::Instance()
 void TradeEngine::DeinitApi(){
 	if (NULL != api_) 
 	{ 
-		api_->Deinit();
+		api_->Denit();
 	}
 }
 bool TradeEngine::Init(const std::string& conf_path, std::string& err)

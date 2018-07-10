@@ -234,7 +234,7 @@ CtpFutureMarketDataApi::~CtpFutureMarketDataApi(void)
 {
 	if (NULL != m_ctp_market_handler) { delete m_ctp_market_handler; }
 	if (m_succed_connect || m_succed_login)
-		Deinit();
+		Denit();
 }
 
 bool CtpFutureMarketDataApi::Init(const std::string& front_addr_str, MarketDataSpi* spi, std::string& err) 
@@ -291,7 +291,7 @@ bool CtpFutureMarketDataApi::Init(const std::string& front_addr_str, MarketDataS
 	return true;
 }
 
-void CtpFutureMarketDataApi::Deinit()
+void CtpFutureMarketDataApi::Denit()
 {
 	//if (!m_succed_connect && !m_succed_login) return;
 	m_succed_connect = false;

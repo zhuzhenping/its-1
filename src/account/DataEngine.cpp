@@ -64,13 +64,13 @@ bool DataEngine::Init(string symbols) {
 	string err;
 	if (!m_market_api->Init(IP, this, err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << std::string("CTP API Init error : ") + err;
-		m_market_api->Deinit();
+		m_market_api->Denit();
 		return false;
 	}
 
 	if (!m_market_api->Login(BrokerID_, "", "", err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << std::string("CTP API Login error : ") + err;
-		m_market_api->Deinit();
+		m_market_api->Denit();
 		return false;
 	}
 

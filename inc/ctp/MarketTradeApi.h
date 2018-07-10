@@ -91,7 +91,7 @@ public:
 	 * @param front_addr_str ip:port
 	 */
 	virtual bool Init(const std::string& front_addr_str, TradeSpi* spi, std::string& err) = 0;
-	virtual void Deinit()=0;
+	virtual void Denit()=0;
 	/*
 	 * @brief Login 登陆交易服务器 
 	 */

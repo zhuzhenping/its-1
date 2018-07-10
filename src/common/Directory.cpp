@@ -104,7 +104,7 @@ bool Directory::SetItsHome()
 	if(!dir.exists("config")){ // bin/Debug
 		if (!dir.cdUp()) { return false; }
 		if (!dir.cdUp()) { return false; }	
-		value = QDir::toNativeSeparators(dir.path()).toStdString();
+		value = QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData()();
 	}*/
 	string app_path = GetAppPath();
 	size_t _bin = app_path.find("bin");
@@ -156,7 +156,7 @@ std::string Directory::GetRelativeCurrent()
 {
 	QDir dir = QDir::current();
 	if (!dir.exists()) { return ""; }
-	return QDir::toNativeSeparators(dir.path()).toStdString();
+	return QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData()();
 }
 
 bool Directory::SetRelativeCurrent(const std::string& path)

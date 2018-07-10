@@ -867,7 +867,7 @@ bool CtpFutureTradeApi::Init(const std::string& front_addr_str, TradeSpi* spi, s
 	return true;
 }
 
-void CtpFutureTradeApi::Deinit()
+void CtpFutureTradeApi::Denit()
 {
 	m_succed_connect = false;
 	m_succed_login = false;

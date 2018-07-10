@@ -101,7 +101,7 @@ public:
 	virtual ~CtpFutureMarketDataApi();
 
 	virtual bool Init(const std::string& front_addr_str, MarketDataSpi* spi, std::string& err);
-	virtual void Deinit();
+	virtual void Denit();
 	bool Login(const std::string& broker_id, const std::string& user_id, const std::string& password, std::string& err);
 	bool Logout(std::string& err);
 	virtual bool Subscribe(const std::string& symbol, std::string& err);

@@ -81,7 +81,7 @@ public:
 	virtual ~MySecurityInfoSpi();
 
 	bool Init();
-	void Denit() { trade_api->Deinit(); }
+	void Denit() { trade_api->Denit(); }
 
 private:
 	/*virtual bool DoDayOpen() ;

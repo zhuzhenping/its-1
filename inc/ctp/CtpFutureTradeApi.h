@@ -199,7 +199,7 @@ public:
 	virtual ~CtpFutureTradeApi(void);
 
 	virtual bool Init(const std::string& front_addr_str, TradeSpi* spi, std::string& err);
-	virtual void Deinit();
+	virtual void Denit();
 	virtual bool Login(const std::string& broker_id, const std::string& user_id, const std::string& password, std::string& err);
 	virtual bool Logout(std::string& err);
 	virtual bool InitPreTrade(std::string& err);

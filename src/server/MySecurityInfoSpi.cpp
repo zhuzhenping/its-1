@@ -162,20 +162,20 @@ bool MySecurityInfoSpi::Init() {
 	if (!trade_api->Init(front_addr.toLocal8Bit().constData(), market_trade_callback, err)) 
 	{
 		APP_LOG(LOG_LEVEL_ERROR) << "Init error :" << err;
-		trade_api->Deinit();
+		trade_api->Denit();
 		return false;
 	}
 
 	if (!trade_api->Login(broker_id.toLocal8Bit().constData(), user_id.toLocal8Bit().constData(), pwd.toLocal8Bit().constData(), err)) 
 	{
 		APP_LOG(LOG_LEVEL_ERROR) << "Login error :" << err;
-		trade_api->Deinit();
+		trade_api->Denit();
 		return false;
 	}
 	Thread::Sleep(1000);
 	if(!trade_api->InitPreTrade(err)){
 		APP_LOG(LOG_LEVEL_ERROR) << "InitPreTrade error :" << err;
-		trade_api->Deinit();
+		trade_api->Denit();
 		return false;
 	}
 

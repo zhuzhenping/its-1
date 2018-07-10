@@ -59,10 +59,10 @@ bool AutoRun::DoDayClose(){
 bool AutoRun::DoNightOpen(){
 	APP_LOG(LOG_LEVEL_INFO)<<"DoNightOpen";
 	string err;
-	if (instrument_table_->Init()) {
+	/*if (instrument_table_->Init()) {
 		instrument_table_->Denit();
 		APP_LOG(LOG_LEVEL_ERROR)<<"get instrument_table_  fail";
-	}
+	}*/
 
 	if (!ctp_client_->Init(false, err))
 	{

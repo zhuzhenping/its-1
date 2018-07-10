@@ -33,6 +33,8 @@ private:
 	void SaveTick();
 	void SaveMinKline();
 	void MakeDataDir();
+	void InitSectionTime();
+	bool IsInSectionTime(const SimpleDateTime &);
 
 private:
 	SpinLock min_klines_mutex_; 
@@ -52,6 +54,7 @@ private:
 	std::string day_path_;
 
 	bool is_night_;
+	std::vector<TradeSectionTime> m_section_time;
 };
 
 

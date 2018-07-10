@@ -1,4 +1,5 @@
 ﻿#include "DataWriter.h"
+#include <stdlib.h>
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
 #include <QtCore/QDate>
@@ -22,6 +23,7 @@ DataObj::DataObj(const Symbol& symbol, bool is_night)
 	, is_first_tick_(true)
 {
 	MakeDataDir();
+	InitSectionTime();
 }
 
 DataObj::~DataObj()
@@ -47,6 +49,29 @@ void DataObj::MakeDataDir(){
 	/*folder = Global::Instance()->its_home + "/data/Day/";
 	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
 	day_path_ = folder + symbol_.instrument + ".data";*/
+}
+
+void DataObj::InitSectionTime() {
+	SymbolInfoSet::Instance()->GetTradingTime(symbol_, m_section_time);
+	if (m_section_time.size() == 0)
+	{
+		APP_LOG(LOG_LEVEL_ERROR) << symbol_.Str() << "  InitSectionTime fail";
+	}
+}
+
+bool DataObj::IsInSectionTime(const SimpleDateTime &datetime){
+	for (std::vector<TradeSectionTime>::iterator iter = m_section_time.begin(); iter != m_section_time.end(); ++iter){
+		if (datetime.time >= iter->begin && datetime.time <= iter->end)
+			return true;
+	}
+
+	char pro_str[8] = {0};
+	sscanf(symbol_.instrument, "%[^0-9]", pro_str);
+	if (!strcmp(pro_str,"al")||!strcmp(pro_str,"cu")||!strcmp(pro_str,"zn")||!strcmp(pro_str,"pb")||!strcmp(pro_str,"ni")||!strcmp(pro_str,"sn")||!strcmp(pro_str,"ag")||!strcmp(pro_str,"au")||!strcmp(pro_str,"sc")){
+		if (datetime.time >= m_section_time.begin()->begin || datetime.time <= m_section_time.begin()->end)
+			return true;
+	}
+	return false;
 }
 
 void DataObj::GetKlines(std::vector<FutureKline> &klines) {
@@ -79,7 +104,10 @@ void DataObj::PushTick(FutureTick* tick)
 }
 
 void DataObj::OnTimer() {
-	
+	SimpleDateTime datetime(time(NULL));
+	datetime.time.AddSec(1);
+	if (!IsInSectionTime(datetime)) return; // not in trading time
+
 	Locker lock(&kline_mutex_);
 	{
 		Locker locker(&min_klines_mutex_);

@@ -89,13 +89,13 @@ bool CtpClient::Init(bool is_day, std::string& err)
 
 	if (!m_market_api->Init(IP, this, err)) {
 		err = std::string("CTP API Init error : ") + err;
-		m_market_api->Deinit();
+		m_market_api->Denit();
 		return false;
 	}
 
 	if (!m_market_api->Login(BrokerID_, "", "", err)) {
 		err = std::string("CTP API Login error : ") + err;
-		m_market_api->Deinit();
+		m_market_api->Denit();
 		return false;
 	}
 
@@ -131,9 +131,9 @@ void CtpClient::Denit()
 	Thread::Stop();
 	Thread::Join();
 
-	if (m_market_api) m_market_api->Deinit();
+	if (m_market_api) m_market_api->Denit();
 	if (data_writer_) data_writer_->Denit();
-	SymbolInfoSet::Instance()->Deinit();
+	SymbolInfoSet::Instance()->Denit();
 	is_init_ = false;
 }
 

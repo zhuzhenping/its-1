@@ -63,7 +63,7 @@
         <Night InstrumentID="al,cu,zn,pb,ni,sn">
           <Section Begin="21:00" End="1:00" />
         </Night>
-        <Night InstrumentID="ag,au">
+        <Night InstrumentID="ag,au,sc">
           <Section Begin="21:00" End="2:30" />
         </Night>
         <Night InstrumentID="ru,rb,hc,bu">
@@ -96,5 +96,7 @@
 	  <YearHoliday Year="2015" Days="0101,0102,0218,0219,0220,0223,0224,0406,0501,0622,0903,0904,0927,1001,1002,1005,1006,1007" />
 	  <YearHoliday Year="2016" Days="0101,0207,0208,0209,0210,0211,0212,0213,0404,0502,0609,0610,0611,0915,0916,0917,1003,1004,1005,1006,1007" />
 	  <YearHoliday Year="2017" Days="0102,0127,0130,0131,0201,0202,0403,,0404,0501,0529,0530,1002,1003,1004,1005,1006" />
+    <YearHoliday Year="2018" Days="" />
+    <YearHoliday Year="2019" Days="" />
   </Holidays>
 </iTStation>

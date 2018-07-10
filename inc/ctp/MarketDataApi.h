@@ -59,7 +59,7 @@ public:
 	 * @param spi 回调接口
 	 */
 	virtual bool Init(const std::string& front_addr_str, MarketDataSpi* spi, std::string& err) = 0;
-	virtual void Deinit() {}
+	virtual void Denit() {}
 
 	/*
 	 * @brief Login 登陆

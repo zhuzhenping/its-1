@@ -10,6 +10,7 @@
 
 
 SymbolInfoSet* SymbolInfoSet::inst_ = NULL;
+XmlConfig *SymbolInfoSet::trading_time_cfg_ = NULL;
 
 SymbolInfoSet::SymbolInfoSet(void) : is_init_(false)
 {
@@ -17,6 +18,7 @@ SymbolInfoSet::SymbolInfoSet(void) : is_init_(false)
 
 SymbolInfoSet::~SymbolInfoSet(void)
 {
+	Denit();
 }
 
 bool SymbolInfoSet::IsNightTrading(Symbol& sym, XmlConfig* settings)
@@ -86,10 +88,10 @@ bool SymbolInfoSet::Init(std::string& err)
 		err = trading_conf_path + " is not exist";
 		return false;
 	}
-	XmlConfig settings(trading_conf_path);
-	if (!settings.Load())
+	trading_time_cfg_ = new XmlConfig(trading_conf_path);
+	if (!trading_time_cfg_->Load())
 	{
-		err = settings.GetLastError();
+		err = trading_time_cfg_->GetLastError();
 		return false;
 	}
 
@@ -115,7 +117,7 @@ bool SymbolInfoSet::Init(std::string& err)
 		{
 			Symbol sym(info.symbol.product, info.symbol.exchange, info.symbol.instrument);
 			future_symbols_.push_back(sym);
-			if (IsNightTrading(sym, &settings))
+			if (IsNightTrading(sym, trading_time_cfg_))
 			{
 				night_future_symbols_.push_back(sym);
 
@@ -639,7 +641,7 @@ ProductIdType SymbolInfoSet::GetProduct(const char* inst, ExchangeIdType exch)
 
 
 
-void SymbolInfoSet::Deinit()
+void SymbolInfoSet::Denit()
 {
 	Locker locker(&mutex_);
 	future_symbols_.clear();
@@ -657,6 +659,10 @@ void SymbolInfoSet::Deinit()
 	option_info_.clear();
 	zhuli_ori_symbols_.clear();
 
+	if (trading_time_cfg_) {
+		delete trading_time_cfg_;
+		trading_time_cfg_ = NULL;
+	}
 	is_init_ = false;
 }
 
@@ -767,14 +773,14 @@ void SymbolInfoSet::InsertSectionTime(XmlNode& node, std::vector<TradeSectionTim
 	times.push_back(trade_time);
 }
 
-void SymbolInfoSet::GetTradingTime(const Symbol& sym, XmlConfig* conf, std::vector<TradeSectionTime>& times)
+void SymbolInfoSet::GetTradingTime(const Symbol& sym, std::vector<TradeSectionTime>& times)
 {
 	char product[16] = {0};
 	sscanf(sym.instrument, "%[^0-9]", product);
 
 	std::string key = std::string("TradingTimes/") + ExchangeName(sym.exchange);
 	std::string night_key = key + "/Nights";
-	XmlNodeVec node_vec = conf->FindChileren(night_key);
+	XmlNodeVec node_vec = trading_time_cfg_->FindChileren(night_key);
 	for (int i=0; i < node_vec.size(); ++i)
 	{
 		QString insts_str = node_vec[i].GetValue("InstrumentID").c_str();
@@ -791,7 +797,7 @@ void SymbolInfoSet::GetTradingTime(const Symbol& sym, XmlConfig* conf, std::vect
 		}
 	}
 
-	XmlNodeVec day_nodes = conf->FindChileren(key, "Day");
+	XmlNodeVec day_nodes = trading_time_cfg_->FindChileren(key, "Day");
 	for (int i=0; i < day_nodes.size(); ++i)
 	{
 		QString insts_str = day_nodes[i].GetValue("InstrumentID").c_str();

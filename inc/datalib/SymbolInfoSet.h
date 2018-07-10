@@ -65,7 +65,7 @@ class DATALIB_API SymbolInfoSet
 {
 public:
 	static SymbolInfoSet* Instance();
-	void Deinit();
+	void Denit();
 
 	const std::vector<Symbol>& FutureSymbols() { return future_symbols_; }
 	const std::vector<Symbol>& NightFutureSymbols() { return night_future_symbols_; }
@@ -94,7 +94,7 @@ public:
 	//未考虑期权
 	static ProductIdType GetProduct(const char* inst, ExchangeIdType exch);
 
-	static void GetTradingTime(const Symbol& sym, XmlConfig* conf, std::vector<TradeSectionTime>& times);
+	static void GetTradingTime(const Symbol& sym, std::vector<TradeSectionTime>& times);
 
 	~SymbolInfoSet(void);
 private:
@@ -133,5 +133,6 @@ private:
 
 	bool is_init_;
 	SpinLock mutex_;
+	static XmlConfig *trading_time_cfg_;
 };
 
