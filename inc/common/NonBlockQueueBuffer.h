@@ -55,7 +55,7 @@ private:
 			}
 		}
 
-		APP_LOG_DBG << "NonBlockQueueBuffer exit";
+		APP_LOG(LOG_LEVEL_INFO) << "NonBlockQueueBuffer exit";
 	}
 
 	bool PopEvent(T& item)

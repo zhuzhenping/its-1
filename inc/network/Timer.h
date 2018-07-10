@@ -5,7 +5,7 @@
 class MyTimerSpi : public TimerSpi {
 public:
 	virtual void OnTimer(){
-		APP_LOG_DBG<<"1";
+		APP_LOG(LOG_LEVEL_INFO)<<"1";
 		Thread::Sleep(3000);
 	}
 	MyTimerSpi(){

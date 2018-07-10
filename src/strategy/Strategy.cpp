@@ -374,10 +374,10 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 		static int n = 0;
 		if (bars->klines.Size() > n){
 			if (bars->klines.Size()-n ==1){
-				APP_LOG_DBG << bars->klines[0].Str();
+				APP_LOG(LOG_LEVEL_INFO) << bars->klines[0].Str();
 			} else {
 				for (int i=bars->klines.Size()-1; i>=0;--i){
-					APP_LOG_DBG << bars->klines[i].Str();
+					APP_LOG(LOG_LEVEL_INFO) << bars->klines[i].Str();
 				}
 			}
 

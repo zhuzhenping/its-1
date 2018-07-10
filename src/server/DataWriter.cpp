@@ -84,7 +84,7 @@ void DataObj::OnTimer() {
 	{
 		Locker locker(&min_klines_mutex_);
 		min_klines_.push_back(kline_);
-		APP_LOG_DBG << kline_.Str();
+		APP_LOG(LOG_LEVEL_INFO) << kline_.Str();
 	}
 	RunKlineRsp rsp;
 	rsp.kline = kline_;
@@ -120,7 +120,7 @@ void DataObj::SaveMinKline() {
 
 void DataObj::SaveTick()
 {
-	APP_LOG_DBG<<"write tick:"<<symbol_.instrument;
+	APP_LOG(LOG_LEVEL_INFO)<<"write tick:"<<symbol_.instrument;
 
 	FILE* fp = fopen(tick_path_.c_str(), "ab+");
 	if (fp == NULL)

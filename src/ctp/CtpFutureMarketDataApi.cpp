@@ -181,7 +181,7 @@ void CtpFutureMarketDataHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataF
 	if (tmp_time < api_->low_time_ || tmp_time > api_->high_time_)
 	{
 		//DateTime now(NULL);		
-		//APP_LOG_DBG<<"dirty data " << tick.symbol.instrument << " : tick time " << tmp_time.Str() <<"\t actual time " << now.Str();
+		//APP_LOG(LOG_LEVEL_INFO)<<"dirty data " << tick.symbol.instrument << " : tick time " << tmp_time.Str() <<"\t actual time " << now.Str();
 		//return;
 	}
 
