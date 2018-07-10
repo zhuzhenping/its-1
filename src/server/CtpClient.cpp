@@ -63,7 +63,7 @@ void CtpClient::OnRun()
 		FutureTick* tick = NULL;
 		while ((tick = PopTick()) != NULL)
 		{
-			APP_LOG(LOG_LEVEL_INFO)<<tick->symbol.instrument << tick->last_price;
+			//APP_LOG(LOG_LEVEL_INFO)<<tick->symbol.instrument << tick->last_price;
 			data_writer_->PushTick(tick);
 			delete tick;
 		}

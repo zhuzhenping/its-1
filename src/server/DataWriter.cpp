@@ -84,6 +84,7 @@ void DataObj::OnTimer() {
 	{
 		Locker locker(&min_klines_mutex_);
 		min_klines_.push_back(kline_);
+		APP_LOG_DBG << kline_.Str();
 	}
 	RunKlineRsp rsp;
 	rsp.kline = kline_;

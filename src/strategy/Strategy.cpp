@@ -347,11 +347,11 @@ void Strategy::OnTradeError(const string &err){
 }
 
 void Strategy::OnData(Bars *bars, bool is_kline_up){
-	//APP_LOG_DBG << bars->tick.Str();
-	double pre_price = trade_engine_->GetPosiPrePrice(bars->tick.symbol);
-	trade_engine_->SetPosiLastPrice(bars->tick.symbol, bars->tick.last_price);
+	last_price_ = bars->tick.last_price;
+	trade_engine_->SetPosiLastPrice(bars->tick.symbol, last_price_);
 
 	Locker lock(&pos_mutex_);
+	double pre_price = trade_engine_->GetPosiPrePrice(bars->tick.symbol);
 	for (int i=0; i < positions_.size(); ++i){
 		if (positions_[i].symbol == bars->tick.symbol){
 			if (PriceUnEqual(pre_price, bars->tick.last_price)) {
@@ -376,7 +376,7 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 			if (bars->klines.Size()-n ==1){
 				APP_LOG_DBG << bars->klines[0].Str();
 			} else {
-				for (int i=bars->klines.Size()-1; i>=0;-i){
+				for (int i=bars->klines.Size()-1; i>=0;--i){
 					APP_LOG_DBG << bars->klines[i].Str();
 				}
 			}
