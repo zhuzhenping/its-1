@@ -36,12 +36,6 @@
     <ClInclude Include="..\..\inc\network\MarketTask.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\inc\network\Server.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\inc\network\Client.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\network\TcpMessage.cpp">
@@ -63,12 +57,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\network\StateTask.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\network\Client.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\network\Server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

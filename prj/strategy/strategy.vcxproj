@@ -79,9 +79,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\inc\strategy\AutoRun.h" />
+    <ClInclude Include="..\..\inc\strategy\Client.h" />
     <ClInclude Include="..\..\inc\strategy\Strategy.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\strategy\AutoRun.cpp" />
+    <ClCompile Include="..\..\src\strategy\Client.cpp" />
     <ClCompile Include="..\..\src\strategy\Strategy.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -79,9 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\inc\network\Client.h" />
     <ClInclude Include="..\..\inc\network\MarketTask.h" />
-    <ClInclude Include="..\..\inc\network\Server.h" />
     <ClInclude Include="..\..\inc\network\StateTask.h" />
     <ClInclude Include="..\..\inc\network\TcpClient.h" />
     <ClInclude Include="..\..\inc\network\TcpMessage.h" />
@@ -90,9 +88,7 @@
     <ClInclude Include="..\..\inc\network\Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\network\Client.cpp" />
     <ClCompile Include="..\..\src\network\MarketTask.cpp" />
-    <ClCompile Include="..\..\src\network\Server.cpp" />
     <ClCompile Include="..\..\src\network\StateTask.cpp" />
     <ClCompile Include="..\..\src\network\TcpClient.cpp" />
     <ClCompile Include="..\..\src\network\TcpMessage.cpp" />

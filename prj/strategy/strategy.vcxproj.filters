@@ -18,9 +18,21 @@
     <ClInclude Include="..\..\inc\strategy\Strategy.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\inc\strategy\Client.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inc\strategy\AutoRun.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\strategy\Strategy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\strategy\Client.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\strategy\AutoRun.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

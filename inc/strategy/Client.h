@@ -15,7 +15,7 @@ public:
 	virtual void OnError(const string &) = 0;
 };
 
-class NETWORK_API Client : public SocketReaderSpi, public ReConnSpi
+class Client : public SocketReaderSpi, public ReConnSpi
 {
 public:
 	Client(ClientSpi* spi);

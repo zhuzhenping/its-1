@@ -4,7 +4,7 @@
 //#include "dataserver/DataApiDefine.h"
 #include "account/TradeEngine.h"
 //#include "account/DataEngine.h"
-#include "network/Client.h"
+#include "strategy/Client.h"
 #include "network/Timer.h"
 //#include "ctp/MarketDataApi.h"
 //#include "IndexLib/iMA.h"

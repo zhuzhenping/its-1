@@ -7,7 +7,7 @@
 #include "datalib/SearchIndex.h"
 #include "datalib/Symbol2T.h"
 #include "network/Timer.h"
-#include "network/Server.h"
+#include "Server.h"
 
 class DataObj
 {

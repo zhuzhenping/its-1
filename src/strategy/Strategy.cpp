@@ -19,6 +19,7 @@ Strategy::Strategy()
 	//data_engine_ = DataEngine::Instance();
 	//data_engine_->SetSpi(this);
 	client_ = new Client(this);
+	timer_ = new TimerApi(10000, this);
 }
 
 Strategy::~Strategy()
@@ -50,8 +51,7 @@ bool Strategy::Init(string &err){
 	target_profit_value_ = atof(node.GetValue("target_profit_value").c_str());
 	*/
 	
-	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");
-	timer_ = new TimerApi(10000, this);
+	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");	
 	timer_->Start(30000);
 	
 	if (!trade_engine_->Init(Global::Instance()->GetConfigFile(), err)) {
@@ -69,6 +69,7 @@ bool Strategy::Init(string &err){
 
 void Strategy::Denit() {
 	client_->Denit();
+	timer_->Stop();
 }
 /*
 // OnTick

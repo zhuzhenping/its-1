@@ -12,6 +12,7 @@
 #include "network/Timer.h"
 #include "strategy/Strategy.h"
 #include "datalib/ReadWriteDataFile.h"
+#include "strategy/AutoRun.h"
 
 void tick2csv(QString fromDir, QString toDir, QString file) {
 	
@@ -56,8 +57,11 @@ void data2csv(const char *dirname){
 	}
 }
 
+//#define TESTING
+
 int main(int argc,char* argv[])
 {
+#ifdef TESTING
 	if (argc > 1) {
 		data2csv(argv[1]);
 		return 0;
@@ -67,4 +71,9 @@ int main(int argc,char* argv[])
 	Strategy *strategy = new Strategy();
 	strategy->Init(err);
 	return app.exec();
+#else
+	QCoreApplication app(argc, argv);
+	AutoRun *task = new AutoRun();
+	app.exec();
+#endif
 }

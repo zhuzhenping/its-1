@@ -34,7 +34,7 @@ public:
 	virtual void GetKlines(const Symbol& sym, std::vector<FutureKline>& ) = 0;
 };
 
-class NETWORK_API Server : public TcpServerConnSpi, public SocketReaderSpi
+class Server : public TcpServerConnSpi, public SocketReaderSpi
 {
 public:
 	Server(int port);

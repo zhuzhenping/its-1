@@ -11,7 +11,6 @@
 #include "datalib/SymbolChanger.h"
 #include "datalib/SymbolInfoSet.h"
 #include "datalib/ReadWriteDataFile.h"
-#include "network/Server.h"
 
 extern Server *g_server_; // tick server and kline server
 static const int TICK_SIZE = sizeof(FutureTick);
@@ -123,6 +122,8 @@ void DataObj::OnTimer() {
 }
 
 void DataObj::SaveMinKline() {
+	if (min_klines_.size() == 0) { return; }
+
 	FILE* min_fp = fopen(min_path_.c_str(), "ab+");
 	if (min_fp == NULL) {
 		APP_LOG(LOG_LEVEL_ERROR) << "open file error:" << min_path_;
@@ -179,7 +180,6 @@ void DataObj::DoAfterMarket()
 {
 	{
 		Locker locker(&min_klines_mutex_);
-		if (min_klines_.size() == 0) { return; }
 		SaveMinKline();
 	}
 

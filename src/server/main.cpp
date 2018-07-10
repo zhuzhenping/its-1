@@ -4,11 +4,11 @@
 #include "common/AppLog.h"
 #include "AutoRun.h"
 #include "common/SimpleDateTime.h"
-#include "network/Server.h"
+#include "Server.h"
 
 using namespace std;
 
-#define TESTING
+//#define TESTING
 
 
 Server *g_server_ = NULL; // tick server and kline server
@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
 #else
 	QCoreApplication app(argc, argv);
 	AutoRun *task = new AutoRun();
-	task->Init();
 	app.exec();
 #endif
 }
