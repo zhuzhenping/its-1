@@ -41,21 +41,25 @@ void tick2csv(QString fromDir, QString toDir, QString file) {
 	fclose(fp);
 }
 
+void data2csv(const char *dirname){
+	string data_dir = Global::Instance()->GetItsHome()+"/data/Tick/" + dirname;
+	QDir sourceDir(data_dir.c_str());
+	string csv_dir = data_dir + "/csv";
+	QDir targetDir(csv_dir.c_str());
+	if (!targetDir.exists()){ sourceDir.mkdir("csv"); }
+	QFileInfoList fileInfoList2 = sourceDir.entryInfoList(); 
+	foreach(QFileInfo fileInfo2, fileInfoList2){  
+		if(fileInfo2.fileName() == "." || fileInfo2.fileName() == "..")  
+			continue; 
+		QString file = fileInfo2.fileName().remove(".data");
+		tick2csv(sourceDir.absolutePath(), targetDir.absolutePath(), file);
+	}
+}
+
 int main(int argc,char* argv[])
 {
 	if (argc > 1) {
-		string data_dir = Global::Instance()->GetItsHome()+"/data/Tick/" + argv[1];
-		QDir sourceDir(data_dir.c_str());
-		string csv_dir = data_dir + "/csv";
-		QDir targetDir(csv_dir.c_str());
-		if (!targetDir.exists()){ sourceDir.mkdir("csv"); }
-		QFileInfoList fileInfoList2 = sourceDir.entryInfoList(); 
-		foreach(QFileInfo fileInfo2, fileInfoList2){  
-			if(fileInfo2.fileName() == "." || fileInfo2.fileName() == "..")  
-				continue; 
-			QString file = fileInfo2.fileName().remove(".data");
-			tick2csv(sourceDir.absolutePath(), targetDir.absolutePath(), file);
-		}
+		data2csv(argv[1]);
 		return 0;
 	}
 	QCoreApplication app(argc, argv);
