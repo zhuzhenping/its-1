@@ -4,6 +4,7 @@
 #include "common/Directory.h"
 #include "datalib/SymbolInfoSet.h"
 #include "common/Global.h"
+#include "datalib/SymbolChanger.h"
 
 using namespace std;
 
@@ -69,7 +70,7 @@ void CTPMarginCommision::Init() {
 	info_set_ = SymbolInfoSet::Instance();
 	for (std::vector<Symbol>::const_iterator iter = info_set_->FutureSymbols().begin(); iter != info_set_->FutureSymbols().end(); ++iter) {
 		margins_[iter->instrument] = LocalMargin();
-		commisions_[iter->instrument] = LocalCommision();
+		commisions_[GetFutureProName(iter->instrument)] = LocalCommision();
 	}
 
 	std::string its_home = Global::Instance()->GetItsHome();

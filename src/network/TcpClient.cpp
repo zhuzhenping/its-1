@@ -11,6 +11,7 @@ TcpClient::TcpClient(const char *ip, const char* port, SocketReaderSpi* read_spi
 	, resolver_(io_service_)
 	, query_(tcp::v4(), ip, port)
 	, first_connect_(true)
+	, init_(false)
 {
 	endpoint_iterator_ = resolver_.resolve(query_);
 	new_session_ = new TcpSession(io_service_, read_spi_, this);
@@ -19,20 +20,24 @@ TcpClient::TcpClient(const char *ip, const char* port, SocketReaderSpi* read_spi
 TcpClient::~TcpClient(void){
 	delete new_session_;
 	new_session_ = NULL;
-	io_service_.stop();
 }
 
 
 void TcpClient::Init(){	
-	Thread::Start();
-	boost::asio::async_connect(new_session_->socket(), endpoint_iterator_, 
-		boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
+	/*if (!init_)*/ {
+		Thread::Start();
+		boost::asio::async_connect(new_session_->socket(), endpoint_iterator_, 
+			boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
+		//init_ = true;
+	}	
 }
 
 void TcpClient::Denit(){
+	//init_ = false;
 	Thread::Stop();
 	Thread::Join();
 	new_session_->socket().close();
+	io_service_.stop();
 }
 
 void TcpClient::handle_connect(const boost::system::error_code& ec) {
@@ -53,9 +58,11 @@ void TcpClient::handle_connect(const boost::system::error_code& ec) {
 			if(re_conn_spi_)re_conn_spi_->SockConn(false);
 		}
 		else {
-			Sleep(3000);
-			boost::asio::async_connect(new_session_->socket(), endpoint_iterator_,
-				boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
+			/*if (init_) {
+				Sleep(3000);				
+				boost::asio::async_connect(new_session_->socket(), endpoint_iterator_,
+					boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
+			}*/
 		}
 	}
 }
@@ -67,7 +74,7 @@ void TcpClient::Send(const char* buf, int len){
 
 void TcpClient::OnDisconnect(TcpSession *tcp_sock){
 	if (re_conn_spi_)re_conn_spi_->SockDisconn();
-	
+	// if net disconnect, to auto connect when net ok
 	Init();
 }
 
