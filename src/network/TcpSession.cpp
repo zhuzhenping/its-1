@@ -17,18 +17,25 @@ TcpSession::TcpSession(boost::asio::io_service& io_service, SocketReaderSpi* spi
 	, spi_(spi)
 	, disconn_spi_(dis_conn_spi)
 	, is_server_(is_server)
-	, timer_(io_service_)
 	, client_ii_a(0)
+	, is_delete_(false)
 {
-	
+	timer_api_ = new TimerApi(EXPIRES_TIME, this);
 }
 
 TcpSession::~TcpSession(){
-	socket_.close();
-	boost::system::error_code ec;
+	is_delete_ = true;
+	if (timer_api_) {
+		delete timer_api_;
+		timer_api_ = NULL;
+		boost::system::error_code ec;
+		socket_.close(ec);
+	}
+	
+
 	//此函数调用会导致所有尚未返回的async_wait(handler)的handler被调用,同时error_code为boost::asio::error::operation_aborted。
 	//返回值是被cancel的timer数量。
-	timer_.cancel(ec);
+	//timer_.cancel(ec);
 }
 
 void TcpSession::start() {
@@ -38,13 +45,14 @@ void TcpSession::start() {
 		boost::asio::buffer(read_message_.header(), read_message_.head_length()),
 		boost::bind(&TcpSession::handle_read_header, this,boost::asio::placeholders::error));
 
-	timer_.expires_from_now(boost::posix_time::milliseconds(EXPIRES_TIME));
-	timer_.async_wait(boost::bind(&TcpSession::OnTimer, this, boost::asio::placeholders::error));
+	timer_api_->Start();
+	/*timer_.expires_from_now(boost::posix_time::milliseconds(EXPIRES_TIME));
+	timer_.async_wait(boost::bind(&TcpSession::OnTimer, this, boost::asio::placeholders::error));*/
 }
 
-void TcpSession::OnTimer(const boost::system::error_code& ec){
-	if (ec) { APP_LOG(LOG_LEVEL_DEBUG) << "TcpSession::OnTimer error"; return; }
-
+//void TcpSession::OnTimer(const boost::system::error_code& ec){
+	//if (ec) { APP_LOG(LOG_LEVEL_DEBUG) << "TcpSession::OnTimer error"; return; }
+void TcpSession::OnTimer() {
 	if (is_server_) { // 服务器在EXPIRES_TIME内是否收到过数据,如果没收到，则掐断连接
 		if (!server_recv_data_) {
 			APP_LOG(LOG_LEVEL_DEBUG) << "delete this: " << socket_.remote_endpoint().address().to_string() << "\t" << socket_.remote_endpoint().port();
@@ -67,12 +75,12 @@ void TcpSession::OnTimer(const boost::system::error_code& ec){
 		SEND_HEART_BEAT		
 	}
 
-	timer_.expires_from_now(boost::posix_time::milliseconds(EXPIRES_TIME));
-	timer_.async_wait(boost::bind(&TcpSession::OnTimer, this, boost::asio::placeholders::error));
+	/*timer_.expires_from_now(boost::posix_time::milliseconds(EXPIRES_TIME));
+	timer_.async_wait(boost::bind(&TcpSession::OnTimer, this, boost::asio::placeholders::error));*/
 }
 
 void TcpSession::close() {
-	io_service_.post(boost::bind(&TcpSession::handle_close, shared_from_this()));  
+	io_service_.post(boost::bind(&TcpSession::handle_close, this));  
 }
 
 void TcpSession::handle_close() {
@@ -136,7 +144,7 @@ void TcpSession::handle_read_header(const boost::system::error_code& error )
 	}
 	else if (error == boost::asio::error::connection_reset || error == boost::asio::error::eof) {
 		if (disconn_spi_)disconn_spi_->OnDisconnect(this);
-		delete this;
+		if (!is_delete_)delete this;
 	}
 }
 
@@ -175,7 +183,7 @@ void TcpSession::handle_read_body(const boost::system::error_code& error )
 	else if (error == boost::asio::error::connection_reset || error == boost::asio::error::eof) {
 		if (disconn_spi_)disconn_spi_->OnDisconnect(this);
 		read_message_.clear_data();
-		delete this;
+		if (!is_delete_)delete this;
 	}
 }
 

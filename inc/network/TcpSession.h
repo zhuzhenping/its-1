@@ -10,6 +10,7 @@
 #include <deque>
 #include "network/TcpMessage.h"
 #include "common/Mutex.h"
+#include "network/Timer.h"
 
 using boost::asio::ip::tcp;
 
@@ -30,7 +31,7 @@ public:
 };
 
 class NETWORK_API TcpSession
-	: public boost::enable_shared_from_this<TcpSession>
+	: /*public boost::enable_shared_from_this<TcpSession>, */public TimerSpi
 {
 public:
 	TcpSession(boost::asio::io_service& io_service, 
@@ -69,11 +70,15 @@ private:
 
 	//服务端：如果EXPIRES_TIME 都收不到数据，则掐断该连接
 	//客户端：每隔EXPIRES_TIME向服务端发一个心跳包，若连续6次收不到服务器返回的心跳包，则掐断
-	boost::asio::deadline_timer timer_;
-	void OnTimer(const boost::system::error_code&);
+	//boost::asio::deadline_timer timer_;
+	//void OnTimer(const boost::system::error_code&);
+	virtual void OnTimer();
+	TimerApi *timer_api_;
+
+	bool is_delete_;
 };
 
-typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
+//typedef boost::shared_ptr<TcpSession> TcpSessionPtr;
 
 
 #endif // TCP_SESSION_H

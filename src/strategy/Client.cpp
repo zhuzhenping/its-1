@@ -120,8 +120,11 @@ void Client::Init()
 }
 
 void Client::Denit(){
-	is_init_ = false;
-	tcp_client_->Denit();
+	if (is_init_){
+		is_init_ = false;
+		tcp_client_->Denit();
+	}
+	
 }
 
 

@@ -57,7 +57,7 @@ void data2csv(const char *dirname){
 	}
 }
 
-#define TESTING
+//#define TESTING
 
 int main(int argc,char* argv[])
 {
@@ -70,7 +70,13 @@ int main(int argc,char* argv[])
 	string err;
 	Strategy *strategy = new Strategy();
 	strategy->Init(err);
-	Thread::Sleep(30000);
+	Thread::Sleep(10000);
+	strategy->Denit();
+	strategy->Init(err);
+	Thread::Sleep(10000);
+	strategy->Denit();
+	strategy->Init(err);
+	Thread::Sleep(10000);
 	strategy->Denit();
 	return app.exec();
 #else

@@ -6,38 +6,34 @@ using namespace boost::asio;
 //namespace network_asio {
 
 TcpClient::TcpClient(const char *ip, const char* port, SocketReaderSpi* read_spi, ReConnSpi* re_conn_spi) 
-	: read_spi_(read_spi)
+	: Thread()
+	, read_spi_(read_spi)
 	, re_conn_spi_(re_conn_spi)
 	, resolver_(io_service_)
 	, query_(tcp::v4(), ip, port)
 	, first_connect_(true)
-	, init_(false)
 {
 	endpoint_iterator_ = resolver_.resolve(query_);
-	new_session_ = new TcpSession(io_service_, read_spi_, this);
 }
 
-TcpClient::~TcpClient(void){
-	delete new_session_;
-	new_session_ = NULL;
+TcpClient::~TcpClient(void){	
+	io_service_.stop();
 }
 
 
 void TcpClient::Init(){	
-	/*if (!init_)*/ {
-		Thread::Start();
-		boost::asio::async_connect(new_session_->socket(), endpoint_iterator_, 
-			boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
-		//init_ = true;
-	}	
+	new_session_ = new TcpSession(io_service_, read_spi_, this);
+
+	Thread::Start();
+	boost::asio::async_connect(new_session_->socket(), endpoint_iterator_, 
+		boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
 }
 
 void TcpClient::Denit(){
-	//init_ = false;
 	Thread::Stop();
 	Thread::Join();
-	new_session_->socket().close();
-	io_service_.stop();
+	//new_session_->socket().close();//»áµ¼ÖÂTcpSessionÖÐdelete this
+	delete new_session_;
 }
 
 void TcpClient::handle_connect(const boost::system::error_code& ec) {
@@ -75,7 +71,7 @@ void TcpClient::Send(const char* buf, int len){
 void TcpClient::OnDisconnect(TcpSession *tcp_sock){
 	if (re_conn_spi_)re_conn_spi_->SockDisconn();
 	// if net disconnect, to auto connect when net ok
-	Init();
+	//Init();
 }
 
 void TcpClient::OnRun()

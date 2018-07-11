@@ -54,14 +54,13 @@ bool Strategy::Init(string &err){
 	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");	
 	timer_->Start(30000);
 	
+	client_->Init();
+	client_->SubData(symbol_);
+	
 	if (!trade_engine_->Init(err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << err;
 		return false;
 	}
-
-	client_->Init();
-	client_->SubData(symbol_);
-	
 	return true;
 }
 
@@ -352,6 +351,8 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 	if (strlen(bars->tick.symbol.instrument) == 0) last_price_ = bars->klines[0].close;
 	trade_engine_->SetPosiLastPrice(bars->tick.symbol, last_price_);
 
+	//cout << "OnData " << last_price_ << endl;
+
 	Locker lock(&pos_mutex_);
 	double pre_price = trade_engine_->GetPosiPrePrice(bars->tick.symbol);
 	for (int i=0; i < positions_.size(); ++i){
@@ -373,7 +374,7 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 	}
 
 	// print 1m klines
-	/*if (is_kline_up) {
+	if (is_kline_up) {
 		static int n = 0;
 		if (bars->klines.Size() > n){
 			if (bars->klines.Size()-n ==1){
@@ -386,7 +387,7 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 
 			n = bars->klines.Size();
 		}
-	}*/
+	}
 }
 void Strategy::OnError(const string &err){
 

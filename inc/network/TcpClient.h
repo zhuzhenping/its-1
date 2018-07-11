@@ -46,8 +46,6 @@ private:
 
 	SocketReaderSpi* read_spi_;
 	ReConnSpi* re_conn_spi_;
-
-	bool init_;
 };
 
 #endif // TCP_CLIENT_H
