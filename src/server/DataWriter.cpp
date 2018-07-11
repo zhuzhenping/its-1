@@ -111,7 +111,7 @@ void DataObj::OnTimer() {
 	{
 		Locker locker(&min_klines_mutex_);
 		min_klines_.push_back(kline_);
-		APP_LOG(LOG_LEVEL_INFO) << kline_.Str();
+		APP_LOG(LOG_LEVEL_DEBUG) << kline_.Str();
 	}
 	RunKlineRsp rsp;
 	rsp.kline = kline_;
@@ -130,7 +130,7 @@ void DataObj::SaveMinKline() {
 	}
 	else
 	{
-		APP_LOG(LOG_LEVEL_INFO) << "save kline " << symbol_.instrument << " in num: " << (int)min_klines_.size();
+		APP_LOG(LOG_LEVEL_DEBUG) << "save kline " << symbol_.instrument << " in num: " << (int)min_klines_.size();
 		if (PRODUCT_FUTURE == symbol_.product || PRODUCT_OPTION == symbol_.product) {
 			for (int i=0; i<min_klines_.size(); ++i)
 				fwrite(&min_klines_[i], sizeof(FutureKline), 1, min_fp);
@@ -149,7 +149,7 @@ void DataObj::SaveMinKline() {
 
 void DataObj::SaveTick()
 {
-	APP_LOG(LOG_LEVEL_INFO)<<"write tick:"<<symbol_.instrument;
+	APP_LOG(LOG_LEVEL_DEBUG)<<"write tick:"<<symbol_.instrument;
 
 	FILE* fp = fopen(tick_path_.c_str(), "ab+");
 	if (fp == NULL)
