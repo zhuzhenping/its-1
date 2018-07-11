@@ -43,11 +43,11 @@ void TcpSession::start() {
 }
 
 void TcpSession::OnTimer(const boost::system::error_code& ec){
-	if (ec) return;
+	if (ec) { APP_LOG(LOG_LEVEL_DEBUG) << "TcpSession::OnTimer error"; return; }
 
 	if (is_server_) { // 服务器在EXPIRES_TIME内是否收到过数据,如果没收到，则掐断连接
 		if (!server_recv_data_) {
-			//APP_LOG(LOG_LEVEL_INFO) << "delete this: " << socket_.remote_endpoint().address().to_string() << "\t" << socket_.remote_endpoint().port();
+			APP_LOG(LOG_LEVEL_DEBUG) << "delete this: " << socket_.remote_endpoint().address().to_string() << "\t" << socket_.remote_endpoint().port();
 			if (disconn_spi_)disconn_spi_->OnDisconnect(this);
 			delete this;
 			return;
@@ -56,9 +56,9 @@ void TcpSession::OnTimer(const boost::system::error_code& ec){
 	}
 	else { // 客户端如果连续发NUMBER_次都没收到反馈，则掐断连接
 		++client_ii_a;
-		//APP_LOG(LOG_LEVEL_INFO) << "send heart beat. client_ii_a==" << client_ii_a;
+		APP_LOG(LOG_LEVEL_DEBUG) << "send heart beat. client_ii_a==" << client_ii_a;
 		if (client_ii_a >= NUMBER_) {
-			//APP_LOG(LOG_LEVEL_INFO) << "delete this: " << socket_.remote_endpoint().address().to_string() << "\t" << socket_.remote_endpoint().port();
+			APP_LOG(LOG_LEVEL_DEBUG) << "delete this: " << socket_.remote_endpoint().address().to_string() << "\t" << socket_.remote_endpoint().port();
 			if (disconn_spi_)disconn_spi_->OnDisconnect(this);
 			delete this;
 			return;

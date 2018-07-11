@@ -39,7 +39,7 @@ private:
 	boost::asio::io_service io_service_;
 	tcp::resolver resolver_;
 	tcp::resolver::query query_;
-	tcp::resolver::iterator endpoint_iterator;
+	tcp::resolver::iterator endpoint_iterator_;
 	
 	bool first_connect_;
 	TcpSession *new_session_;

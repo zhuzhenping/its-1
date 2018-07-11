@@ -28,12 +28,12 @@
 	<port>1234</port>
   </DataServer1>
   
-  <CtpTradeAccount_ACTUAL>
+  <CtpTradeAccount1>
     <broker_id>7070</broker_id>
     <user_id>8720713</user_id>
     <pwd>1</pwd>
     <front_addr>tcp://112.64.143.157:41213</front_addr>
-  </CtpTradeAccount_ACTUAL>
+  </CtpTradeAccount1>
   
   <DataServer>
 	  <broker_id>66666</broker_id>
@@ -42,30 +42,12 @@
 		  <Address IP="tcp://123.124.247.8:41213" />
 		  <Address IP="tcp://27.115.78.193:41213" />
 		  <Address IP="tcp://180.169.101.178:41213" />
-	  </ctp_address>
-	
+	  </ctp_address>	
 	  <my_address>
-		  <Address IP="127.0.0.1" />
+		  <Address IP="10.253.163.57" />
 	  </my_address>
 	  <port>1234</port>
   </DataServer>
-  
-  
-    <RuntimeDataApis>
-        <CTP_FUTURE SuportExchange="2,3,4,5" Active="1" IsLocal="1">
-            <IP>tcp://112.64.143.157:41213</IP>
-            <Port>0</Port>
-            <BorokerID>7070</BorokerID>
-            <UserID>8761883</UserID>
-            <Password>111111</Password>
-            <NightTrading>1</NightTrading>
-        </CTP_FUTURE>
-    </RuntimeDataApis>
-    <HisKlineApi Name="K线行情接口" SuportTick="1">
-        <IP>121.43.232.206</IP>
-        <Port>3333</Port>
-    </HisKlineApi>
-    
 
   
   <Strategy_MA>

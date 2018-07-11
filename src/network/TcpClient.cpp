@@ -12,30 +12,27 @@ TcpClient::TcpClient(const char *ip, const char* port, SocketReaderSpi* read_spi
 	, query_(tcp::v4(), ip, port)
 	, first_connect_(true)
 {
-	Thread::Start();
-
-	endpoint_iterator = resolver_.resolve(query_);
+	endpoint_iterator_ = resolver_.resolve(query_);
 	new_session_ = new TcpSession(io_service_, read_spi_, this);
 }
 
 TcpClient::~TcpClient(void){
-	Thread::Stop();
-	Thread::Join();
 	delete new_session_;
+	new_session_ = NULL;
 	io_service_.stop();
 }
 
 
 void TcpClient::Init(){	
-	boost::asio::async_connect(new_session_->socket(), endpoint_iterator, 
+	Thread::Start();
+	boost::asio::async_connect(new_session_->socket(), endpoint_iterator_, 
 		boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
 }
 
 void TcpClient::Denit(){
-	Stop();
+	Thread::Stop();
+	Thread::Join();
 	new_session_->socket().close();
-	/*delete new_session_;
-	new_session_ = NULL;*/
 }
 
 void TcpClient::handle_connect(const boost::system::error_code& ec) {
@@ -57,7 +54,7 @@ void TcpClient::handle_connect(const boost::system::error_code& ec) {
 		}
 		else {
 			Sleep(3000);
-			boost::asio::async_connect(new_session_->socket(), endpoint_iterator,
+			boost::asio::async_connect(new_session_->socket(), endpoint_iterator_,
 				boost::bind(&TcpClient::handle_connect, this, boost::asio::placeholders::error));
 		}
 	}

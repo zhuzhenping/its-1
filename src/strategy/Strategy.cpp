@@ -54,13 +54,11 @@ bool Strategy::Init(string &err){
 	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");	
 	timer_->Start(30000);
 	
-	if (!trade_engine_->Init(Global::Instance()->GetConfigFile(), err)) {
+	if (!trade_engine_->Init(err)) {
 		APP_LOG(LOG_LEVEL_ERROR) << err;
 		return false;
 	}
-	/*if (!data_engine_->Init("rb1810")) {
-		return false;
-	}*/
+
 	client_->Init();
 	client_->SubData(symbol_);
 	
@@ -68,8 +66,9 @@ bool Strategy::Init(string &err){
 }
 
 void Strategy::Denit() {
-	client_->Denit();
 	timer_->Stop();
+	client_->Denit();
+	trade_engine_->Denit();
 }
 /*
 // OnTick
@@ -311,13 +310,13 @@ void Strategy::UpdatePositions(){
 		APP_LOG(LOG_LEVEL_INFO)
 			<< ("\t") << positions[i].symbol.instrument
 			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "long" : "short")
-			<< positions[i].open_volume << "hand"
+			<< ("\t") << positions[i].open_volume << " hand"
 			//<< (" 昨仓:") << positions[i].yestd_volume
 			//<< (" 可平:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
 			<< ("\topen_price:") << positions[i].open_price;
 	}
 	if (positions.size()==0){
-		APP_LOG(LOG_LEVEL_INFO) << "no position";
+		APP_LOG(LOG_LEVEL_INFO) << "0 hand";
 	}
 }
 // OnOrder OnTrade
@@ -347,8 +346,10 @@ void Strategy::OnTradeError(const string &err){
 	cout << err << endl;
 }
 
+// 策略： 突破 开仓 ; 
 void Strategy::OnData(Bars *bars, bool is_kline_up){
 	last_price_ = bars->tick.last_price;
+	if (strlen(bars->tick.symbol.instrument) == 0) last_price_ = bars->klines[0].close;
 	trade_engine_->SetPosiLastPrice(bars->tick.symbol, last_price_);
 
 	Locker lock(&pos_mutex_);
@@ -371,7 +372,8 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 		}
 	}
 
-	if (is_kline_up) {
+	// print 1m klines
+	/*if (is_kline_up) {
 		static int n = 0;
 		if (bars->klines.Size() > n){
 			if (bars->klines.Size()-n ==1){
@@ -384,7 +386,7 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 
 			n = bars->klines.Size();
 		}
-	}
+	}*/
 }
 void Strategy::OnError(const string &err){
 
@@ -417,62 +419,3 @@ void Strategy::OnTimer() {
 
 	//trade_engine_->QryCtpAccount();
 }
-
-
-// OnTick
-/*
-void Strategy::OnTick(FutureTick *tick){
-	last_price_ = tick->last_price;
-	//APP_LOG(LOG_LEVEL_INFO) << tick->symbol.Str() << "\t" << tick->last_price;
-
-	double pre_price = trade_engine_->GetPosiPrePrice(tick->symbol);
-	trade_engine_->SetPosiLastPrice(tick->symbol, tick->last_price);
-
-	Locker lock(&pos_mutex_);
-	for (int i=0; i < positions_.size(); ++i){
-		if (positions_[i].symbol == tick->symbol){
-			if (PriceUnEqual(pre_price, tick->last_price)) {
-				PriceType pre_profit = float_profit_[i];
-				if (PriceUnEqual(pre_profit, 0.)) {
-					float_profit_[i] = trade_engine_->CalcFloatProfit(
-						positions_[i].symbol, positions_[i].direction,
-						positions_[i].open_price, tick->last_price, positions_[i].open_volume);
-					PriceType diff_profit = float_profit_[i] - pre_profit;
-					trade_engine_->UpdateAccountProfit(diff_profit);		
-				}
-				else {
-					trade_engine_->UpdateAccountProfit(float_profit_[i], true);	
-				}
-			}
-		}
-	}*/
-
-	/*
-	std::vector<OrderData> orders;
-	trade_engine_->GetValidOrder(orders);
-	for (int i=0; i < orders.size(); ++i)
-	{
-		DateTime time = orders[i].submit_time;	
-		int num = atoi(cancel_interval_.substr(0, cancel_interval_.size() - 1).c_str());
-		if (cancel_interval_[1]=='m')
-			time.AddMin(num);
-		else if (cancel_interval_[1]=='s')
-			time.AddSec(num);
-		if (time < tick->date_time) //说明订单超过1分钟未成交
-		{
-			trade_engine_->CancelOrder(orders[i]);
-			OrderParamData param;
-			param.symbol = orders[i].symbol;
-			param.limit_price = orders[i].direction == LONG_DIRECTION ? tick->ask_price + price_offset_ : tick->bid_price - price_offset_;
-			param.volume = orders[i].total_volume - orders[i].trade_volume;
-			param.order_price_flag = LIMIT_PRICE_ORDER;
-			strncpy(param.user_tag, user_tag_, sizeof(UserStrategyIdType));
-			param.direction = orders[i].direction;
-			param.open_close_flag = orders[i].open_close_flag;
-			param.hedge_flag = HF_SPECULATION;
-			trade_engine_->SubmitOrder(param);
-		}
-	}
-	*/
-
-

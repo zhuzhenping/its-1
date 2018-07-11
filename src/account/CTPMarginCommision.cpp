@@ -13,12 +13,10 @@ using namespace std;
 
 CTPMarginCommision::CTPMarginCommision() : api_(NULL), margin_fp_(NULL), commision_fp_(NULL) {
 	api_ = MarketTradeApiFactory::CreateMarketTradeApi(MarketTradeApiFactory::kCtpFutureApi);
-	Init();
 }
 
 CTPMarginCommision::~CTPMarginCommision() {
-	Denit();
-	delete api_; api_ = NULL;
+	if (api_) {delete api_; api_ = NULL; }
 }
 
 void CTPMarginCommision::QryMargin(const std::string& symbol) {
@@ -82,6 +80,7 @@ void CTPMarginCommision::Init() {
 		while (!margin_file.eof()) {
 			char buf[128] = {0};
 			margin_file.getline(buf, 128);
+			if (strlen(buf) == 0) break;
 			LocalMargin local_margin;
 			std::string date = local_margin.margin.FromStr(buf);
 			if (QDate::currentDate() == QDate::fromString(date.c_str(), DateFormat)) local_margin.need_qry = false;
@@ -97,6 +96,7 @@ void CTPMarginCommision::Init() {
 		while (!commision_file.eof()) {
 			char buf[128] = {0};
 			commision_file.getline(buf, 128);
+			if (strlen(buf) == 0) break;
 			LocalCommision local_commision;
 			std::string date = local_commision.commision.FromStr(buf);
 			if (QDate::currentDate() == QDate::fromString(date.c_str(), DateFormat)) local_commision.need_qry = false;

@@ -39,19 +39,17 @@ TradeEngine* TradeEngine::Instance()
 	}
 	return self_;
 }
-void TradeEngine::DeinitApi(){
-	if (NULL != api_) 
-	{ 
-		api_->Denit();
-	}
+void TradeEngine::Denit(){
+	if (api_) api_->Denit();
+	CTPMarginCommision::Denit();
 }
-bool TradeEngine::Init(const std::string& conf_path, std::string& err)
+bool TradeEngine::Init(std::string& err)
 {
 	if (is_init_) { return true; }
 	re_qry_pos_ = false;
+	CTPMarginCommision::Init();
 
-	//string cfg_pth = Global::Instance()->GetConfigDir()+conf_path;
-	XmlConfig config(conf_path);
+	XmlConfig config(Global::Instance()->GetConfigFile());
 	if (!config.Load()) 
 	{
 		err = "load config error";

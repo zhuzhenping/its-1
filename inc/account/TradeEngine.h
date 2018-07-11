@@ -42,8 +42,8 @@ class ACCOUNT_API TradeEngine : public TradeSpi, public CTPMarginCommision
 public:
 	static TradeEngine* Instance();
 	void SetSpi(TradeEventSpi* trade_spi, TradeErrorSpi *err_spi=NULL);
-	bool Init(const std::string& conf_path, std::string& err);
-	void DeinitApi();
+	bool Init(std::string& err);
+	void Denit();
 	
 	///交易接口：返回本地委托编号LocalOrderID>0.如果出错，返回0
 	// 买开(LimitPrince)
