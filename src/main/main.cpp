@@ -57,24 +57,26 @@ void data2csv(const char *dirname){
 	}
 }
 
+void cal_trade_list(){
+	ifstream trade_file(Global::Instance()->GetItsHome()+"/data/TradeList.txt");
+	while (!trade_file.eof()) {
+		char buf[128] = {0};
+		trade_file.getline(buf, 128);
+		if (strlen(buf) == 0) break;
+		TradeData trade;
+		trade.FromStr(buf);
+	}
+	trade_file.close();	
+}
+
 //#define TESTING
 
 int main(int argc,char* argv[])
 {
-#ifdef TESTING
-	if (argc > 1) {
-		data2csv(argv[1]);
-		return 0;
-	}
+#ifdef TESTING	
 	QCoreApplication app(argc, argv);
 	string err;
 	Strategy *strategy = new Strategy();
-	strategy->Init(err);
-	Thread::Sleep(10000);
-	strategy->Denit();
-	strategy->Init(err);
-	Thread::Sleep(10000);
-	strategy->Denit();
 	strategy->Init(err);
 	Thread::Sleep(10000);
 	strategy->Denit();

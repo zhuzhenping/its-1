@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <algorithm>
 #include <QtCore/QSettings>
 #include <QtCore/QFile>
@@ -41,13 +42,13 @@ TradeEngine* TradeEngine::Instance()
 }
 void TradeEngine::Denit(){
 	if (api_) api_->Denit();
-	CTPMarginCommision::Denit();
+	//CTPMarginCommision::Denit();
 }
 bool TradeEngine::Init(std::string& err)
 {
 	if (is_init_) { return true; }
 	re_qry_pos_ = false;
-	CTPMarginCommision::Init();
+	//CTPMarginCommision::Init();
 
 	XmlConfig config(Global::Instance()->GetConfigFile());
 	if (!config.Load()) 
@@ -604,6 +605,9 @@ void TradeEngine::OnTrade(TradeData* trade_data)
 	UpdatePoswWithTrade(trade_data);
 
 	SendTradeEventData(TradeEventData::TRADE_EVENT, trade_data->user_tag, trade_data);
+
+	static ofstream ofs(Global::Instance()->GetItsHome()+"/data/TradeList.txt");
+	ofs << trade_data->Str() << endl;
 }
 
 void TradeEngine::OpenLong(TradeData* trade_data) {

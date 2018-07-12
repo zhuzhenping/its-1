@@ -12,7 +12,9 @@ using namespace std;
 
 #define DateFormat "yyyy-MM-dd"
 
-CTPMarginCommision::CTPMarginCommision() : api_(NULL), margin_fp_(NULL), commision_fp_(NULL) {
+CTPMarginCommision::CTPMarginCommision() 
+	: api_(NULL) 
+{
 	api_ = MarketTradeApiFactory::CreateMarketTradeApi(MarketTradeApiFactory::kCtpFutureApi);
 }
 
@@ -65,6 +67,7 @@ PriceType CTPMarginCommision::CalcCommision(const Symbol &symbol, OpenCloseFlag 
 	}
 }
 
+/*
 void CTPMarginCommision::Init() {
 	api_->SetSecurityInfoSpi(this);
 
@@ -75,10 +78,9 @@ void CTPMarginCommision::Init() {
 	}
 
 	std::string its_home = Global::Instance()->GetItsHome();
-
-	std::string margin_path = its_home + "/data/FutureMargin.txt";	
-	if (Directory::IsDirExist(margin_path)) {
-		ifstream margin_file(margin_path.c_str());
+	margin_path_ =  Global::Instance()->GetItsHome() + "/data/FutureMargin.txt";	
+	if (Directory::IsDirExist(margin_path_)) {
+		ifstream margin_file(margin_path_.c_str());
 		while (!margin_file.eof()) {
 			char buf[128] = {0};
 			margin_file.getline(buf, 128);
@@ -90,11 +92,9 @@ void CTPMarginCommision::Init() {
 		}
 		margin_file.close();		
 	}
-	margin_fp_ = fopen(margin_path.c_str(), "w+");
-
-	std::string commison_path = its_home + "/data/FutureCommision.txt";
-	if (Directory::IsDirExist(commison_path)) {
-		ifstream commision_file(commison_path.c_str());
+	commison_path_ = its_home + "/data/FutureCommision.txt";
+	if (Directory::IsDirExist(commison_path_)) {
+		ifstream commision_file(commison_path_.c_str());
 		while (!commision_file.eof()) {
 			char buf[128] = {0};
 			commision_file.getline(buf, 128);
@@ -106,7 +106,6 @@ void CTPMarginCommision::Init() {
 		}
 		commision_file.close();
 	}
-	commision_fp_ = fopen(commison_path.c_str(), "w+");
 }
 
 void CTPMarginCommision::Denit() {
@@ -126,10 +125,9 @@ void CTPMarginCommision::Denit() {
 		fwrite("\n", 1, 1, commision_fp_);
 	}
 
-	if (margin_fp_) fclose(margin_fp_);
-	if (commision_fp_) fclose(commision_fp_);
 	info_set_->Denit();
 }
+*/
 
 void CTPMarginCommision::OnMarginInfo(const MarginInfo& info, bool is_last) {	
 	margins_[info.instrument].margin = info;
