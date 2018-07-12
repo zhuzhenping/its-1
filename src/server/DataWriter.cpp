@@ -154,25 +154,17 @@ void DataObj::SaveTick()
 	if (fp == NULL)
 	{
 		APP_LOG(LOG_LEVEL_ERROR) << "open file error" << tick_path_;
-		for (int i=0; i<TICK_QUEUE_LEN; ++i)
-		{
+		for (int i=0; i<cur_pos_; ++i)
 			free(ticks_[i]);
-			ticks_[i] = NULL;
-		}
 		return;
 	}
 
-	for (int i=0; i < TICK_QUEUE_LEN; ++i)
+	for (int i=0; i < cur_pos_; ++i) {
 		fwrite(ticks_[i], TICK_SIZE, 1, fp);
+		free(ticks_[i]);
+	}
 
 	fclose(fp);
-
-
-	for (int i=0; i < TICK_QUEUE_LEN; ++i)
-	{
-		free(ticks_[i]);
-		ticks_[i] = NULL;
-	}
 }
 
 void DataObj::DoAfterMarket()
@@ -193,9 +185,9 @@ DataWriter::DataWriter()
 	: is_init_(false)
 	, is_night_(false)
 	, data_objs_(NULL)
+	, timer_(NULL)
 {
 	data_objs_ = new Symbol2DataObj();
-	timer_ = new TimerApi(60000, this);
 	g_server_->SetDataSpi(this);
 }
 
@@ -218,7 +210,7 @@ bool DataWriter::Init(std::string& err, bool is_night)
 	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
 
 	if (!InitContainer(err)) { return false; }
-
+	if (!timer_) timer_ = new TimerApi(60000, this);
 	timer_->Start(DateTime::ToNextMin());
 	is_init_ = true;
 	return true;
@@ -343,10 +335,9 @@ void DataWriter::DoAfterMarket()
 {
 	Locker locker(&data_objs_mutex_);
 	for (int i = 0; i < data_objs_->Size(); ++i) {
-		data_objs_->Data(i)->DoAfterMarket();
+		DataObj *obj = data_objs_->Data(i);
+		if (obj) obj->DoAfterMarket();
 	}
-	//data_objs_->ForEach(WriteKline, this);
-	
 
 	if (!is_night_)
 	{

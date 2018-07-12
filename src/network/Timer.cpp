@@ -22,13 +22,13 @@ TimerApi::~TimerApi(){
 }
 
 void TimerApi::Start(int ms){
-	Thread::Start();
 	if (!is_running_) {
 		is_running_ = true;
 		t_.expires_at(t_.expires_at() + boost::posix_time::milliseconds(ms<=0?ms_:ms));  
 		t_.async_wait(boost::bind(&TimerApi::OnTimer, this,
 			boost::asio::placeholders::error));
 	}	
+	Thread::Start();
 }
 
 

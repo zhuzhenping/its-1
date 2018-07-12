@@ -190,7 +190,7 @@ struct FutureKline : public KlineExt1
 	}
 	std::string Str() const {
 		char tmp[256] = {0};
-		sprintf(tmp, "%s,%s-%s,%g,%g,%g,%g,%d", symbol.Str().c_str(), b_time.Str().c_str(), e_time.Str().c_str(), 
+		sprintf(tmp, "%s,%s %s,%g,%g,%g,%g,%d", symbol.Str().c_str(), b_time.Str().c_str(), e_time.Str().c_str(), 
 			open, high, low, close, volume);
 		return tmp;
 	}

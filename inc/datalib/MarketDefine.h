@@ -197,6 +197,11 @@ struct Symbol
 		sprintf(str, "%c%c_%s", product, exchange, instrument);
 		return str;
 	}
+	void FromStr(const char *str){
+		InstrumentIdType inst = {0};
+		sscanf(str, "%c%c_%s", &product, &exchange, inst);
+		strcpy(instrument, inst);
+	}
 
 	bool operator==(const Symbol& other) const 
 	{
@@ -249,7 +254,7 @@ struct SymbolEx : public Symbol
 		strcpy(instrument, inst);
 		strcpy(name, na);
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[64] = {0};
 		sprintf(tmp, "%c,%s,%s", exchange, instrument, name);
@@ -340,7 +345,7 @@ struct BaseInstrumentInfo
 	BaseInstrumentInfo() : price_tick(0.) {}
 	virtual ~BaseInstrumentInfo() {}
 	virtual void FromStr(const char* str) = 0;
-	virtual std::string ToStr() const = 0;
+	virtual std::string Str() const = 0;
 };
 
 struct StockInstrumentInfo : public BaseInstrumentInfo 
@@ -363,7 +368,7 @@ struct StockInstrumentInfo : public BaseInstrumentInfo
 		strcpy(symbol.instrument, instrument);
 		strcpy(symbol.name, name);
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[64] = {0};
 		sprintf(tmp, "%c,%s,%s,%g,%g,%g,%d,%d,%d,%d,%c", symbol.exchange, symbol.instrument, symbol.name, 
@@ -385,7 +390,7 @@ struct InstrumentInfo {
 			&symbol.exchange, symbol.instrument, symbol.name, 
 			&vol_multi, &price_tick);
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[256] = {0};
 		sprintf(tmp, "%c,%s,%s,%d,%g", symbol.exchange, symbol.instrument, 
@@ -418,7 +423,7 @@ struct InstrumentInfoData : public BaseInstrumentInfo {
 		strcpy(symbol.instrument, instrument);
 		strcpy(symbol.name, name);
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[64] = {0};
 		sprintf(tmp, "%c,%s,%s,%d,%g,%d,%g,%g", symbol.exchange, symbol.instrument, 
@@ -449,7 +454,7 @@ struct MarginInfo {
 		strcpy(instrument, inst);
 		return date;
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[64] = {0};
 		sprintf(tmp, "%s,%g,%g,%g,%g", instrument, LongMarginRatioByMoney, LongMarginRatioByVolume,
@@ -476,7 +481,7 @@ struct OptionInfo
 			&symbol.exchange, symbol.instrument, symbol.name,
 			&vol_multi, &price_tick, &strike_price, &open_date, &expire_date, underling);
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[256] = {0};
 		sprintf(tmp, "%c,%s,%s,%d,%g,%g,%d,%d,%s", symbol.exchange, symbol.instrument, 
@@ -515,7 +520,7 @@ struct CommisionInfo {
 		strcpy(instrument, inst);
 		return date;
 	}
-	std::string ToStr() const
+	std::string Str() const
 	{
 		char tmp[64] = {0};
 		sprintf(tmp, "%s,%g,%g,%g,%g,%g,%g", instrument, OpenRatioByMoney, OpenRatioByVolume,
@@ -568,6 +573,23 @@ struct TradeData {
 	PriceType trade_commision;				/**< 手续费(股票自己算) */
 
 	TradeData() { memset(this, 0, sizeof(TradeData)); }
+	void FromStr(const char* str)
+	{
+		char sym[128] =  {0};
+		char time[256] = {0};
+		sscanf(str, "%[^,],%lld,%lld,%[^,],%c,%c,%lf,%d,%lf", 
+			sym, &order_id, &trade_id, time, &direction, &open_close_flag, &trade_price, &trade_volume, &trade_commision);
+		symbol.FromStr(sym);
+		trade_time.FromStr(time);
+	}
+	//symbol,order_id,trade_id
+	std::string Str() const
+	{
+		char tmp[256] = {0};
+		sprintf(tmp, "%s,%lld,%lld,%s,%c,%c,%lf,%d,%lf", symbol.Str().c_str(), order_id, trade_id, trade_time.Str().c_str(),
+			direction, open_close_flag, trade_price, trade_volume, trade_commision);
+		return tmp;
+	}
 };
 
 /*

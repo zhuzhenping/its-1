@@ -80,6 +80,7 @@ void CtpFutureMarketDataHandler::OnFrontConnected()
 			APP_LOG(LOG_LEVEL_ERROR) << "ReLogin error:\t"<<api_->error_msg_;
 		}
 	}
+	api_->spi_->OnMdConnect();
 }
 
 void CtpFutureMarketDataHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *rsp_user_login, 

@@ -218,7 +218,7 @@ void MySecurityInfoSpi::WriteFile()
 			strcpy(iter->second->symbol.name, chi_name.c_str());
 		}
 
-		string str = iter->second->ToStr();
+		string str = iter->second->Str();
 		fwrite(str.c_str(), str.size(), 1, fp_);
 		fwrite("\n", 1, 1, fp_);
 	}

@@ -724,8 +724,8 @@ void SymbolInfoSet::InsertStock(SymbolEx& sym)
 	{
 		return;
 	}
-	std::string str = sym.ToStr();
-	file << sym.ToStr() << std::endl;
+	std::string str = sym.Str();
+	file << sym.Str() << std::endl;
 	file.close();
 }
 

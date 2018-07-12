@@ -78,6 +78,7 @@ void CtpFutureTradeHandler::OnFrontConnected() {
 		
 		m_reconnected = false;
 	}
+	m_market_trade_api->spi_->OnConnect();
 }
 
 void CtpFutureTradeHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *rsp_user_login, 

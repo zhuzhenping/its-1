@@ -93,6 +93,7 @@ struct COMMON_API DateTime
 	bool operator<=(const DateTime& date_time) const;
 
 	std::string Str() const;
+	void FromStr(const char *);
 	bool IsTradingDay(XmlConfig* config = NULL);
 
 	DateTime& AddMilSec(int ms);

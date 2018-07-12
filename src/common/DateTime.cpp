@@ -437,6 +437,11 @@ std::string DateTime::Str() const
 	return ss.str();
 }
 
+void DateTime::FromStr(const char *str){
+	sscanf(str, "%4d-%2d-%2d %2d:%2d:%2d.%3d", 
+		&date.year, &date.month, &date.day, &time.hour, &time.minute, &time.sec, &time.milsec);
+}
+
 //DateTime operator+(const DateTime& t1, const Time& t2) 
 //{
 //	Time t3 = t1.time + t2;

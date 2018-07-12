@@ -114,14 +114,14 @@ void CTPMarginCommision::Denit() {
 	for (std::map<std::string, LocalMargin>::const_iterator iter = margins_.begin(); iter != margins_.end(); ++iter) {
 		if (!strcmp(iter->second.margin.instrument, "")) continue;
 		fwrite(date.toLocal8Bit().constData(), strlen(date.toLocal8Bit().constData()), 1,margin_fp_);
-		fwrite(iter->second.margin.ToStr().c_str(), iter->second.margin.ToStr().size(), 1, margin_fp_);
+		fwrite(iter->second.margin.Str().c_str(), iter->second.margin.Str().size(), 1, margin_fp_);
 		fwrite("\n", 1, 1, margin_fp_);
 	}
 
 	for (std::map<std::string, LocalCommision>::const_iterator iter = commisions_.begin(); iter != commisions_.end(); ++iter) {
 		if (!strcmp(iter->second.commision.instrument, "")) continue;
 		fwrite(date.toLocal8Bit().constData(), strlen(date.toLocal8Bit().constData()), 1, commision_fp_);
-		fwrite(iter->second.commision.ToStr().c_str(), iter->second.commision.ToStr().size(), 1, commision_fp_);
+		fwrite(iter->second.commision.Str().c_str(), iter->second.commision.Str().size(), 1, commision_fp_);
 		fwrite("\n", 1, 1, commision_fp_);
 	}
 

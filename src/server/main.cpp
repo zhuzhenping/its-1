@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//#define TESTING
+#define TESTING
 
 
 Server *g_server_ = NULL; // tick server and kline server
@@ -25,12 +25,15 @@ int main(int argc, char *argv[])
 	QCoreApplication app(argc, argv);	
 
 	string err;
-	MySecurityInfoSpi *instrument_table_;
+	/*MySecurityInfoSpi *instrument_table_;
 	instrument_table_ = new MySecurityInfoSpi(PRODUCT_FUTURE);
 	instrument_table_->Init();
 	Thread::Sleep(5000);
+	instrument_table_->Denit();*/
 	CtpClient * ctp_client_ = new CtpClient;
 	ctp_client_->Init(true, err);
+	Thread::Sleep(5000);
+	ctp_client_->Denit();
 	app.exec();
 #else
 	QCoreApplication app(argc, argv);
