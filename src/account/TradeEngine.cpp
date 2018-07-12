@@ -887,7 +887,7 @@ void TradeEngine::UpdatePoswWithTrade(TradeData* trade_data)
 
 void TradeEngine::OnCancelOrder(OrderData* order_data)
 {
-	SendTradeEventData(TradeEventData::ORDER_EVENT, order_data->user_tag, order_data);
+	if (order_data) SendTradeEventData(TradeEventData::ORDER_EVENT, order_data->user_tag, order_data);
 
 	stringstream ss;
 	ss << "撤单失败 : " << order_data->status_msg << " 策略号: " << order_data->user_tag;
@@ -927,8 +927,8 @@ void TradeEngine::OnQryAccount(int req_id, AccountData* acco_data, const std::st
 void TradeEngine::OnQryPosition(int req_id, PositionData* pos_data, const std::string& err, bool is_last)
 {
 	if (NULL == pos_data || pos_data->open_volume <= 0) { 
-		if (is_last)
-			SendTradeEventData(TradeEventData::POSITION_EVENT, pos_data->user_tag, pos_data);
+		/*if (is_last)
+			SendTradeEventData(TradeEventData::POSITION_EVENT, pos_data->user_tag, pos_data);*/
 		return; 
 	}
 	///查下保证金率、手续费率.

@@ -210,6 +210,7 @@ bool DataWriter::Init(std::string& err, bool is_night)
 	if (!Directory::IsDirExist(folder)) Directory::MakeDir(folder);
 
 	if (!InitContainer(err)) { return false; }
+	// put these two statement together
 	if (!timer_) timer_ = new TimerApi(60000, this);
 	timer_->Start(DateTime::ToNextMin());
 	is_init_ = true;

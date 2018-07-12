@@ -37,7 +37,7 @@ public:
 	virtual void OnTimer() = 0;
 };
 
-
+// put TimerApi() and Start() together
 class NETWORK_API TimerApi : public Thread
 {
 public:

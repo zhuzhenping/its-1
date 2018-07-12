@@ -127,6 +127,7 @@ void CTPMarginCommision::Denit() {
 
 	if (margin_fp_) fclose(margin_fp_);
 	if (commision_fp_) fclose(commision_fp_);
+	info_set_->Denit();
 }
 
 void CTPMarginCommision::OnMarginInfo(const MarginInfo& info, bool is_last) {	

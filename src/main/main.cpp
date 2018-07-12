@@ -57,7 +57,7 @@ void data2csv(const char *dirname){
 	}
 }
 
-#define TESTING
+//#define TESTING
 
 int main(int argc,char* argv[])
 {
