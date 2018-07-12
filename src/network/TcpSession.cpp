@@ -113,7 +113,7 @@ void TcpSession::Send(const char* buf, int len) {
 
 void TcpSession::handle_write(const boost::system::error_code& error){
 	
-	if (!error){
+	if (!error && !is_delete_){
 		Locker locker(&write_message_mutex_);
 
 		write_message_.front().clear_data();
@@ -133,7 +133,7 @@ void TcpSession::handle_write(const boost::system::error_code& error){
 
 void TcpSession::handle_read_header(const boost::system::error_code& error )
 {
-	if (!error) {
+	if (!error && !is_delete_) {
 		if (is_server_) server_recv_data_ = true;
 		else client_ii_a = 0;
 
@@ -150,7 +150,7 @@ void TcpSession::handle_read_header(const boost::system::error_code& error )
 
 void TcpSession::handle_read_body(const boost::system::error_code& error )
 {
-	if (!error) {
+	if (!error && !is_delete_) {
 		if (read_message_.data_is_leagle()) {
 			if (is_server_ && read_message_.is_heart_beat()) {
 				// 服务器收到心跳包，应立即发心跳包给客户端

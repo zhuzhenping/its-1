@@ -50,17 +50,18 @@ PriceType CTPMarginCommision::CalcMargin(const Symbol &symbol, OrderDirection di
 }
 
 PriceType CTPMarginCommision::CalcCommision(const Symbol &symbol, OpenCloseFlag open_close_flag, PriceType open_price, VolumeType open_volume) {
+	CommisionInfo &commision = commisions_[GetFutureProName(symbol.instrument)].commision;
 	if (OPEN_ORDER == open_close_flag) {
-		return open_price * open_volume * commisions_[symbol.instrument].commision.OpenRatioByMoney
-			+ open_volume * commisions_[symbol.instrument].commision.OpenRatioByVolume;
+		return open_price * open_volume * commision.OpenRatioByMoney
+			+ open_volume * commision.OpenRatioByVolume;
 	}
 	else if (CLOSE_TODAY_ORDER == open_close_flag) {
-		return open_price * open_volume * commisions_[symbol.instrument].commision.CloseTodayRatioByMoney
-			+ open_volume * commisions_[symbol.instrument].commision.CloseTodayRatioByVolume;
+		return open_price * open_volume * commision.CloseTodayRatioByMoney
+			+ open_volume * commision.CloseTodayRatioByVolume;
 	}
 	else {
-		return open_price * open_volume * commisions_[symbol.instrument].commision.CloseRatioByMoney
-			+ open_volume * commisions_[symbol.instrument].commision.CloseRatioByVolume;
+		return open_price * open_volume * commision.CloseRatioByMoney
+			+ open_volume * commision.CloseRatioByVolume;
 	}
 }
 
@@ -135,6 +136,6 @@ void CTPMarginCommision::OnMarginInfo(const MarginInfo& info, bool is_last) {
 }
 
 void CTPMarginCommision::OnCommisionInfo(const CommisionInfo& info, bool is_last) {	
-	commisions_[info.instrument].commision = info;
+	commisions_[GetFutureProName(info.instrument)].commision = info;
 }
 

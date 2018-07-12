@@ -2,7 +2,7 @@
 <iTStation>
 	<Log>
         <!--日志等级：LEVEL_OFF LEVEL_ERROR LEVEL_WARN LEVEL_INFO LEVEL_SUCCESS LEVEL_DEBUG-->
-        <Level>LEVEL_DEBUG</Level>
+        <Level>LEVEL_INFO</Level>
         <MaxSize>1024000</MaxSize>
         <MaxNum>100</MaxNum>
         <AppendComsole>1</AppendComsole>
