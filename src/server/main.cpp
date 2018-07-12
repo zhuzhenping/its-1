@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define TESTING
+//#define TESTING
 
 
 Server *g_server_ = NULL; // tick server and kline server
