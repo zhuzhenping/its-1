@@ -20,7 +20,6 @@ TcpSession::TcpSession(boost::asio::io_service& io_service, SocketReaderSpi* spi
 	, client_ii_a(0)
 	, is_delete_(false)
 {
-	timer_api_ = new TimerApi(EXPIRES_TIME, this);
 }
 
 TcpSession::~TcpSession(){
@@ -45,7 +44,8 @@ void TcpSession::start() {
 		boost::asio::buffer(read_message_.header(), read_message_.head_length()),
 		boost::bind(&TcpSession::handle_read_header, this,boost::asio::placeholders::error));
 
-	timer_api_->Start();
+	timer_api_ = new TimerApi(EXPIRES_TIME, this);
+	timer_api_->Start(EXPIRES_TIME);
 	/*timer_.expires_from_now(boost::posix_time::milliseconds(EXPIRES_TIME));
 	timer_.async_wait(boost::bind(&TcpSession::OnTimer, this, boost::asio::placeholders::error));*/
 }
