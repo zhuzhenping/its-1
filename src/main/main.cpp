@@ -58,15 +58,16 @@ void data2csv(const char *dirname){
 }
 
 void cal_trade_list(){
-	ifstream trade_file(Global::Instance()->GetItsHome()+"/data/TradeList.txt");
-	while (!trade_file.eof()) {
+	string trade_file = Global::Instance()->GetItsHome()+"/data/TradeList.txt";
+	ifstream ifs(trade_file.c_str());
+	while (!ifs.eof()) {
 		char buf[128] = {0};
-		trade_file.getline(buf, 128);
+		ifs.getline(buf, 128);
 		if (strlen(buf) == 0) break;
 		TradeData trade;
 		trade.FromStr(buf);
 	}
-	trade_file.close();	
+	ifs.close();	
 }
 
 //#define TESTING

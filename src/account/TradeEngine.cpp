@@ -606,7 +606,8 @@ void TradeEngine::OnTrade(TradeData* trade_data)
 
 	SendTradeEventData(TradeEventData::TRADE_EVENT, trade_data->user_tag, trade_data);
 
-	static ofstream ofs(Global::Instance()->GetItsHome()+"/data/TradeList.txt");
+	string trade_file = Global::Instance()->GetItsHome()+"/data/TradeList.txt";
+	static ofstream ofs(trade_file.c_str());
 	ofs << trade_data->Str() << endl;
 }
 
