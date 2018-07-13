@@ -16,10 +16,12 @@ CTPMarginCommision::CTPMarginCommision()
 	: api_(NULL) 
 {
 	api_ = MarketTradeApiFactory::CreateMarketTradeApi(MarketTradeApiFactory::kCtpFutureApi);
+	info_set_ = SymbolInfoSet::Instance();
 }
 
 CTPMarginCommision::~CTPMarginCommision() {
 	if (api_) {delete api_; api_ = NULL; }
+
 }
 
 void CTPMarginCommision::QryMargin(const std::string& symbol) {
@@ -67,12 +69,12 @@ PriceType CTPMarginCommision::CalcCommision(const Symbol &symbol, OpenCloseFlag 
 	}
 }
 
-/*
+
 void CTPMarginCommision::Init() {
 	api_->SetSecurityInfoSpi(this);
 
 	info_set_ = SymbolInfoSet::Instance();
-	for (std::vector<Symbol>::const_iterator iter = info_set_->FutureSymbols().begin(); iter != info_set_->FutureSymbols().end(); ++iter) {
+	/*for (std::vector<Symbol>::const_iterator iter = info_set_->FutureSymbols().begin(); iter != info_set_->FutureSymbols().end(); ++iter) {
 		margins_[iter->instrument] = LocalMargin();
 		commisions_[GetFutureProName(iter->instrument)] = LocalCommision();
 	}
@@ -105,11 +107,11 @@ void CTPMarginCommision::Init() {
 			commisions_[local_commision.commision.instrument] = local_commision;
 		}
 		commision_file.close();
-	}
+	}*/
 }
 
 void CTPMarginCommision::Denit() {
-	QString date = QDate::currentDate().toString(DateFormat);
+	/*QString date = QDate::currentDate().toString(DateFormat);
 	date += ",";
 	for (std::map<std::string, LocalMargin>::const_iterator iter = margins_.begin(); iter != margins_.end(); ++iter) {
 		if (!strcmp(iter->second.margin.instrument, "")) continue;
@@ -123,11 +125,11 @@ void CTPMarginCommision::Denit() {
 		fwrite(date.toLocal8Bit().constData(), strlen(date.toLocal8Bit().constData()), 1, commision_fp_);
 		fwrite(iter->second.commision.Str().c_str(), iter->second.commision.Str().size(), 1, commision_fp_);
 		fwrite("\n", 1, 1, commision_fp_);
-	}
+	}*/
 
 	info_set_->Denit();
 }
-*/
+
 
 void CTPMarginCommision::OnMarginInfo(const MarginInfo& info, bool is_last) {	
 	margins_[info.instrument].margin = info;

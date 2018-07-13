@@ -23,8 +23,8 @@ protected:
 	PriceType CalcMargin(const Symbol &, OrderDirection, PriceType open_price, VolumeType open_volume);
 	PriceType CalcCommision(const Symbol &, OpenCloseFlag, PriceType open_price, VolumeType open_volume);
 
-	/*void Init();
-	void Denit();*/
+	void Init();
+	void Denit();
 
 private:
 	virtual void OnInstrumentInfo(const BaseInstrumentInfo& info, bool is_last) {}

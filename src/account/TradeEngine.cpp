@@ -42,13 +42,13 @@ TradeEngine* TradeEngine::Instance()
 }
 void TradeEngine::Denit(){
 	if (api_) api_->Denit();
-	//CTPMarginCommision::Denit();
+	CTPMarginCommision::Denit();
 }
 bool TradeEngine::Init(std::string& err)
 {
 	if (is_init_) { return true; }
 	re_qry_pos_ = false;
-	//CTPMarginCommision::Init();
+	CTPMarginCommision::Init();
 
 	XmlConfig config(Global::Instance()->GetConfigFile());
 	if (!config.Load()) 
