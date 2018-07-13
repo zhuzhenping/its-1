@@ -211,8 +211,9 @@ bool DataWriter::Init(std::string& err, bool is_night)
 
 	if (!InitContainer(err)) { return false; }
 	// put these two statement together
-	if (!timer_) timer_ = new TimerApi(60000, this);
+	timer_ = new TimerApi(60000, this);
 	timer_->Start(DateTime::ToNextMin());
+
 	is_init_ = true;
 	return true;
 }
@@ -221,7 +222,7 @@ void DataWriter::Denit()
 {
 	if (!is_init_) { return; }
 	DoAfterMarket();
-	timer_->Stop();
+	delete timer_;
 	is_init_ = false;
 }
 
