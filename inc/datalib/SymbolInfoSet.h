@@ -79,6 +79,7 @@ public:
 	double GetPriceTick(const Symbol& sym);
 	int GetVolMulti(const Symbol& sym);
 
+	std::string GetProductName(const char* inst);
 	ExchangeIdType GetFutureExchange(const char* inst);
 
 	void InsertStock(SymbolEx& sym);
@@ -89,7 +90,6 @@ public:
 	Symbol GetZhuli(const char* inst);
 	void GetZhuli(std::set<Symbol>& syms); //获取所有主力合约(原始合约，如IF1606)
 	const std::vector<Symbol>& FutureZhuliSymbols() { return future_zhuli_symbols_; } //主力合约名(IF888)
-	std::string GetProductName(const char* inst);
 
 	//未考虑期权
 	static ProductIdType GetProduct(const char* inst, ExchangeIdType exch);

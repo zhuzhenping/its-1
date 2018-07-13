@@ -378,10 +378,10 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 		static int n = 0;
 		if (bars->klines.Size() > n){
 			if (bars->klines.Size()-n ==1){
-				APP_LOG(LOG_LEVEL_INFO) << bars->klines[0].Str();
+				APP_LOG(LOG_LEVEL_DEBUG) << bars->klines[0].Str();
 			} else {
 				for (int i=bars->klines.Size()-1; i>=0;--i){
-					APP_LOG(LOG_LEVEL_INFO) << bars->klines[i].Str();
+					APP_LOG(LOG_LEVEL_DEBUG) << bars->klines[i].Str();
 				}
 			}
 
@@ -393,6 +393,7 @@ void Strategy::OnError(const string &err){
 
 }
 void Strategy::OnTimer() {
+	if (last_price_ < 0 || last_price_ > 100000000) return;
 	PositionData long_pos, short_pos;
 	trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
 	trade_engine_->GetShortPositionBySymbol(short_pos, symbol_);
