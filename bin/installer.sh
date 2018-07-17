@@ -52,7 +52,7 @@ gpgcheck=1
 """ > /etc/yum.repos.d/mariadb.repo
 yum install -y MariaDB-server MariaDB-client
 systemctl enable mariadb ; systemctl start mariadb
-mysql -uroot -e"grant all privileges on *.* to root@'localhost' identified by 'root'";
+mysql -uroot -e"grant all privileges on *.* to wudian@'%' identified by 'wudian'";
 
 wget -N https://raw.github.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh    -O  /usr/bin/dropbox_uploader.sh
 chmod +x /usr/bin/dropbox_uploader.sh 
