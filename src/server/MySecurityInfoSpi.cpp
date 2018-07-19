@@ -75,12 +75,12 @@ void MyMarketTradeCallback::OnError(const int request_id, const std::string& err
 	APP_LOG(LOG_LEVEL_ERROR) << error_msg;
 }
 
-void MyMarketTradeCallback::OnDisconnect(const std::string& reson){
-	APP_LOG(LOG_LEVEL_WARN) << reson;
+void MyMarketTradeCallback::OnTdDisconnect(const std::string& reson){
+	APP_LOG(LOG_LEVEL_INFO) << reson;
 }
 
-void MyMarketTradeCallback::OnConnect() {
-	APP_LOG(LOG_LEVEL_INFO) << "连接成功.";
+void MyMarketTradeCallback::OnTdConnect() {
+	APP_LOG(LOG_LEVEL_INFO) << "OnTdConnect.";
 }
 
 MySecurityInfoSpi::MySecurityInfoSpi(ProductIdType product)

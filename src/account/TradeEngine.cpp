@@ -406,7 +406,7 @@ void TradeEngine::OnDisconnect(const std::string& reson)
 	if(err_spi_)err_spi_->OnTradeError( "与CTP断开连接"); 
 }
 
-void TradeEngine::OnConnect() 
+void TradeEngine::OnTdConnect() 
 {
 	is_init_ = true;
 	if(err_spi_)err_spi_->OnTradeError("与CTP重新连接成功"); 

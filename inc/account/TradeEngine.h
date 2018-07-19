@@ -111,7 +111,7 @@ private:
 	virtual void OnError(const int request_id, const std::string& error_msg);
 	virtual void OnOrderError(OrderData* order_data);
 	virtual void OnDisconnect(const std::string& reson);
-	virtual void OnConnect();
+	virtual void OnTdConnect();
 	virtual void OnOrder(OrderData* order_data);
 	virtual void OnTrade(TradeData* trade_data);
 	virtual void OnCancelOrder(OrderData* canceled_data);

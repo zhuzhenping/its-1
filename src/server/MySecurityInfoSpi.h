@@ -59,8 +59,8 @@ class MyMarketTradeCallback : public TradeSpi
 {
 public:
 	virtual void OnError(const int request_id, const std::string& error_msg);
-	virtual void OnDisconnect(const std::string& reson);
-	virtual void OnConnect();
+	virtual void OnTdDisconnect(const std::string& reson);
+	virtual void OnTdConnect();
 
 	virtual void OnOrderError(OrderData* order_data) {}
 	virtual void OnOrder(OrderData* order_data) {}

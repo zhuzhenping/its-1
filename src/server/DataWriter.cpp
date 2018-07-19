@@ -98,7 +98,6 @@ void DataObj::PushTick(FutureTick* tick)
 	if (cur_pos_ == TICK_QUEUE_LEN)
 	{
 		SaveTick();
-		cur_pos_ = 0;
 	}
 }
 
@@ -151,20 +150,20 @@ void DataObj::SaveMinKline() {
 void DataObj::SaveTick()
 {
 	FILE* fp = fopen(tick_path_.c_str(), "ab+");
-	if (fp == NULL)
-	{
+	if (fp) {
+		for (int i=0; i < cur_pos_; ++i) {
+			fwrite(ticks_[i], TICK_SIZE, 1, fp);
+		}
+		fclose(fp);
+	} else {
 		APP_LOG(LOG_LEVEL_ERROR) << "open file error" << tick_path_;
-		for (int i=0; i<cur_pos_; ++i)
-			free(ticks_[i]);
-		return;
 	}
 
 	for (int i=0; i < cur_pos_; ++i) {
-		fwrite(ticks_[i], TICK_SIZE, 1, fp);
 		free(ticks_[i]);
 	}
-
-	fclose(fp);
+	
+	cur_pos_ = 0;
 }
 
 void DataObj::DoAfterMarket()

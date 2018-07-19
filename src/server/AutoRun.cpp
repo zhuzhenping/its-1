@@ -11,8 +11,8 @@
 
 AutoRun::AutoRun() : TimedStateTaskManager(), ctp_client_(NULL)
 {
-	day_close_time_ = Time(15, 20, 0);
-	night_open_time_ = Time(20, 40, 0);
+	/*day_close_time_ = Time(15, 20, 0);
+	night_open_time_ = Time(20, 40, 0);*/
 	SetInterval(10000);
 	StartTimer();
 
@@ -50,8 +50,8 @@ bool AutoRun::DoNightOpen(){
 	APP_LOG(LOG_LEVEL_INFO)<<"DoNightOpen";
 	string err;
 	if (instrument_table_->Init()) {
+		Thread::Sleep(5000);
 		instrument_table_->Denit();
-		APP_LOG(LOG_LEVEL_ERROR)<<"get instrument_table_  fail";
 	}
 
 	if (!ctp_client_->Init(false, err))

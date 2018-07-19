@@ -36,7 +36,7 @@ void CtpFutureMarketDataHandler::OnFrontDisconnected(int reason)
 	api_->m_succed_connect = false;
 	api_->m_succed_login = false;
 
-	std::string error_msg = "CTP front disconnect -> ";
+	std::string error_msg = "cto md front disconnect: ";
 	switch(reason) {
 	case 0x1001:
 		error_msg += "socket read error";
@@ -54,7 +54,7 @@ void CtpFutureMarketDataHandler::OnFrontDisconnected(int reason)
 		error_msg += "receive error message";
 		break;
 	default:
-		error_msg += "other error";
+		break;
 	}
 
 	api_->spi_->OnMdDisconnect(error_msg);

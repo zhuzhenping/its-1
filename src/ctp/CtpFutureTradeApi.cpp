@@ -25,7 +25,7 @@ void CtpFutureTradeHandler::OnFrontDisconnected(int reason) {
 	m_market_trade_api->m_succed_login = false;
 	m_reconnected = true;
 
-	std::string error_msg = "CTP front disconnect -> ";
+	std::string error_msg = "CTP td front disconnect: ";
 	switch(reason) {
 	case 0x1001:
 		error_msg += "socket read error";
@@ -43,16 +43,16 @@ void CtpFutureTradeHandler::OnFrontDisconnected(int reason) {
 		error_msg += "receive error message";
 		break;
 	default:
-		error_msg += "other error";
+		break;
 	}
 
-	m_market_trade_api->spi_->OnDisconnect(error_msg);
+	m_market_trade_api->spi_->OnTdDisconnect(error_msg);
 }
 
 void CtpFutureTradeHandler::OnHeartBeatWarning(int time_lapse) {
 	char error_msg[64];
 	sprintf_s(error_msg, 64, "heart beat warning -> have not receive heart beat in %d seconds", time_lapse);
-	m_market_trade_api->spi_->OnDisconnect(error_msg);
+	m_market_trade_api->spi_->OnTdDisconnect(error_msg);
 }
 
 void CtpFutureTradeHandler::OnFrontConnected() {
@@ -62,7 +62,7 @@ void CtpFutureTradeHandler::OnFrontConnected() {
 		m_market_trade_api->ReleaseWait();
 	} 
 	else {	//断线自动重连
-		m_market_trade_api->spi_->OnConnect();
+		m_market_trade_api->spi_->OnTdConnect();
 		std::string err;
 		if (!m_market_trade_api->been_logout_)
 		{

@@ -37,12 +37,12 @@ public:
 	/*
 	 * @brief OnReconnected 与服务器断开连接
 	 */
-	virtual void OnConnect() {}
+	virtual void OnTdConnect() {}
 
 	/*
-	 * @brief OnDisconnect 与服务器断开连接
+	 * @brief OnTdDisconnect 与服务器断开连接
 	 */
-	virtual void OnDisconnect(const std::string& reson) {}
+	virtual void OnTdDisconnect(const std::string& reson) {}
 
 	/*
 	 * @brief OnOrder 委托订单回报、撤单回报
