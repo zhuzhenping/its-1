@@ -1,7 +1,9 @@
 ﻿#ifndef SIMPLEMATH_H
 #define SIMPLEMATH_H
 
+
 #include "common/Global.h"
+
 
 bool DATALIB_API PriceGreatThan(double val1, double val2);
 bool DATALIB_API  PriceInRange(double val, double val1, double val2);
@@ -11,6 +13,9 @@ bool DATALIB_API  PriceUnEqual(double val1, double val2);
 bool DATALIB_API  DoubleUnEqual(double val1, double val2);
 
 bool DATALIB_API  FloatUnEqual(float val1, float val2);
+
+double DATALIB_API DoubleMax(int, ...);
+double DATALIB_API DoubleMin(int, ...);
 
 /*
 template <typename T>

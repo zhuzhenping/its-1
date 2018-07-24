@@ -19,7 +19,7 @@ Strategy::Strategy()
 	//data_engine_ = DataEngine::Instance();
 	//data_engine_->SetSpi(this);
 	client_ = new Client(this);
-	timer_ = new TimerApi(10000, this);
+	
 }
 
 Strategy::~Strategy()
@@ -52,7 +52,8 @@ bool Strategy::Init(string &err){
 	*/
 	
 	symbol_ =  Symbol(PRODUCT_FUTURE, EXCHANGE_SHFE, "rb1810");	
-	timer_->Start(30000);
+	timer_ = new TimerApi(10000, this);
+	//timer_->Start(30000);
 	
 	client_->Init();
 	client_->SubData(symbol_);
@@ -65,7 +66,7 @@ bool Strategy::Init(string &err){
 }
 
 void Strategy::Denit() {
-	timer_->Stop();
+	delete timer_;
 	client_->Denit();
 	trade_engine_->Denit();
 }
@@ -351,9 +352,50 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 	if (strlen(bars->tick.symbol.instrument) == 0) last_price_ = bars->klines[0].close;
 	trade_engine_->SetPosiLastPrice(bars->tick.symbol, last_price_);
 
-	//cout << "OnData " << last_price_ << endl;
+	if (last_price_ < 0 || last_price_ > 100000000) return;
+	if (bars->klines.Size() < 5) return;
+	double max = DoubleMax(3, bars->klines[1].high, bars->klines[2].high, bars->klines[3].high);
+	double min = DoubleMin(3, bars->klines[1].low, bars->klines[2].low, bars->klines[3].low);
+	PositionData long_pos, short_pos;
+	trade_engine_->GetLongPositionBySymbol(long_pos, symbol_);
+	trade_engine_->GetShortPositionBySymbol(short_pos, symbol_);
+	static int state_ = 0;
+	switch(state_) {
+	case 0:
+		{
+			if (last_price_ > max) {
+				if (short_pos.today_volume > 0)
+					trade_engine_->BuyCover(symbol_, last_price_+10, short_pos.today_volume);
+				trade_engine_->Buy(symbol_, last_price_+10, 1);
+				state_ = 1;
+			} else if (last_price_ < min) {
+				if (long_pos.today_volume > 0)
+					trade_engine_->Sell(symbol_, last_price_-10, long_pos.today_volume);
+				trade_engine_->SellShort(symbol_, last_price_-10, 1);
+				state_ = -1;
+			}
+		}
+		break;
+	case 1:
+		{
+			if (last_price_ < min) {
+				trade_engine_->Sell(symbol_, last_price_-10, long_pos.today_volume);
+				state_ = 0;
+			}
+		}
+		break;
+	case -1:
+		{
+			if (last_price_ > max) {
+				trade_engine_->BuyCover(symbol_, last_price_+10, short_pos.today_volume);
+				state_ = 0;
+			}
+		}
+		break;
+	}
 
-	Locker lock(&pos_mutex_);
+
+	/*Locker lock(&pos_mutex_);
 	double pre_price = trade_engine_->GetPosiPrePrice(bars->tick.symbol);
 	for (int i=0; i < positions_.size(); ++i){
 		if (positions_[i].symbol == bars->tick.symbol){
@@ -371,17 +413,17 @@ void Strategy::OnData(Bars *bars, bool is_kline_up){
 				}
 			}
 		}
-	}
+	}*/
 
 	// print 1m klines
 	if (is_kline_up) {
 		static int n = 0;
 		if (bars->klines.Size() > n){
 			if (bars->klines.Size()-n ==1){
-				APP_LOG(LOG_LEVEL_DEBUG) << bars->klines[0].Str();
+				APP_LOG(LOG_LEVEL_INFO) << bars->klines[0].Str();
 			} else {
 				for (int i=bars->klines.Size()-1; i>=0;--i){
-					APP_LOG(LOG_LEVEL_DEBUG) << bars->klines[i].Str();
+					APP_LOG(LOG_LEVEL_INFO) << bars->klines[i].Str();
 				}
 			}
 

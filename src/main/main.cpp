@@ -1,6 +1,7 @@
 
 #include <boost/thread/thread.hpp>
 #include <iostream>
+#include <stdarg.h>
 #include "QtCore/QFile"
 #include "QtCore/QDebug"
 #include "QtCore/QCoreApplication"
@@ -13,6 +14,7 @@
 #include "strategy/Strategy.h"
 #include "datalib/ReadWriteDataFile.h"
 #include "strategy/AutoRun.h"
+#include "datalib/SimpleMath.h"
 
 void tick2csv(QString fromDir, QString toDir, QString file) {
 	
@@ -88,3 +90,4 @@ int main(int argc,char* argv[])
 	app.exec();
 #endif
 }
+
