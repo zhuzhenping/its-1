@@ -2,7 +2,7 @@
 *.o
 *.so
 
-
+.idea/
 cmake-build-*
 *sdf
 *.suo
