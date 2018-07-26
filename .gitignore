@@ -3,7 +3,7 @@
 *.so
 
 
-
+cmake-build-*
 *sdf
 *.suo
 *.pdb
