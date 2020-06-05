@@ -97,18 +97,19 @@ bool Directory::SetItsHome()
 	char* its_home = getenv("ITS_HOME");
 	if (NULL != its_home) { return true; }
 
-	/*QDir dir = QDir::current();
-	if (!dir.exists()) { return false; }
-
-	std::string value = GetCurrentPath();
-	if(!dir.exists("config")){ // bin/Debug
-		if (!dir.cdUp()) { return false; }
-		if (!dir.cdUp()) { return false; }	
-		value = QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData()();
-	}*/
+//	QDir dir = QDir::current();
+//	if (!dir.exists()) { return false; }
+//
+//	std::string value = GetCurrentPath();
+//	if(!dir.exists("config")){ // bin/Debug
+//		if (!dir.cdUp()) { return false; }
+//		if (!dir.cdUp()) { return false; }
+//		value = QDir::toNativeSeparators(dir.path()).toLocal8Bit().constData();
+//	}
 	string app_path = GetAppPath();
-	size_t _bin = app_path.find("bin");
+	size_t _bin = app_path.find("its");
 	string value = GetCurrentPath(app_path.substr(0, _bin));
+	value += "/its";
 #ifdef WIN32
 	if (putenv(QObject::tr("ITS_HOME=%1").arg(value.c_str()).toLocal8Bit().constData())) return false;
 #else

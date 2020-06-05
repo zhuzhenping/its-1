@@ -29,7 +29,7 @@ void TcpServer::handle_accept(TcpSession *new_session,
 		if (conn_spi_) conn_spi_->OnAccept(new_session);
 		new_session->start();
 
-		/*//如果session连进来后5s都不发数据，则掐断之		
+		/*//濡傛灉session杩炶繘鏉ュ悗5s閮戒笉鍙戞暟鎹紝鍒欐帎鏂箣		
 		timer_.expires_from_now(boost::posix_time::milliseconds(EXPIRES_TIME));
 		timer_.async_wait(boost::bind(&TcpServer::OnTimer, this, new_session, boost::asio::placeholders::error));*/
 	}

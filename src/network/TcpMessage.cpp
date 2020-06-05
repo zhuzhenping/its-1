@@ -6,7 +6,7 @@
 
 //namespace network_asio {
 
-extern const char *CHECK_CODE = "Kiiik"; // Ğ£ÑéÂë
+extern const char *CHECK_CODE = "Kiiik"; // æ ¡éªŒç 
 
 
 TcpMessage::TcpMessage(void) 
@@ -54,7 +54,7 @@ void TcpMessage::decode_header()
 }
 
 void TcpMessage::encode_header(const char *buf, int len) {
-	while (body_msg_) { // »¹Ã»·¢Íê
+	while (body_msg_) { // è¿˜æ²¡å‘å®Œ
 		Thread::Sleep(1);
 	}
 

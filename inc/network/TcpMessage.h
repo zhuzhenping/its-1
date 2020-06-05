@@ -8,9 +8,9 @@ extern const char *CHECK_CODE;
 class TcpMessage
 {
 	enum {
-		check_code_length = 6, // Ğ£ÑéÂëÎª"KiiiK"£¬6¸ö×Ö½Ú
-		body_length_value = 12, // Êı¾İ³¤¶ÈÖµ
-		max_buf_length = 1024, // »º³åÇøÔİÓÃ²»µ½
+		check_code_length = 6, // æ ¡éªŒç ä¸º"KiiiK"ï¼Œ6ä¸ªå­—èŠ‚
+		body_length_value = 12, // æ•°æ®é•¿åº¦å€¼
+		max_buf_length = 1024, // ç¼“å†²åŒºæš‚ç”¨ä¸åˆ°
 		max_body_length = 99999999
 	};
 
@@ -58,7 +58,7 @@ public:
 	bool data_is_leagle() const { return data_is_leagle_; }
 	bool is_heart_beat() const;
 
-	void decode_header(); //ÏûÏ¢Í·ÒÑ¾­¶Áµ½header_,¶ÔÍ·½øĞĞ½âÎö
+	void decode_header(); //æ¶ˆæ¯å¤´å·²ç»è¯»åˆ°header_,å¯¹å¤´è¿›è¡Œè§£æ
 	void encode_header(const char *, int);
 
 	void clear_data();

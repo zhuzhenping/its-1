@@ -11,7 +11,7 @@
 //namespace itstation {
 
 
-// ½»Ò×ÊÂ¼ş.
+// äº¤æ˜“äº‹ä»¶.
 struct TradeEventData
 {
 	enum EventType
@@ -30,7 +30,7 @@ class TradeEventSpi
 public:
 	virtual void OnTradeEvent(TradeEventData& event) = 0;
 };
-// ½»Ò×³ö´íÌáÊ¾.
+// äº¤æ˜“å‡ºé”™æç¤º.
 class TradeErrorSpi 
 {
 public:
@@ -45,65 +45,65 @@ public:
 	bool Init(std::string& err);
 	void Denit();
 	
-	///½»Ò×½Ó¿Ú£º·µ»Ø±¾µØÎ¯ÍĞ±àºÅLocalOrderID>0.Èç¹û³ö´í£¬·µ»Ø0
-	// Âò¿ª(LimitPrince)
+	///äº¤æ˜“æ¥å£ï¼šè¿”å›æœ¬åœ°å§”æ‰˜ç¼–å·LocalOrderID>0.å¦‚æœå‡ºé”™ï¼Œè¿”å›0
+	// ä¹°å¼€(LimitPrince)
 	int Buy(const Symbol& symbol, double price, int volume, const UserStrategyIdType user_tag = NULL);
-	// Âò¿ª(MarketPrince).
+	// ä¹°å¼€(MarketPrince).
 	int BuyMar(const Symbol& symbol, int volume, const UserStrategyIdType user_tag = NULL);	
-	// ÂòÆ½. 
-	int BuyCover(const Symbol& symbol, double price, int volume, bool is_td/*ÊÇ·ñ½ñ²Ö*/, const UserStrategyIdType user_tag = NULL);
-	// ÂòÆ½. ÓÅÏÈÆ½½ñ²Ö£¬ÔÙÆ½×ò²Ö.
+	// ä¹°å¹³. 
+	int BuyCover(const Symbol& symbol, double price, int volume, bool is_td/*æ˜¯å¦ä»Šä»“*/, const UserStrategyIdType user_tag = NULL);
+	// ä¹°å¹³. ä¼˜å…ˆå¹³ä»Šä»“ï¼Œå†å¹³æ˜¨ä»“.
 	int BuyCover(const Symbol& symbol, double price, int volume, const UserStrategyIdType user_tag = NULL);	
-	// Âô¿ª(LimitPrince)
+	// å–å¼€(LimitPrince)
 	int SellShort(const Symbol& symbol, double price, int volume, const UserStrategyIdType user_tag = NULL);
-	// Âô¿ª(MarketPrince)
+	// å–å¼€(MarketPrince)
 	int SellShortMar(const Symbol& symbol,int volume, const UserStrategyIdType user_tag = NULL);
-	// ÂôÆ½
-	int Sell(const Symbol& symbol, double price, int volume, bool is_td/*ÊÇ·ñ½ñ²Ö*/, const UserStrategyIdType user_tag = NULL);
-	// ÂôÆ½. ÓÅÏÈÆ½½ñ²Ö£¬ÔÙÆ½×ò²Ö.
+	// å–å¹³
+	int Sell(const Symbol& symbol, double price, int volume, bool is_td/*æ˜¯å¦ä»Šä»“*/, const UserStrategyIdType user_tag = NULL);
+	// å–å¹³. ä¼˜å…ˆå¹³ä»Šä»“ï¼Œå†å¹³æ˜¨ä»“.
 	int Sell(const Symbol& symbol, double price, int volume, const UserStrategyIdType user_tag = NULL);		
-	// Æ½²Ö£ºÏÈÆ½½ñ²Ö£¬ÔÙÆ½×ò²Ö.
+	// å¹³ä»“ï¼šå…ˆå¹³ä»Šä»“ï¼Œå†å¹³æ˜¨ä»“.
 	
-	// ¸ù¾İ±¾µØÎ¯ÍĞ±àºÅ³·µ¥.
+	// æ ¹æ®æœ¬åœ°å§”æ‰˜ç¼–å·æ’¤å•.
 	void CancelOrder(int LocalOrderID);
-	// ¸ù¾İºÏÔ¼Ãû³·µ¥.
+	// æ ¹æ®åˆçº¦åæ’¤å•.
 	void CancelOrder(const Symbol& sym, const UserStrategyIdType user_tag = NULL);
 
-	///»ù´¡½»Ò×½Ó¿Ú£º
-	// ·µ»Ø±¾µØÎ¯ÍĞ±àºÅLocalOrderID>0.Èç¹û³ö´í£¬·µ»Ø0
+	///åŸºç¡€äº¤æ˜“æ¥å£ï¼š
+	// è¿”å›æœ¬åœ°å§”æ‰˜ç¼–å·LocalOrderID>0.å¦‚æœå‡ºé”™ï¼Œè¿”å›0
 	int SubmitOrder(const OrderParamData& param);
-	// ³·µ¥.
+	// æ’¤å•.
 	void CancelOrder(const OrderData& param);	
 
-	///²éÑ¯½Ó¿Ú.
-	// ²é×Ê½ğÕË»§.
+	///æŸ¥è¯¢æ¥å£.
+	// æŸ¥èµ„é‡‘è´¦æˆ·.
 	void GetAccount(AccountData &);
-	// ²éÎ¯ÍĞ.
+	// æŸ¥å§”æ‰˜.
 	void GetAllOrder(std::vector<OrderData>& orders, const UserStrategyIdType user_tag = NULL);
-	void GetValidOrder(std::vector<OrderData>& orders, const UserStrategyIdType user_tag = NULL);//¿É³·µ¥.
-	bool GetOrderByLocalId(OrderData& order, NumberIdType local_order_id, const UserStrategyIdType user_tag = NULL);//¸ù¾İ±¾µØ±àºÅ.
+	void GetValidOrder(std::vector<OrderData>& orders, const UserStrategyIdType user_tag = NULL);//å¯æ’¤å•.
+	bool GetOrderByLocalId(OrderData& order, NumberIdType local_order_id, const UserStrategyIdType user_tag = NULL);//æ ¹æ®æœ¬åœ°ç¼–å·.
 	void GetOrderBySymbol(std::vector<OrderData>& orders, const Symbol& sym, const UserStrategyIdType user_tag = NULL);
-	// ²é³É½».
+	// æŸ¥æˆäº¤.
 	void GetAllTrade(std::vector<TradeData>& trades, const UserStrategyIdType user_tag = NULL);
 	void GetTradeBySymbol(std::vector<TradeData>& trades, const Symbol& sym, const UserStrategyIdType user_tag = NULL);
-	// ²é³Ö²Ö (×¢Òâ£º³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã).
+	// æŸ¥æŒä»“ (æ³¨æ„ï¼šæŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—).
 	void GetAllLongPosition(std::vector<PositionData>& pos, const UserStrategyIdType user_tag = NULL);
 	void GetAllShortPosition(std::vector<PositionData>& pos, const UserStrategyIdType user_tag = NULL);
 	void GetAllPosition(std::vector<PositionData>& pos, const UserStrategyIdType user_tag = NULL);
-	// user_tagÈç¹ûÎªNULL£¬²élong_positions_µÄµÚÒ»¸ö.
+	// user_tagå¦‚æœä¸ºNULLï¼ŒæŸ¥long_positions_çš„ç¬¬ä¸€ä¸ª.
 	bool GetLongPositionBySymbol(PositionData &pos, const Symbol& sym, const UserStrategyIdType user_tag = NULL);
 	bool GetShortPositionBySymbol(PositionData &pos, const Symbol& sym, const UserStrategyIdType user_tag = NULL);
 
-	///tickµ½À´£¬Èç¹ûĞĞÇé±ä»¯£¬ÔòÒª¸üĞÂ³Ö²ÖµÄ×îĞÂ¼Û¡¢¸¡¶¯Ó¯¿÷.
-	// µ±ĞĞÇé±ä»¯Ê±£¬¸üĞÂÕË»§µÄ×Ü¸¡¶¯Ó¯¿÷.
+	///tickåˆ°æ¥ï¼Œå¦‚æœè¡Œæƒ…å˜åŒ–ï¼Œåˆ™è¦æ›´æ–°æŒä»“çš„æœ€æ–°ä»·ã€æµ®åŠ¨ç›ˆäº.
+	// å½“è¡Œæƒ…å˜åŒ–æ—¶ï¼Œæ›´æ–°è´¦æˆ·çš„æ€»æµ®åŠ¨ç›ˆäº.
 	void UpdateAccountProfit(PriceType &profit, bool init = false);
 	PriceType CalcFloatProfit(const Symbol &, OrderDirection, PriceType open_price, PriceType last_price, VolumeType open_volume);
-	// ¸üĞÂÓĞ³Ö²ÖµÄºÏÔ¼µÄ×îĞÂ¼Û¡£×¢Òâ£º¿¼ÂÇµ½Ğ§ÂÊ£¬³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã.
+	// æ›´æ–°æœ‰æŒä»“çš„åˆçº¦çš„æœ€æ–°ä»·ã€‚æ³¨æ„ï¼šè€ƒè™‘åˆ°æ•ˆç‡ï¼ŒæŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—.
 	void SetPosiLastPrice(const Symbol &, PriceType);
 	PriceType GetPosiPrePrice(const Symbol &sym);
 
 	virtual ~TradeEngine();
-	// Òì²½²éÑ¯CTPµÄ×Ê½ğÕËºÅ.
+	// å¼‚æ­¥æŸ¥è¯¢CTPçš„èµ„é‡‘è´¦å·.
 	void QryCtpAccount();
 private:
 	TradeEngine();
@@ -122,35 +122,35 @@ private:
 	
 	void OnOrder(OrderData *order_data, bool is_qry, bool is_last = false);
 
-	///¸ù¾İ³É½»ĞÅÏ¢ÊµÊ±¸üĞÂ³Ö²Ö.
+	///æ ¹æ®æˆäº¤ä¿¡æ¯å®æ—¶æ›´æ–°æŒä»“.
 	void UpdatePoswWithTrade(TradeData* trade_data);
 	void OpenLong(TradeData* trade_data);
 	void CloseShort(TradeData* trade_data);
 	void OpenShort(TradeData* trade_data);
 	void CloseLong(TradeData* trade_data);
 
-	///ÅĞ¶ÏÊÇ²»ÊÇÓĞĞ§¶©µ¥  Ã»ÓĞ³·µ¥»òÕßÊ§°Ü.
+	///åˆ¤æ–­æ˜¯ä¸æ˜¯æœ‰æ•ˆè®¢å•  æ²¡æœ‰æ’¤å•æˆ–è€…å¤±è´¥.
 	bool IsOrderValid(OrderStatus status);	
-	///µ±ÓÃ»§²é³Ö²ÖÊ±£¬¼ÆËã³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ.
+	///å½“ç”¨æˆ·æŸ¥æŒä»“æ—¶ï¼Œè®¡ç®—æŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼.
 	void CalcPosiInfoByLastPrice(PositionData &);
-	///Ë¢ĞÂ½çÃæ
+	///åˆ·æ–°ç•Œé¢
 	void SendTradeEventData(TradeEventData::EventType, const UserStrategyIdType, void *);
 
 
-	///---------------¸üĞÂ×Ê½ğÕË»§----------------------------------------------
-	///¿ª²ÖÊ±£¬¶³½á±£Ö¤½ğ+¶³½áÊÖĞø·Ñ = ÏÂµ¥¶³½á.
+	///---------------æ›´æ–°èµ„é‡‘è´¦æˆ·----------------------------------------------
+	///å¼€ä»“æ—¶ï¼Œå†»ç»“ä¿è¯é‡‘+å†»ç»“æ‰‹ç»­è´¹ = ä¸‹å•å†»ç»“.
 	void FrozenAccountBalance(const OrderData *order_data);
-	///³·Ïú¿ª²Öµ¥Ê±£¬È¡ÏûÏÂµ¥¶³½á.
+	///æ’¤é”€å¼€ä»“å•æ—¶ï¼Œå–æ¶ˆä¸‹å•å†»ç»“.
 	void CancelFrozenAccountBalance(const OrderData *order_data);
-	///ÖĞ½ğËù¿ª²Ö¡¢Æ½²ÖÊ±£¬¼´Ê¹²»³É½»Ò²ÊÕ1¿éÊÖĞø·Ñ.
+	///ä¸­é‡‘æ‰€å¼€ä»“ã€å¹³ä»“æ—¶ï¼Œå³ä½¿ä¸æˆäº¤ä¹Ÿæ”¶1å—æ‰‹ç»­è´¹.
 	void MinusAccountCommision(const OrderData *order_data);
-	///³É½»Ê±¿Û³ıÊÖĞø·Ñ.
+	///æˆäº¤æ—¶æ‰£é™¤æ‰‹ç»­è´¹.
 	void MinusAccountCommision(TradeData *trade_data);
-	///¿ª²ÖÕ¼ÓÃ±£Ö¤½ğ.
+	///å¼€ä»“å ç”¨ä¿è¯é‡‘.
 	void MarginAccountBalance(const TradeData *trade_data);
-	///Æ½²ÖÈ¡ÏûÕ¼ÓÃ.
+	///å¹³ä»“å–æ¶ˆå ç”¨.
 	void CancelMarginAccountBalance(const TradeData *trade_data);	
-	///Æ½²ÖÊ±¸üĞÂÆ½²ÖÓ¯¿÷.
+	///å¹³ä»“æ—¶æ›´æ–°å¹³ä»“ç›ˆäº.
 	void UpdateAccountCloseProfit(const TradeData *trade_data);
 
 
@@ -160,15 +160,15 @@ private:
 	static TradeEngine* self_;
 	bool is_init_;
 
-	///×Ê½ğÕË»§ £º1¡¢ÏÂµ¥Ê±¶³½á±£Ö¤½ğ£¬³·µ¥Ê±È¡Ïû¶³½á 2¡¢³É½»Ê±¿Û³ıÊÖĞø·Ñ 3¡¢¿ª²ÖÕ¼ÓÃ±£Ö¤½ğ£¬Æ½²ÖÈ¡ÏûÕ¼ÓÃ 4¡¢Æ½²ÖÊ±¸üĞÂÆ½²ÖÓ¯¿÷.
+	///èµ„é‡‘è´¦æˆ· ï¼š1ã€ä¸‹å•æ—¶å†»ç»“ä¿è¯é‡‘ï¼Œæ’¤å•æ—¶å–æ¶ˆå†»ç»“ 2ã€æˆäº¤æ—¶æ‰£é™¤æ‰‹ç»­è´¹ 3ã€å¼€ä»“å ç”¨ä¿è¯é‡‘ï¼Œå¹³ä»“å–æ¶ˆå ç”¨ 4ã€å¹³ä»“æ—¶æ›´æ–°å¹³ä»“ç›ˆäº.
 	AccountData account_data_;
 	std::map<NumberIdType, OrderData> valid_orders_;
 	std::map<NumberIdType, OrderData> all_orders_;
 	std::list<OrderData> rejected_orders_;
 	std::vector<TradeData> trades_;
-	std::map<std::string, std::map<Symbol, PositionData> > long_positions_; // ¸ù¾İuser_tag½øĞĞ·ÖÀà.
+	std::map<std::string, std::map<Symbol, PositionData> > long_positions_; // æ ¹æ®user_tagè¿›è¡Œåˆ†ç±».
 	std::map<std::string, std::map<Symbol, PositionData> > short_positions_;
-	///³Ö²ÖºÏÔ¼µÄÏÖ¼Û¡£³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã.
+	///æŒä»“åˆçº¦çš„ç°ä»·ã€‚æŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—.
 	std::map<Symbol, PriceType> last_prices_;
 
 	SpinLock account_mutex_;
@@ -177,7 +177,7 @@ private:
 	SpinLock pos_mutex_;
 	SpinLock last_price_mutex_;
 
-	bool re_qry_pos_; // initÊ±£¬Èç¹û·¢Éúontrade£¬ĞèÒªÖØĞÂ²é³Ö²Ö.
+	bool re_qry_pos_; // initæ—¶ï¼Œå¦‚æœå‘ç”Ÿontradeï¼Œéœ€è¦é‡æ–°æŸ¥æŒä»“.
 	
 };
 

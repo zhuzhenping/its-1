@@ -13,8 +13,8 @@ public:
 	}
 	TimerApi *api;
 };
-// ����һ���ӿ�ʼ������ʱ��.
-// ��ʹOnTimer()�����ߣ�Ҳ���ϸ���ÿ10�봥��һ��.
+// 从下一分钟开始启动定时器.
+// 即使OnTimer()中休眠，也会严格按照每10秒触发一次.
 void main() {
 	MyTimerSpi spi;
 	DateTime now(NULL);

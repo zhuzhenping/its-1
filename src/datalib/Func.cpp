@@ -81,8 +81,8 @@ double Lowest(NumericSeries prices, int length, int offset)
 double RelativeStrength(NumericSeries prices, int length)
 {
 	if (prices.Size() <= length) return 50.0;
-	double up_sum = 0.0000001; // UP ÊÕÅÌºÍ
-	double down_sum = 0.0000001; // DOWNÊÕÅÌºÍ
+	double up_sum = 0.0000001; // UP æ”¶ç›˜å’Œ
+	double down_sum = 0.0000001; // DOWNæ”¶ç›˜å’Œ
 	for (int i = 0; i < length; ++i) {
 		if (prices[i] > prices[i + 1])
 			up_sum += prices[i] - prices[i + 1];
@@ -96,8 +96,8 @@ double RelativeStrengthFC(NumericSeries rsis, NumericSeries prices, int length)
 {
 	if (prices.Size() <= length) return 50.0;
 
-	double up_sum = 0.0000001; // UP ÊÕÅÌºÍ
-	double down_sum = 0.0000001; // DOWN ÊÕÅÌºÍ
+	double up_sum = 0.0000001; // UP æ”¶ç›˜å’Œ
+	double down_sum = 0.0000001; // DOWN æ”¶ç›˜å’Œ
 
 	if (prices.Size() == length + 1)
 	{
@@ -105,10 +105,10 @@ double RelativeStrengthFC(NumericSeries rsis, NumericSeries prices, int length)
 	}
 	else
 	{
-		if (prices[0] > prices[1]) up_sum += prices[0] - prices[1]; // ¼ÓÉÏ½ñÌìµÄ UP ÊÕÅÌ£¨ÈçÓĞ£©
-		if (prices[length] > prices[length+1]) up_sum -= prices[length] - prices[length+1]; // ¼õÈ¥1¸ölengthÇ°ÄÇÌìµÄUPÊÕÅÌ£¨ÈçÓĞ£©
-		if (prices[0] < prices[1]) down_sum += prices[1] - prices[0]; // ¼ÓÉÏ½ñÌìµÄ DOWN ÊÕÅÌ£¨ÈçÓĞ£©
-		if (prices[length] < prices[length+1]) down_sum -= prices[length+1] - prices[length]; // ¼õÈ¥1¸ölengthÇ°ÄÇÌìµÄDOWNÊÕÅÌ£¨ÈçÓĞ£©
+		if (prices[0] > prices[1]) up_sum += prices[0] - prices[1]; // åŠ ä¸Šä»Šå¤©çš„ UP æ”¶ç›˜ï¼ˆå¦‚æœ‰ï¼‰
+		if (prices[length] > prices[length+1]) up_sum -= prices[length] - prices[length+1]; // å‡å»1ä¸ªlengthå‰é‚£å¤©çš„UPæ”¶ç›˜ï¼ˆå¦‚æœ‰ï¼‰
+		if (prices[0] < prices[1]) down_sum += prices[1] - prices[0]; // åŠ ä¸Šä»Šå¤©çš„ DOWN æ”¶ç›˜ï¼ˆå¦‚æœ‰ï¼‰
+		if (prices[length] < prices[length+1]) down_sum -= prices[length+1] - prices[length]; // å‡å»1ä¸ªlengthå‰é‚£å¤©çš„DOWNæ”¶ç›˜ï¼ˆå¦‚æœ‰ï¼‰
 	}
 
 	double rsi = up_sum / (up_sum + down_sum) * 100;

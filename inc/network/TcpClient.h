@@ -12,9 +12,9 @@ class ReConnSpi
 public:
 	//try to connect, but if connect fail, success==false
 	virtual void SockConn(bool success) = 0;
-	//网络断开
+	//缃戠粶鏂紑
 	virtual void SockDisconn() = 0;
-	//断线重连
+	//鏂嚎閲嶈繛
 	virtual void SockReConn() = 0;
 };
 

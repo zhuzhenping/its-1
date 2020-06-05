@@ -12,10 +12,10 @@ class CTP_API MarketTradeApiFactory
 {
 public:
 	static const std::string kCtpFutureApi; // CTP
-	static const std::string kJZStockApi; // ½ğÖ¤
-	static const std::string kHSStockApi; // ºãÉú
-	static const std::string kJSDStockApi; // ½ğÊË´ï
-	static const std::string kBackTestApi; // »Ø²â
+	static const std::string kJZStockApi; // é‡‘è¯
+	static const std::string kHSStockApi; // æ’ç”Ÿ
+	static const std::string kJSDStockApi; // é‡‘ä»•è¾¾
+	static const std::string kBackTestApi; // å›æµ‹
 
 	static TradeApi* CreateMarketTradeApi(std::string kApi);
 };

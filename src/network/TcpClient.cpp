@@ -32,7 +32,7 @@ void TcpClient::Init(){
 void TcpClient::Denit(){
 	Thread::Stop();
 	Thread::Join();
-	//new_session_->socket().close();//»áµ¼ÖÂTcpSessionÖÐdelete this
+	//new_session_->socket().close();//ä¼šå¯¼è‡´TcpSessionä¸­delete this
 	delete new_session_;
 }
 

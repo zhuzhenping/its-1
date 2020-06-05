@@ -49,22 +49,22 @@ private:
 	void UpdateTrades();
 	void UpdatePositions();
 
-	// Ö¸±ê.
+	// æŒ‡æ ‡.
 	// iMA s_ma_; // 5min
 	// iMA l_ma_; // 10min
 
-	// ²ßÂÔ±àºÅ.
+	// ç­–ç•¥ç¼–å·.
 	UserStrategyIdType user_tag_;
 	std::vector<PositionData> positions_;
-	std::vector<PriceType> float_profit_; // ³Ö²ÖµÄ¸¡¶¯Ó¯¿÷.
+	std::vector<PriceType> float_profit_; // æŒä»“çš„æµ®åŠ¨ç›ˆäº.
 
 	SpinLock pos_mutex_;
-	int state_; //0:Ã»¿ª²Ö¡¢1:¿ª¶à²Ö¡¢2:¿ª¿Õ²Ö.
-	double price_offset_; //¶ÔÊÖ¼Û+N
-	int submit_hands_;//ÏÂµ¥ÊÖÊı.
-	string cancel_interval_;//³·µ¥¼ä¸ôÊ±¼ä.
+	int state_; //0:æ²¡å¼€ä»“ã€1:å¼€å¤šä»“ã€2:å¼€ç©ºä»“.
+	double price_offset_; //å¯¹æ‰‹ä»·+N
+	int submit_hands_;//ä¸‹å•æ‰‹æ•°.
+	string cancel_interval_;//æ’¤å•é—´éš”æ—¶é—´.
 
-	// ÕË»§×Ê½ğµ½Ä³¸öÉè¶¨½ğ¶î£¬×Ô¶¯È«²¿Æ½²Ö£º ×Ê½ğÖ¹Ó¯£¬×ÜµÄ×Ê½ğÁ¿´ïµ½Éè¶¨Öµ.
+	// è´¦æˆ·èµ„é‡‘åˆ°æŸä¸ªè®¾å®šé‡‘é¢ï¼Œè‡ªåŠ¨å…¨éƒ¨å¹³ä»“ï¼š èµ„é‡‘æ­¢ç›ˆï¼Œæ€»çš„èµ„é‡‘é‡è¾¾åˆ°è®¾å®šå€¼.
 	double target_profit_value_;
 	Symbol symbol_;
 	double last_price_;

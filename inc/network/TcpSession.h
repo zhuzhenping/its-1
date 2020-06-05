@@ -38,7 +38,7 @@ public:
 		SocketReaderSpi* spi, SocketDissConnSpi* dis_conn_spi, bool is_server=false);
 	~TcpSession();
 
-	// ÓÃ»§µ÷´Ë½Ó¿Ú·¢Êı¾İ
+	// ç”¨æˆ·è°ƒæ­¤æ¥å£å‘æ•°æ®
 	void Send(const char* buf, int len);
 
 	tcp::socket& socket() { return socket_; }
@@ -58,18 +58,18 @@ private:
 	SocketReaderSpi *spi_;
 	SocketDissConnSpi *disconn_spi_;
 
-	TcpMessage read_message_; // »º´æ¶ÁµÄÊı¾İ
+	TcpMessage read_message_; // ç¼“å­˜è¯»çš„æ•°æ®
 	TcpMessageQueue write_message_;
 	Mutex write_message_mutex_;
 
-	// ÊÇ·şÎñ¶Ë»¹ÊÇ¿Í»§¶Ë
+	// æ˜¯æœåŠ¡ç«¯è¿˜æ˜¯å®¢æˆ·ç«¯
 	bool is_server_;
-	bool server_recv_data_; // ·şÎñÆ÷ÔÚEXPIRES_TIMEÄÚÊÇ·ñÊÕµ½¹ıÊı¾İ,Èç¹ûÃ»ÊÕµ½£¬ÔòÆş¶ÏÁ¬½Ó
-	// ¿Í»§¶Ë¼ÆÊıÆ÷£¨<NUMBER_£©¡£¿Í»§¶ËÃ¿¸ôEXPIRESÏò·şÎñÆ÷·¢ĞÄÌø°ü£¬Èç¹ûÁ¬Ğø·¢NUMBER_´Î¶¼Ã»ÊÕµ½·´À¡£¬ÔòÆş¶ÏÁ¬½Ó
+	bool server_recv_data_; // æœåŠ¡å™¨åœ¨EXPIRES_TIMEå†…æ˜¯å¦æ”¶åˆ°è¿‡æ•°æ®,å¦‚æœæ²¡æ”¶åˆ°ï¼Œåˆ™ææ–­è¿æ¥
+	// å®¢æˆ·ç«¯è®¡æ•°å™¨ï¼ˆ<NUMBER_ï¼‰ã€‚å®¢æˆ·ç«¯æ¯éš”EXPIRESå‘æœåŠ¡å™¨å‘å¿ƒè·³åŒ…ï¼Œå¦‚æœè¿ç»­å‘NUMBER_æ¬¡éƒ½æ²¡æ”¶åˆ°åé¦ˆï¼Œåˆ™ææ–­è¿æ¥
 	int client_ii_a; 
 
-	//·şÎñ¶Ë£ºÈç¹ûEXPIRES_TIME ¶¼ÊÕ²»µ½Êı¾İ£¬ÔòÆş¶Ï¸ÃÁ¬½Ó
-	//¿Í»§¶Ë£ºÃ¿¸ôEXPIRES_TIMEÏò·şÎñ¶Ë·¢Ò»¸öĞÄÌø°ü£¬ÈôÁ¬Ğø6´ÎÊÕ²»µ½·şÎñÆ÷·µ»ØµÄĞÄÌø°ü£¬ÔòÆş¶Ï
+	//æœåŠ¡ç«¯ï¼šå¦‚æœEXPIRES_TIME éƒ½æ”¶ä¸åˆ°æ•°æ®ï¼Œåˆ™ææ–­è¯¥è¿æ¥
+	//å®¢æˆ·ç«¯ï¼šæ¯éš”EXPIRES_TIMEå‘æœåŠ¡ç«¯å‘ä¸€ä¸ªå¿ƒè·³åŒ…ï¼Œè‹¥è¿ç»­6æ¬¡æ”¶ä¸åˆ°æœåŠ¡å™¨è¿”å›çš„å¿ƒè·³åŒ…ï¼Œåˆ™ææ–­
 	//boost::asio::deadline_timer timer_;
 	//void OnTimer(const boost::system::error_code&);
 	virtual void OnTimer();

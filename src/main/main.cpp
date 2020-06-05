@@ -72,7 +72,7 @@ void cal_trade_list(){
 	ifs.close();	
 }
 
-//#define TESTING
+#define TESTING
 
 int main(int argc,char* argv[])
 {

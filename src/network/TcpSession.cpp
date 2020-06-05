@@ -4,11 +4,11 @@
 
 //namespace network_asio {
 
-#define EXPIRES 5000 //ºÁÃë
+#define EXPIRES 5000 //æ¯«ç§’
 #define NUMBER_ 6 // 
 #define EXPIRES_TIME (is_server_?EXPIRES*NUMBER_ :EXPIRES)
 
-extern const char *CHECK_CODE; // Ğ£ÑéÂë
+extern const char *CHECK_CODE; // æ ¡éªŒç 
 #define SEND_HEART_BEAT Send(CHECK_CODE, 6);
 
 TcpSession::TcpSession(boost::asio::io_service& io_service, SocketReaderSpi* spi, SocketDissConnSpi* dis_conn_spi, bool is_server)
@@ -32,8 +32,8 @@ TcpSession::~TcpSession(){
 	}
 	
 
-	//´Ëº¯Êıµ÷ÓÃ»áµ¼ÖÂËùÓĞÉĞÎ´·µ»ØµÄasync_wait(handler)µÄhandler±»µ÷ÓÃ,Í¬Ê±error_codeÎªboost::asio::error::operation_aborted¡£
-	//·µ»ØÖµÊÇ±»cancelµÄtimerÊıÁ¿¡£
+	//æ­¤å‡½æ•°è°ƒç”¨ä¼šå¯¼è‡´æ‰€æœ‰å°šæœªè¿”å›çš„async_wait(handler)çš„handlerè¢«è°ƒç”¨,åŒæ—¶error_codeä¸ºboost::asio::error::operation_abortedã€‚
+	//è¿”å›å€¼æ˜¯è¢«cancelçš„timeræ•°é‡ã€‚
 	//timer_.cancel(ec);
 }
 
@@ -53,7 +53,7 @@ void TcpSession::start() {
 //void TcpSession::OnTimer(const boost::system::error_code& ec){
 	//if (ec) { APP_LOG(LOG_LEVEL_DEBUG) << "TcpSession::OnTimer error"; return; }
 void TcpSession::OnTimer() {
-	if (is_server_) { // ·şÎñÆ÷ÔÚEXPIRES_TIMEÄÚÊÇ·ñÊÕµ½¹ıÊı¾İ,Èç¹ûÃ»ÊÕµ½£¬ÔòÆş¶ÏÁ¬½Ó
+	if (is_server_) { // æœåŠ¡å™¨åœ¨EXPIRES_TIMEå†…æ˜¯å¦æ”¶åˆ°è¿‡æ•°æ®,å¦‚æœæ²¡æ”¶åˆ°ï¼Œåˆ™ææ–­è¿æ¥
 		if (!server_recv_data_) {
 			APP_LOG(LOG_LEVEL_DEBUG) << "delete this: " << socket_.remote_endpoint().address().to_string() << "\t" << socket_.remote_endpoint().port();
 			if (disconn_spi_)disconn_spi_->OnDisconnect(this);
@@ -62,7 +62,7 @@ void TcpSession::OnTimer() {
 		}
 		server_recv_data_ = false;
 	}
-	else { // ¿Í»§¶ËÈç¹ûÁ¬Ğø·¢NUMBER_´Î¶¼Ã»ÊÕµ½·´À¡£¬ÔòÆş¶ÏÁ¬½Ó
+	else { // å®¢æˆ·ç«¯å¦‚æœè¿ç»­å‘NUMBER_æ¬¡éƒ½æ²¡æ”¶åˆ°åé¦ˆï¼Œåˆ™ææ–­è¿æ¥
 		++client_ii_a;
 		APP_LOG(LOG_LEVEL_DEBUG) << "send heart beat. client_ii_a==" << client_ii_a;
 		if (client_ii_a >= NUMBER_) {
@@ -124,7 +124,7 @@ void TcpSession::handle_write(const boost::system::error_code& error){
 				boost::bind(&TcpSession::handle_write, this, boost::asio::placeholders::error));
 		}
 	}
-	// Ô¶¶Ë¹Ø±ÕÌ×½Ó×Ö
+	// è¿œç«¯å…³é—­å¥—æ¥å­—
 	else if (error == boost::asio::error::connection_reset || error == boost::asio::error::eof) {		
 		if (disconn_spi_)disconn_spi_->OnDisconnect(this);
 		delete this;		
@@ -153,7 +153,7 @@ void TcpSession::handle_read_body(const boost::system::error_code& error )
 	if (!error && !is_delete_) {
 		if (read_message_.data_is_leagle()) {
 			if (is_server_ && read_message_.is_heart_beat()) {
-				// ·şÎñÆ÷ÊÕµ½ĞÄÌø°ü£¬Ó¦Á¢¼´·¢ĞÄÌø°ü¸ø¿Í»§¶Ë
+				// æœåŠ¡å™¨æ”¶åˆ°å¿ƒè·³åŒ…ï¼Œåº”ç«‹å³å‘å¿ƒè·³åŒ…ç»™å®¢æˆ·ç«¯
 				SEND_HEART_BEAT
 				//APP_LOG(LOG_LEVEL_INFO) << "receive heart beat and send back";
 			}
@@ -162,7 +162,7 @@ void TcpSession::handle_read_body(const boost::system::error_code& error )
 					//APP_LOG(LOG_LEVEL_INFO) << "receive heart beat";
 				}
 				else {
-					// ½»¸øÉÏ²ã×ö´¦Àí
+					// äº¤ç»™ä¸Šå±‚åšå¤„ç†
 					if (spi_) spi_->OnReceive(this, read_message_.body(), read_message_.body_length());
 				}
 			}			
@@ -176,7 +176,7 @@ void TcpSession::handle_read_body(const boost::system::error_code& error )
 		else {
 			if (disconn_spi_)disconn_spi_->OnDisconnect(this);
 			read_message_.clear_data();
-			// Æş¶ÏÁ¬½Ó
+			// ææ–­è¿æ¥
 			delete this;
 		}		
 	}

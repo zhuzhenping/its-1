@@ -127,14 +127,14 @@ void TradeEngine::SetSpi(TradeEventSpi* trade_spi, TradeErrorSpi *err_spi)
 int TradeEngine::SubmitOrder(const OrderParamData& param)
 {
 	if (!is_init_) { 
-		if(err_spi_)err_spi_->OnTradeError("CTP½Ó¿ÚÎ´³õÊ¼»¯"); 
+		if(err_spi_)err_spi_->OnTradeError("CTPæ¥å£æœªåˆå§‹åŒ–"); 
 		return NAN_LOCAL_ORDER_ID; 
 	}
 	std::string err;
 	int LocalOrderID = api_->SubmitOrder(param, err);
 	if (LocalOrderID == NAN_LOCAL_ORDER_ID)
 	{
-		err = std::string("Î¯ÍĞÊ§°Ü: ") + err;
+		err = std::string("å§”æ‰˜å¤±è´¥: ") + err;
 		if(err_spi_)err_spi_->OnTradeError(err); 
 	}
 	QryMargin(param.symbol.instrument);
@@ -145,18 +145,18 @@ int TradeEngine::SubmitOrder(const OrderParamData& param)
 
 void TradeEngine::CancelOrder(const OrderData& param)
 {
-	if (!is_init_) { if(err_spi_)err_spi_->OnTradeError("CTP½Ó¿ÚÎ´³õÊ¼»¯"); return; }
+	if (!is_init_) { if(err_spi_)err_spi_->OnTradeError("CTPæ¥å£æœªåˆå§‹åŒ–"); return; }
 	std::string err;
 	if (api_->CancelOrder(param, err) <= 0)
 	{
-		err = std::string("³·µ¥Ê§°Ü: ") + err;
+		err = std::string("æ’¤å•å¤±è´¥: ") + err;
 		if(err_spi_)err_spi_->OnTradeError(err); 
 	}
 }
 
 void TradeEngine::CancelOrder(const Symbol& sym, const UserStrategyIdType user_tag)
 {
-	if (!is_init_) { if(err_spi_)err_spi_->OnTradeError("CTP½Ó¿ÚÎ´³õÊ¼»¯"); return; }
+	if (!is_init_) { if(err_spi_)err_spi_->OnTradeError("CTPæ¥å£æœªåˆå§‹åŒ–"); return; }
 	Locker locker(&order_mutex_);
 	for (std::map<NumberIdType, OrderData>::iterator iter = valid_orders_.begin(); iter != valid_orders_.end(); ++iter)
 	{
@@ -168,7 +168,7 @@ void TradeEngine::CancelOrder(const Symbol& sym, const UserStrategyIdType user_t
 }
 
 void TradeEngine::CancelOrder(int LocalOrderID){
-	if (!is_init_) { if(err_spi_)err_spi_->OnTradeError("CTP½Ó¿ÚÎ´³õÊ¼»¯"); return; }
+	if (!is_init_) { if(err_spi_)err_spi_->OnTradeError("CTPæ¥å£æœªåˆå§‹åŒ–"); return; }
 	Locker locker(&order_mutex_);
 	for (std::map<NumberIdType, OrderData>::iterator iter = valid_orders_.begin(); iter != valid_orders_.end(); ++iter)
 	{
@@ -365,7 +365,7 @@ int TradeEngine::BuyCover(const Symbol& symbol, double price, int volume, const 
 
 void TradeEngine::OnError(const int request_id, const std::string& error_msg) 
 {
-	std::string msg = std::string("CTPÇëÇó´íÎó£º") + error_msg;
+	std::string msg = std::string("CTPè¯·æ±‚é”™è¯¯ï¼š") + error_msg;
 	if (err_spi_)err_spi_->OnTradeError(msg);
 }
 
@@ -385,7 +385,7 @@ PriceType TradeEngine::CalcFloatProfit(const Symbol &symbol, OrderDirection dire
 }
 
 void TradeEngine::SetPosiLastPrice(const Symbol &symbol, PriceType last_price) {
-	///¸üĞÂÓĞ³Ö²ÖµÄºÏÔ¼µÄ×îĞÂ¼Û¡£×¢Òâ£º¿¼ÂÇµ½Ğ§ÂÊ£¬³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã.
+	///æ›´æ–°æœ‰æŒä»“çš„åˆçº¦çš„æœ€æ–°ä»·ã€‚æ³¨æ„ï¼šè€ƒè™‘åˆ°æ•ˆç‡ï¼ŒæŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—.
 	Locker lock(&last_price_mutex_);
 	last_prices_[symbol] = last_price;
 }
@@ -403,18 +403,18 @@ void TradeEngine::OnOrderError(OrderData* order_data)
 void TradeEngine::OnDisconnect(const std::string& reson) 
 {
 	is_init_ = false;
-	if(err_spi_)err_spi_->OnTradeError( "ÓëCTP¶Ï¿ªÁ¬½Ó"); 
+	if(err_spi_)err_spi_->OnTradeError( "ä¸CTPæ–­å¼€è¿æ¥"); 
 }
 
 void TradeEngine::OnTdConnect() 
 {
 	is_init_ = true;
-	if(err_spi_)err_spi_->OnTradeError("ÓëCTPÖØĞÂÁ¬½Ó³É¹¦"); 
+	if(err_spi_)err_spi_->OnTradeError("ä¸CTPé‡æ–°è¿æ¥æˆåŠŸ"); 
 }
 
 void TradeEngine::FrozenAccountBalance(const OrderData *order_data) {
 	if (order_data->open_close_flag != OPEN_ORDER) return;
-	// ¶³½á±£Ö¤½ğ.
+	// å†»ç»“ä¿è¯é‡‘.
 	double frozen_balance = CalcMargin(order_data->symbol, order_data->direction, order_data->limit_price, order_data->total_volume)
 		+ CalcCommision(order_data->symbol, order_data->open_close_flag, order_data->limit_price, order_data->total_volume);
 
@@ -426,7 +426,7 @@ void TradeEngine::FrozenAccountBalance(const OrderData *order_data) {
 
 void TradeEngine::CancelFrozenAccountBalance(const OrderData *order_data) {
 	if (order_data->open_close_flag != OPEN_ORDER) return;
-	// È¡Ïû¶³½á±£Ö¤½ğ.
+	// å–æ¶ˆå†»ç»“ä¿è¯é‡‘.
 	double frozen_balance = CalcMargin(order_data->symbol, order_data->direction, order_data->limit_price, order_data->total_volume)
 		+ CalcCommision(order_data->symbol, order_data->open_close_flag, order_data->limit_price, order_data->total_volume);
 
@@ -445,7 +445,7 @@ void TradeEngine::MinusAccountCommision(const OrderData *order_data) {
 
 void TradeEngine::MinusAccountCommision(TradeData *trade_data) {
 	trade_data->trade_commision = CalcCommision(trade_data->symbol, trade_data->open_close_flag, trade_data->trade_price, trade_data->trade_volume);
-	// ¿Û³ıÊÖĞø·Ñ.
+	// æ‰£é™¤æ‰‹ç»­è´¹.
 	Locker lock(&account_mutex_);
 	account_data_.asset_balance -= trade_data->trade_commision;
 	account_data_.enable_balance -= trade_data->trade_commision;
@@ -454,12 +454,12 @@ void TradeEngine::MinusAccountCommision(TradeData *trade_data) {
 
 void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 	if (NULL == order_data) return;
-	///²éÏÂ±£Ö¤½ğÂÊ¡¢ÊÖĞø·ÑÂÊ.
+	///æŸ¥ä¸‹ä¿è¯é‡‘ç‡ã€æ‰‹ç»­è´¹ç‡.
 	QryMargin(order_data->symbol.instrument);
 	QryCommision(order_data->symbol.instrument);
 
 	order_mutex_.Lock();
-	if (order_data->order_id == 0) // ·Ïµ¥.
+	if (order_data->order_id == 0) // åºŸå•.
 	{		
 		if (!is_qry){
 			APP_LOG(LOG_LEVEL_ERROR) << order_data->symbol.Str() << "\t" << order_data->status_msg;
@@ -471,11 +471,11 @@ void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 		return;
 	}
 
-	//¸üĞÂ³Ö²ÖµÄ¿ÉÓÃÊıÁ¿.
+	//æ›´æ–°æŒä»“çš„å¯ç”¨æ•°é‡.
 	if (!is_qry && (order_data->open_close_flag == CLOSE_ORDER || order_data->open_close_flag == CLOSE_TODAY_ORDER || order_data->open_close_flag == CLOSE_YESTERDAY_ORDER))
 	{
 		std::map<NumberIdType, OrderData>::iterator pre_order = all_orders_.find(order_data->order_id);
-		//µÚÒ»¸öÓĞĞ§¶©µ¥£¬¶³½á³Ö²Ö.
+		//ç¬¬ä¸€ä¸ªæœ‰æ•ˆè®¢å•ï¼Œå†»ç»“æŒä»“.
 		if (pre_order == all_orders_.end() && IsOrderValid(order_data->status))
 		{
 			Locker locker(&pos_mutex_);
@@ -498,7 +498,7 @@ void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 					}
 				}				
 			}
-			else // ¿Õµ¥ SHORT_DIRECTION
+			else // ç©ºå• SHORT_DIRECTION
 			{
 				if (long_positions_.find(order_data->user_tag) != long_positions_.end()) {
 					std::map<Symbol, PositionData>::iterator pos_iter = long_positions_[order_data->user_tag].find(order_data->symbol);
@@ -518,7 +518,7 @@ void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 				}
 			}
 		}
-		//ÓĞĞ§¶©µ¥±»³·Ïú.
+		//æœ‰æ•ˆè®¢å•è¢«æ’¤é”€.
 		else if (pre_order != all_orders_.end() && IsOrderValid(pre_order->second.status) && order_data->status == ORDER_STATUS_BEEN_CANCEL)
 		{
 			Locker locker(&pos_mutex_);
@@ -571,13 +571,13 @@ void TradeEngine::OnOrder(OrderData *order_data, bool is_qry, bool is_last) {
 	if (iter == valid_orders_.end() && IsOrderValid(order_data->status))
 	{
 		valid_orders_[order_data->order_id] = *order_data;
-		// ¿ª²ÖÊ±¶³½á±£Ö¤½ğ.
+		// å¼€ä»“æ—¶å†»ç»“ä¿è¯é‡‘.
 		if (!is_qry) FrozenAccountBalance(order_data);	
 	}
 	else if (iter != valid_orders_.end() && !IsOrderValid(order_data->status))
 	{
 		valid_orders_.erase(iter);
-		// È¡Ïû¿ª²Öµ¥Ê±È¡Ïû¶³½á±£Ö¤½ğ.
+		// å–æ¶ˆå¼€ä»“å•æ—¶å–æ¶ˆå†»ç»“ä¿è¯é‡‘.
 		if (!is_qry) CancelFrozenAccountBalance(order_data);
 	}
 	order_mutex_.Unlock();
@@ -599,9 +599,9 @@ void TradeEngine::OnTrade(TradeData* trade_data)
 	trades_.push_back(*trade_data);
 	trade_mutex_.Unlock();
 
-	// ¿Û³ıÊÖĞø·Ñ.
+	// æ‰£é™¤æ‰‹ç»­è´¹.
 	MinusAccountCommision(trade_data);
-	// ¸ù¾İ³É½»ĞÅÏ¢ÊµÊ±¸üĞÂ³Ö²Ö.
+	// æ ¹æ®æˆäº¤ä¿¡æ¯å®æ—¶æ›´æ–°æŒä»“.
 	UpdatePoswWithTrade(trade_data);
 
 	SendTradeEventData(TradeEventData::TRADE_EVENT, trade_data->user_tag, trade_data);
@@ -703,7 +703,7 @@ void TradeEngine::CloseShort(TradeData* trade_data) {
 		if (iter == short_positions_[trade_data->user_tag].end())
 		{
 			stringstream ss;
-			ss << "Î´ÕÒµ½³Ö²Ö¼ÇÂ¼ÒÔ¸üĞÂÆ½²Ö³É½»»Ø±¨£º" << trade_data->symbol.instrument << " Æ½ " << trade_data->trade_volume;
+			ss << "æœªæ‰¾åˆ°æŒä»“è®°å½•ä»¥æ›´æ–°å¹³ä»“æˆäº¤å›æŠ¥ï¼š" << trade_data->symbol.instrument << " å¹³ " << trade_data->trade_volume;
 			if(err_spi_)err_spi_->OnTradeError( ss.str()); 
 			return;
 		}
@@ -711,8 +711,8 @@ void TradeEngine::CloseShort(TradeData* trade_data) {
 		if (iter->second.open_volume < trade_data->trade_volume)
 		{
 			stringstream ss;
-			ss << "³Ö²ÖÁ¿²»×ãÒÔ¸üĞÂÆ½²Ö³É½»»Ø±¨£º" << trade_data->symbol.instrument << " Æ½ " << trade_data->trade_volume
-				<< " (³Ö²ÖÁ¿:" << iter->second.open_volume << ")";
+			ss << "æŒä»“é‡ä¸è¶³ä»¥æ›´æ–°å¹³ä»“æˆäº¤å›æŠ¥ï¼š" << trade_data->symbol.instrument << " å¹³ " << trade_data->trade_volume
+				<< " (æŒä»“é‡:" << iter->second.open_volume << ")";
 			if(err_spi_)err_spi_->OnTradeError( ss.str()); 
 			short_positions_[trade_data->user_tag].erase(iter);
 			return;
@@ -735,7 +735,7 @@ void TradeEngine::CloseShort(TradeData* trade_data) {
 		}
 		iter->second.using_margin = CalcMargin(iter->second.symbol, iter->second.direction, iter->second.open_price, iter->second.open_volume);
 	}
-	else if (s_user_id == trade_data->user_tag) { // ´Ó¿ìÆÚµÈÍâ²¿Èí¼şÆ½²Ö
+	else if (s_user_id == trade_data->user_tag) { // ä»å¿«æœŸç­‰å¤–éƒ¨è½¯ä»¶å¹³ä»“
 		for (std::map<std::string, std::map<Symbol, PositionData> >::iterator iter0 = short_positions_.begin(); iter0 != short_positions_.end(); ++iter0) {
 			std::map<Symbol, PositionData>::iterator iter = iter0->second.find(trade_data->symbol);
 			if (iter != iter0->second.end())
@@ -744,7 +744,7 @@ void TradeEngine::CloseShort(TradeData* trade_data) {
 	}
 	else {
 		stringstream ss;
-		ss << "Î´ÕÒµ½³Ö²Ö¼ÇÂ¼ÒÔ¸üĞÂÆ½²Ö³É½»»Ø±¨£º" << trade_data->symbol.instrument << " Æ½ " << trade_data->trade_volume;
+		ss << "æœªæ‰¾åˆ°æŒä»“è®°å½•ä»¥æ›´æ–°å¹³ä»“æˆäº¤å›æŠ¥ï¼š" << trade_data->symbol.instrument << " å¹³ " << trade_data->trade_volume;
 		if(err_spi_)err_spi_->OnTradeError( ss.str()); 
 		return;
 	}
@@ -756,7 +756,7 @@ void TradeEngine::CloseLong(TradeData* trade_data) {
 		if (iter == long_positions_[trade_data->user_tag].end())
 		{
 			stringstream ss;
-			ss << "Î´ÕÒµ½³Ö²Ö¼ÇÂ¼ÒÔ¸üĞÂÆ½²Ö³É½»»Ø±¨£º" << trade_data->symbol.instrument << " Æ½ " << trade_data->trade_volume;
+			ss << "æœªæ‰¾åˆ°æŒä»“è®°å½•ä»¥æ›´æ–°å¹³ä»“æˆäº¤å›æŠ¥ï¼š" << trade_data->symbol.instrument << " å¹³ " << trade_data->trade_volume;
 			if(err_spi_)err_spi_->OnTradeError(ss.str()); 
 			return;
 		}
@@ -764,8 +764,8 @@ void TradeEngine::CloseLong(TradeData* trade_data) {
 		if (iter->second.open_volume < trade_data->trade_volume)
 		{
 			stringstream ss;
-			ss << "³Ö²ÖÁ¿²»×ãÒÔ¸üĞÂÆ½²Ö³É½»»Ø±¨£º" << trade_data->symbol.instrument << " Æ½ " << trade_data->trade_volume
-				<< " (³Ö²ÖÁ¿:" << iter->second.open_volume << ")";
+			ss << "æŒä»“é‡ä¸è¶³ä»¥æ›´æ–°å¹³ä»“æˆäº¤å›æŠ¥ï¼š" << trade_data->symbol.instrument << " å¹³ " << trade_data->trade_volume
+				<< " (æŒä»“é‡:" << iter->second.open_volume << ")";
 			if(err_spi_)err_spi_->OnTradeError(ss.str()); 
 			long_positions_[trade_data->user_tag].erase(iter);
 			return;
@@ -788,7 +788,7 @@ void TradeEngine::CloseLong(TradeData* trade_data) {
 		}
 		iter->second.using_margin = CalcMargin(iter->second.symbol, iter->second.direction, iter->second.open_price, iter->second.open_volume);
 	}
-	else if (s_user_id == trade_data->user_tag) { // ´Ó¿ìÆÚµÈÍâ²¿Èí¼şÆ½²Ö
+	else if (s_user_id == trade_data->user_tag) { // ä»å¿«æœŸç­‰å¤–éƒ¨è½¯ä»¶å¹³ä»“
 		for (std::map<std::string, std::map<Symbol, PositionData> >::iterator iter0 = long_positions_.begin(); iter0 != long_positions_.end(); ++iter0) {
 			std::map<Symbol, PositionData>::iterator iter = iter0->second.find(trade_data->symbol);
 			if (iter != iter0->second.end())
@@ -797,14 +797,14 @@ void TradeEngine::CloseLong(TradeData* trade_data) {
 	}
 	else {
 		stringstream ss;
-		ss << "Î´ÕÒµ½³Ö²Ö¼ÇÂ¼ÒÔ¸üĞÂÆ½²Ö³É½»»Ø±¨£º" << trade_data->symbol.instrument << " Æ½ " << trade_data->trade_volume;
+		ss << "æœªæ‰¾åˆ°æŒä»“è®°å½•ä»¥æ›´æ–°å¹³ä»“æˆäº¤å›æŠ¥ï¼š" << trade_data->symbol.instrument << " å¹³ " << trade_data->trade_volume;
 		if(err_spi_)err_spi_->OnTradeError(ss.str()); 
 		return;
 	}
 }
 
 void TradeEngine::MarginAccountBalance(const TradeData *trade_data) {
-	// Õ¼ÓÃ±£Ö¤½ğ.
+	// å ç”¨ä¿è¯é‡‘.
 	double margin_balance = CalcMargin(trade_data->symbol, trade_data->direction, trade_data->trade_price, trade_data->trade_volume);
 	Locker lock(&account_mutex_);
 	account_data_.margin_balance += margin_balance;
@@ -813,7 +813,7 @@ void TradeEngine::MarginAccountBalance(const TradeData *trade_data) {
 }
 
 void TradeEngine::CancelMarginAccountBalance(const TradeData *trade_data) {
-	// È¡Ïû±£Ö¤½ğÕ¼ÓÃ.
+	// å–æ¶ˆä¿è¯é‡‘å ç”¨.
 	double margin_balance = CalcMargin(trade_data->symbol, trade_data->direction, trade_data->trade_price, trade_data->trade_volume);
 	Locker lock(&account_mutex_);
 	account_data_.margin_balance -= margin_balance;
@@ -822,7 +822,7 @@ void TradeEngine::CancelMarginAccountBalance(const TradeData *trade_data) {
 }
 
 void TradeEngine::UpdateAccountCloseProfit(const TradeData *trade_data) {
-	// ¼ÆËãÆ½²ÖÓ¯¿÷.
+	// è®¡ç®—å¹³ä»“ç›ˆäº.
 	Locker lock(&last_price_mutex_);
 	account_data_.close_profit += CalcFloatProfit(trade_data->symbol, trade_data->direction, trade_data->trade_price, last_prices_[trade_data->symbol], trade_data->trade_volume);
 }
@@ -848,43 +848,43 @@ void TradeEngine::CalcPosiInfoByLastPrice(PositionData &posi_data) {
 
 void TradeEngine::UpdatePoswWithTrade(TradeData* trade_data)
 {
-	// ¸ù¾İ³É½»ĞÅÏ¢ÊµÊ±¸üĞÂ³Ö²Ö.
+	// æ ¹æ®æˆäº¤ä¿¡æ¯å®æ—¶æ›´æ–°æŒä»“.
 	Locker locker(&pos_mutex_);
-	if (trade_data->direction == LONG_DIRECTION) // ¶à.
+	if (trade_data->direction == LONG_DIRECTION) // å¤š.
 	{
-		if (trade_data->open_close_flag == OPEN_ORDER) // ¿ª.
+		if (trade_data->open_close_flag == OPEN_ORDER) // å¼€.
 		{
-			// ¿ª¶à .
+			// å¼€å¤š .
 			OpenLong(trade_data);
-			// Õ¼ÓÃ±£Ö¤½ğ.
+			// å ç”¨ä¿è¯é‡‘.
 			MarginAccountBalance(trade_data);			
 		}
-		else  // Æ½.
+		else  // å¹³.
 		{
-			// Æ½¿Õ.
+			// å¹³ç©º.
 			CloseShort(trade_data);
-			// È¡Ïû±£Ö¤½ğÕ¼ÓÃ.
+			// å–æ¶ˆä¿è¯é‡‘å ç”¨.
 			CancelMarginAccountBalance(trade_data);
-			// ¸üĞÂÕË»§Æ½²ÖÓ¯¿÷.
+			// æ›´æ–°è´¦æˆ·å¹³ä»“ç›ˆäº.
 			UpdateAccountCloseProfit(trade_data);
 		}
 	}
-	else // ¿Õ.
+	else // ç©º.
 	{
-		if (trade_data->open_close_flag == OPEN_ORDER) // ¿ª .
+		if (trade_data->open_close_flag == OPEN_ORDER) // å¼€ .
 		{
-			// ¿ª¿Õ.
+			// å¼€ç©º.
 			OpenShort(trade_data);
-			// Õ¼ÓÃ±£Ö¤½ğ.
+			// å ç”¨ä¿è¯é‡‘.
 			MarginAccountBalance(trade_data);
 		}
-		else // Æ½.
+		else // å¹³.
 		{
-			// Æ½¶à.
+			// å¹³å¤š.
 			CloseLong(trade_data);
-			// È¡Ïû±£Ö¤½ğÕ¼ÓÃ.
+			// å–æ¶ˆä¿è¯é‡‘å ç”¨.
 			CancelMarginAccountBalance(trade_data);
-			// ¸üĞÂÕË»§Æ½²ÖÓ¯¿÷.
+			// æ›´æ–°è´¦æˆ·å¹³ä»“ç›ˆäº.
 			UpdateAccountCloseProfit(trade_data);
 		}
 	}	
@@ -895,7 +895,7 @@ void TradeEngine::OnCancelOrder(OrderData* order_data)
 	if (order_data) SendTradeEventData(TradeEventData::ORDER_EVENT, order_data->user_tag, order_data);
 
 	stringstream ss;
-	ss << "³·µ¥Ê§°Ü : " << order_data->status_msg << " ²ßÂÔºÅ: " << order_data->user_tag;
+	ss << "æ’¤å•å¤±è´¥ : " << order_data->status_msg << " ç­–ç•¥å·: " << order_data->user_tag;
 	if(err_spi_)err_spi_->OnTradeError(ss.str()); 
 }
 
@@ -907,7 +907,7 @@ void TradeEngine::OnQryOrder(int req_id, OrderData* order_data, const std::strin
 void TradeEngine::OnQryTrade(int req_id, TradeData* trade_data, const std::string& err, bool is_last)
 {
 	if (NULL == trade_data) { return; }
-	///²éÏÂ±£Ö¤½ğÂÊ¡¢ÊÖĞø·ÑÂÊ.
+	///æŸ¥ä¸‹ä¿è¯é‡‘ç‡ã€æ‰‹ç»­è´¹ç‡.
 	QryMargin(trade_data->symbol.instrument);
 	QryCommision(trade_data->symbol.instrument);
 
@@ -919,7 +919,7 @@ void TradeEngine::OnQryAccount(int req_id, AccountData* acco_data, const std::st
 {
 	if (NULL == acco_data)
 	{
-		if(err_spi_)err_spi_->OnTradeError(std::string("²éÑ¯×Ê½ğÊ§°Ü: ") + err); 
+		if(err_spi_)err_spi_->OnTradeError(std::string("æŸ¥è¯¢èµ„é‡‘å¤±è´¥: ") + err); 
 		return;
 	}
 
@@ -936,21 +936,21 @@ void TradeEngine::OnQryPosition(int req_id, PositionData* pos_data, const std::s
 			SendTradeEventData(TradeEventData::POSITION_EVENT, pos_data->user_tag, pos_data);*/
 		return; 
 	}
-	///²éÏÂ±£Ö¤½ğÂÊ¡¢ÊÖĞø·ÑÂÊ.
+	///æŸ¥ä¸‹ä¿è¯é‡‘ç‡ã€æ‰‹ç»­è´¹ç‡.
 	QryMargin(pos_data->symbol.instrument);
 	QryCommision(pos_data->symbol.instrument);
 
-	///¸üĞÂ³Ö²Ö.
+	///æ›´æ–°æŒä»“.
 	Locker locker(&pos_mutex_);
-	if (pos_data->direction == LONG_DIRECTION) // ¶à.
+	if (pos_data->direction == LONG_DIRECTION) // å¤š.
 	{
 		if (long_positions_.find(pos_data->user_tag) != long_positions_.end()) {
 			std::map<Symbol, PositionData>::iterator iter = long_positions_[pos_data->user_tag].find(pos_data->symbol);
-			if (iter == long_positions_[pos_data->user_tag].end()) // ĞÂµÄ³Ö²Öµ½À´.
+			if (iter == long_positions_[pos_data->user_tag].end()) // æ–°çš„æŒä»“åˆ°æ¥.
 			{
 				long_positions_[pos_data->user_tag][pos_data->symbol] = *pos_data;
 			} 
-			else // ²é³Ö²ÖÃ÷Ï¸ £º Í¬Ò»¸öºÏÔ¼µÄ³Ö²Ö¿ÉÄÜ»á°´³É½»±àºÅ·Ö¸î.
+			else // æŸ¥æŒä»“æ˜ç»† ï¼š åŒä¸€ä¸ªåˆçº¦çš„æŒä»“å¯èƒ½ä¼šæŒ‰æˆäº¤ç¼–å·åˆ†å‰².
 			{ 
 				int sum_vom = iter->second.open_volume + pos_data->open_volume;
 				iter->second.open_price = (iter->second.open_price * iter->second.open_volume
@@ -963,19 +963,19 @@ void TradeEngine::OnQryPosition(int req_id, PositionData* pos_data, const std::s
 				iter->second.using_margin += pos_data->using_margin;
 			}
 		}
-		else { // ĞÂµÄ³Ö²Öµ½À´.
+		else { // æ–°çš„æŒä»“åˆ°æ¥.
 			long_positions_[pos_data->user_tag][pos_data->symbol] = *pos_data;
 		}
 	}
-	else // ¿Õ.
+	else // ç©º.
 	{
 		if (short_positions_.find(pos_data->user_tag) != short_positions_.end()) {
 			std::map<Symbol, PositionData>::iterator iter = short_positions_[pos_data->user_tag].find(pos_data->symbol);
-			if (iter == short_positions_[pos_data->user_tag].end()) // ĞÂµÄ³Ö²Öµ½À´.
+			if (iter == short_positions_[pos_data->user_tag].end()) // æ–°çš„æŒä»“åˆ°æ¥.
 			{
 				short_positions_[pos_data->user_tag][pos_data->symbol] = *pos_data;
 			} 
-			else // ²é³Ö²ÖÃ÷Ï¸ £º Í¬Ò»¸öºÏÔ¼µÄ³Ö²Ö¿ÉÄÜ»á°´³É½»±àºÅ·Ö¸î.
+			else // æŸ¥æŒä»“æ˜ç»† ï¼š åŒä¸€ä¸ªåˆçº¦çš„æŒä»“å¯èƒ½ä¼šæŒ‰æˆäº¤ç¼–å·åˆ†å‰².
 			{
 				int sum_vom = iter->second.open_volume + pos_data->open_volume;
 				iter->second.open_price = (iter->second.open_price * iter->second.open_volume
@@ -989,7 +989,7 @@ void TradeEngine::OnQryPosition(int req_id, PositionData* pos_data, const std::s
 				iter->second.using_margin += pos_data->using_margin;
 			}
 		}
-		else { // ĞÂµÄ³Ö²Öµ½À´
+		else { // æ–°çš„æŒä»“åˆ°æ¥
 			short_positions_[pos_data->user_tag][pos_data->symbol] = *pos_data;
 		}
 	}
@@ -998,11 +998,11 @@ void TradeEngine::OnQryPosition(int req_id, PositionData* pos_data, const std::s
 		SendTradeEventData(TradeEventData::POSITION_EVENT, pos_data->user_tag, pos_data);
 }
 
-///·Ç³õÊ¼»¯Ê±,profit±íÊ¾²î¶î(±¾´Î¸¡¶¯Ó¯¿÷ÓëÉÏ¸ö¸¡¶¯Ó¯¿÷Ö®²î),ÎªÊäÈë²ÎÊı.
-///³õÊ¼»¯Ê±£¬profit±íÊ¾¸¡¶¯Ó¯¿÷£¬ÎªÊä³ö²ÎÊı.
+///éåˆå§‹åŒ–æ—¶,profitè¡¨ç¤ºå·®é¢(æœ¬æ¬¡æµ®åŠ¨ç›ˆäºä¸ä¸Šä¸ªæµ®åŠ¨ç›ˆäºä¹‹å·®),ä¸ºè¾“å…¥å‚æ•°.
+///åˆå§‹åŒ–æ—¶ï¼Œprofitè¡¨ç¤ºæµ®åŠ¨ç›ˆäºï¼Œä¸ºè¾“å‡ºå‚æ•°.
 void TradeEngine::UpdateAccountProfit(PriceType &profit, bool init) {
 	Locker locker(&account_mutex_);
-	if (!init) { // ·Ç³õÊ¼»¯.
+	if (!init) { // éåˆå§‹åŒ–.
 		account_data_.position_profit += profit;
 		account_data_.asset_balance += profit;
 		account_data_.enable_balance += profit;
@@ -1087,8 +1087,8 @@ void TradeEngine::GetTradeBySymbol(std::vector<TradeData>& trades, const Symbol&
 void TradeEngine::GetAllLongPosition(std::vector<PositionData>& pos, const UserStrategyIdType user_tag)
 {
 	Locker locker(&pos_mutex_);
-	///³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã.
-	if (nullptr == user_tag) { // È¡ËùÓĞ×Ó²ßÂÔµÄ.
+	///æŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—.
+	if (nullptr == user_tag) { // å–æ‰€æœ‰å­ç­–ç•¥çš„.
 		for (std::map<std::string, std::map<Symbol, PositionData> >::iterator iter0 = long_positions_.begin(); iter0 != long_positions_.end(); ++iter0) {
 			for (std::map<Symbol, PositionData>::iterator iter = iter0->second.begin(); iter != iter0->second.end(); ++iter) 	{
 				CalcPosiInfoByLastPrice(iter->second);
@@ -1098,7 +1098,7 @@ void TradeEngine::GetAllLongPosition(std::vector<PositionData>& pos, const UserS
 		return;
 	}
 
-	if (long_positions_.find(user_tag) == long_positions_.end()) return; // Ã»ÓĞ¸Ã×Ó²ßÂÔµÄ³Ö²Ö.
+	if (long_positions_.find(user_tag) == long_positions_.end()) return; // æ²¡æœ‰è¯¥å­ç­–ç•¥çš„æŒä»“.
 	for (std::map<Symbol, PositionData>::iterator iter = long_positions_[user_tag].begin(); iter != long_positions_[user_tag].end(); ++iter)
 	{
 		CalcPosiInfoByLastPrice(iter->second);
@@ -1109,8 +1109,8 @@ void TradeEngine::GetAllLongPosition(std::vector<PositionData>& pos, const UserS
 void TradeEngine::GetAllShortPosition(std::vector<PositionData>& pos, const UserStrategyIdType user_tag)
 {
 	Locker locker(&pos_mutex_);
-	///³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã.
-	if (nullptr == user_tag) { // È¡ËùÓĞ×Ó²ßÂÔµÄ.
+	///æŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—.
+	if (nullptr == user_tag) { // å–æ‰€æœ‰å­ç­–ç•¥çš„.
 		for (std::map<std::string, std::map<Symbol, PositionData> >::iterator iter0 = short_positions_.begin(); iter0 != short_positions_.end(); ++iter0) {
 			for (std::map<Symbol, PositionData>::iterator iter = iter0->second.begin(); iter != iter0->second.end(); ++iter) 	{
 				CalcPosiInfoByLastPrice(iter->second);
@@ -1120,7 +1120,7 @@ void TradeEngine::GetAllShortPosition(std::vector<PositionData>& pos, const User
 		return;
 	}
 
-	if (short_positions_.find(user_tag) == short_positions_.end()) return; // Ã»ÓĞ¸Ã×Ó²ßÂÔµÄ³Ö²Ö.
+	if (short_positions_.find(user_tag) == short_positions_.end()) return; // æ²¡æœ‰è¯¥å­ç­–ç•¥çš„æŒä»“.
 	for (std::map<Symbol, PositionData>::iterator iter = short_positions_[user_tag].begin(); iter != short_positions_[user_tag].end(); ++iter)
 	{
 		CalcPosiInfoByLastPrice(iter->second);
@@ -1131,8 +1131,8 @@ void TradeEngine::GetAllShortPosition(std::vector<PositionData>& pos, const User
 void TradeEngine::GetAllPosition(std::vector<PositionData>& pos, const UserStrategyIdType user_tag)
 {
 	Locker locker(&pos_mutex_);
-	///³Ö²ÖµÄ×îĞÂ¼Û¡¢³Ö²ÖÓ¯¿÷¡¢³Ö²ÖÊĞÖµ²¢·ÇÊµÊ±¸üĞÂ£¬¶øÊÇÓÃ»§È¡Ê±ÔÙ¼ÆËã.
-	if (nullptr == user_tag) { // È¡ËùÓĞ×Ó²ßÂÔµÄ.
+	///æŒä»“çš„æœ€æ–°ä»·ã€æŒä»“ç›ˆäºã€æŒä»“å¸‚å€¼å¹¶éå®æ—¶æ›´æ–°ï¼Œè€Œæ˜¯ç”¨æˆ·å–æ—¶å†è®¡ç®—.
+	if (nullptr == user_tag) { // å–æ‰€æœ‰å­ç­–ç•¥çš„.
 		for (std::map<std::string, std::map<Symbol, PositionData> >::iterator iter0 = long_positions_.begin(); iter0 != long_positions_.end(); ++iter0) {
 			for (std::map<Symbol, PositionData>::iterator iter = iter0->second.begin(); iter != iter0->second.end(); ++iter) 	{
 				CalcPosiInfoByLastPrice(iter->second);
@@ -1163,7 +1163,7 @@ void TradeEngine::GetAllPosition(std::vector<PositionData>& pos, const UserStrat
 		}
 	}
 }
-// ¶àÍ·Í·´ç
+// å¤šå¤´å¤´å¯¸
 bool TradeEngine::GetLongPositionBySymbol(PositionData &pos, const Symbol& sym, const UserStrategyIdType user_tag)
 {
 	Locker locker(&pos_mutex_);
@@ -1188,7 +1188,7 @@ bool TradeEngine::GetLongPositionBySymbol(PositionData &pos, const Symbol& sym, 
 	return false;
 }
 
-// ¿ÕÍ·Í·´ç
+// ç©ºå¤´å¤´å¯¸
 bool TradeEngine::GetShortPositionBySymbol(PositionData &pos, const Symbol& sym, const UserStrategyIdType user_tag)
 {
 	Locker locker(&pos_mutex_);

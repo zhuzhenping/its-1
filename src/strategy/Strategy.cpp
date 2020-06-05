@@ -109,7 +109,7 @@ void Strategy::OnUpdateKline(const Bars *_bars, bool is_new){
 			time.AddMin(num);
 		else if (cancel_interval_[1]=='s')
 			time.AddSec(num);
-		if (time < bars->UpdateTime) //ËµÃ÷¶©µ¥³¬¹ı1·ÖÖÓÎ´³É½»
+		if (time < bars->UpdateTime) //è¯´æ˜è®¢å•è¶…è¿‡1åˆ†é’Ÿæœªæˆäº¤
 		{
 			trade_engine_->CancelOrder(orders[i]);
 			OrderParamData param;
@@ -205,12 +205,12 @@ void Strategy::OnInitKline(const Bars *_bars){
 void Strategy::UpdateAccount(){
 	AccountData account;
 	trade_engine_->GetAccount(account);
-	cout << "×Ê½ğÕËºÅ£º\n"
-		<< "¾²Ì¬È¨Òæ"<<account.static_balance<<" ×ÜÓ¯¿÷"<<account.close_profit<<" ÊÖĞø·Ñ"<<account.commision
-		<< " ¶¯Ì¬È¨Òæ"<<account.asset_balance << " Õ¼ÓÃ±£Ö¤½ğ"<<account.margin_balance 
-		<< " ÏÂµ¥¶³½á"<<account.frozen_balance << " ¿ÉÓÃ×Ê½ğ"<<account.enable_balance<< endl;
+	cout << "èµ„é‡‘è´¦å·ï¼š\n"
+		<< "é™æ€æƒç›Š"<<account.static_balance<<" æ€»ç›ˆäº"<<account.close_profit<<" æ‰‹ç»­è´¹"<<account.commision
+		<< " åŠ¨æ€æƒç›Š"<<account.asset_balance << " å ç”¨ä¿è¯é‡‘"<<account.margin_balance 
+		<< " ä¸‹å•å†»ç»“"<<account.frozen_balance << " å¯ç”¨èµ„é‡‘"<<account.enable_balance<< endl;
 
-	// ÕË»§×Ê½ğµ½Ä³¸öÉè¶¨½ğ¶î£¬×Ô¶¯È«²¿Æ½²Ö£º ×Ê½ğÖ¹Ó¯£¬×ÜµÄ×Ê½ğÁ¿´ïµ½Éè¶¨Öµ.
+	// è´¦æˆ·èµ„é‡‘åˆ°æŸä¸ªè®¾å®šé‡‘é¢ï¼Œè‡ªåŠ¨å…¨éƒ¨å¹³ä»“ï¼š èµ„é‡‘æ­¢ç›ˆï¼Œæ€»çš„èµ„é‡‘é‡è¾¾åˆ°è®¾å®šå€¼.
 	if (account.asset_balance > target_profit_value_){
 		PositionData long_pos, short_pos;
 		double last_price = trade_engine_->GetPosiPrePrice(symbol_);
@@ -228,13 +228,13 @@ std::string OpenCloseStr(OpenCloseFlag flag)
 	switch (flag)
 	{
 	case OPEN_ORDER:
-		return ("¿ª²Ö");
+		return ("å¼€ä»“");
 	case CLOSE_ORDER:
-		return ("Æ½²Ö");
+		return ("å¹³ä»“");
 	case CLOSE_TODAY_ORDER:
-		return ("Æ½½ñ");
+		return ("å¹³ä»Š");
 	case CLOSE_YESTERDAY_ORDER:
-		return ("Æ½×ò");
+		return ("å¹³æ˜¨");
 	default:
 		return "";
 	}
@@ -244,55 +244,55 @@ std::string OrderStatusStr(OrderStatus status)
 {
 	switch(status)
 	{
-	case '0': return "Î´Öª";
-	case '1': return "´ı±¨";
-	case '2': return "Î´³É½»";
-	case '3': return "²¿·Ö³É½»";
-	case '4': return "È«²¿³É½»";
-	case '5': return "´ı³·";
-	case '6': return "ÒÑ³·µ¥";
-	case '7': return "ÉĞÎ´´¥·¢";
-	case '8': return "ÒÑ´¥·¢";
-	default: return "¶©µ¥ÎŞĞ§"; 
+	case '0': return "æœªçŸ¥";
+	case '1': return "å¾…æŠ¥";
+	case '2': return "æœªæˆäº¤";
+	case '3': return "éƒ¨åˆ†æˆäº¤";
+	case '4': return "å…¨éƒ¨æˆäº¤";
+	case '5': return "å¾…æ’¤";
+	case '6': return "å·²æ’¤å•";
+	case '7': return "å°šæœªè§¦å‘";
+	case '8': return "å·²è§¦å‘";
+	default: return "è®¢å•æ— æ•ˆ"; 
 	}
 }
 
 void Strategy::UpdateValidOrders(){
 	vector<OrderData> validOrders;
 	trade_engine_->GetValidOrder(validOrders);
-	APP_LOG(LOG_LEVEL_INFO) << "ÓĞĞ§µ¥ÁĞ±í£º";
+	APP_LOG(LOG_LEVEL_INFO) << "æœ‰æ•ˆå•åˆ—è¡¨ï¼š";
 	for (int i=0;i<validOrders.size();++i){
 		APP_LOG(LOG_LEVEL_INFO)
-			<< ("Î¯ÍĞ±àºÅ:") << validOrders[i].order_id
-			<< (" ºÏÔ¼:") << validOrders[i].symbol.instrument
-			<< (" ÂòÂô:") << (validOrders[i].direction == LONG_DIRECTION ? "ÂòÈë" : "Âô¿Õ")
-			<< (" ¿ªÆ½:") << OpenCloseStr(validOrders[i].open_close_flag)
-			<< (" Î¯ÍĞ¼Û¸ñ:") << validOrders[i].limit_price
-			<< (" Î¯ÍĞÊıÁ¿:") << validOrders[i].total_volume
-			<< (" ³É½»ÊıÁ¿:") << validOrders[i].trade_volume
-			<< (" Î¯ÍĞÊ±¼ä:") << validOrders[i].submit_time.time.Str()
-			<< (" ×´Ì¬:") << OrderStatusStr(validOrders[i].status)
-			<< (" ×´Ì¬ĞÅÏ¢:") << validOrders[i].status_msg;
+			<< ("å§”æ‰˜ç¼–å·:") << validOrders[i].order_id
+			<< (" åˆçº¦:") << validOrders[i].symbol.instrument
+			<< (" ä¹°å–:") << (validOrders[i].direction == LONG_DIRECTION ? "ä¹°å…¥" : "å–ç©º")
+			<< (" å¼€å¹³:") << OpenCloseStr(validOrders[i].open_close_flag)
+			<< (" å§”æ‰˜ä»·æ ¼:") << validOrders[i].limit_price
+			<< (" å§”æ‰˜æ•°é‡:") << validOrders[i].total_volume
+			<< (" æˆäº¤æ•°é‡:") << validOrders[i].trade_volume
+			<< (" å§”æ‰˜æ—¶é—´:") << validOrders[i].submit_time.time.Str()
+			<< (" çŠ¶æ€:") << OrderStatusStr(validOrders[i].status)
+			<< (" çŠ¶æ€ä¿¡æ¯:") << validOrders[i].status_msg;
 	}
 }
 void Strategy::UpdateTrades(){
 	vector<TradeData> trades;
 	trade_engine_->GetAllTrade(trades);
-	APP_LOG(LOG_LEVEL_INFO) <<"³É½»µ¥ÁĞ±í£º";
+	APP_LOG(LOG_LEVEL_INFO) <<"æˆäº¤å•åˆ—è¡¨ï¼š";
 	for (int i=0;i<trades.size();++i){
 		APP_LOG(LOG_LEVEL_INFO)
-			<< ("ºÏÔ¼") << trades[i].symbol.instrument
-			<< (" Î¯ÍĞ±àºÅ:") << trades[i].order_id
-			<< (" ³É½»±àºÅ:") << trades[i].trade_id
-			<< (" ÂòÂô:") << (trades[i].direction == LONG_DIRECTION ? "ÂòÈë" : "Âô¿Õ")
-			<< (" ¿ªÆ½:") << OpenCloseStr(trades[i].open_close_flag)
-			<< (" ³É½»¼Û:") << trades[i].trade_price
-			<< (" ÊıÁ¿:") << trades[i].trade_volume
-			<< (" ³É½»Ê±¼ä:") << trades[i].trade_time.time.Str();
+			<< ("åˆçº¦") << trades[i].symbol.instrument
+			<< (" å§”æ‰˜ç¼–å·:") << trades[i].order_id
+			<< (" æˆäº¤ç¼–å·:") << trades[i].trade_id
+			<< (" ä¹°å–:") << (trades[i].direction == LONG_DIRECTION ? "ä¹°å…¥" : "å–ç©º")
+			<< (" å¼€å¹³:") << OpenCloseStr(trades[i].open_close_flag)
+			<< (" æˆäº¤ä»·:") << trades[i].trade_price
+			<< (" æ•°é‡:") << trades[i].trade_volume
+			<< (" æˆäº¤æ—¶é—´:") << trades[i].trade_time.time.Str();
 	}
 }
 void Strategy::UpdatePositions(){
-	double all_profit = 0.;//×Ü¸¡¶¯Ó¯¿÷.
+	double all_profit = 0.;//æ€»æµ®åŠ¨ç›ˆäº.
 	pos_mutex_.Lock();
 	positions_.clear();
 	trade_engine_->GetAllPosition(positions_);
@@ -305,14 +305,14 @@ void Strategy::UpdatePositions(){
 
 	vector<PositionData> positions;
 	trade_engine_->GetAllPosition(positions);
-	//APP_LOG(LOG_LEVEL_INFO) <<"³Ö²ÖÁĞ±í£º";
+	//APP_LOG(LOG_LEVEL_INFO) <<"æŒä»“åˆ—è¡¨ï¼š";
 	for (int i=0;i<positions.size();++i){
 		APP_LOG(LOG_LEVEL_INFO)
 			<< ("\t") << positions[i].symbol.instrument
 			<< ("\t") << (positions[i].direction == LONG_DIRECTION ? "long" : "short")
 			<< ("\t") << positions[i].open_volume << " hand"
-			//<< (" ×ò²Ö:") << positions[i].yestd_volume
-			//<< (" ¿ÉÆ½:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
+			//<< (" æ˜¨ä»“:") << positions[i].yestd_volume
+			//<< (" å¯å¹³:") << positions[i].enable_today_volume + positions[i].enable_yestd_volume
 			<< ("\topen_price:") << positions[i].open_price;
 	}
 	if (positions.size()==0){
@@ -346,7 +346,7 @@ void Strategy::OnTradeError(const string &err){
 	cout << err << endl;
 }
 
-// ²ßÂÔ£º Í»ÆÆ ¿ª²Ö ; 
+// ç­–ç•¥ï¼š çªç ´ å¼€ä»“ ; 
 void Strategy::OnData(Bars *bars, bool is_kline_up){
 	last_price_ = bars->tick.last_price;
 	if (strlen(bars->tick.symbol.instrument) == 0) last_price_ = bars->klines[0].close;

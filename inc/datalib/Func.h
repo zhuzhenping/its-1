@@ -8,9 +8,9 @@
 
 double DATALIB_API Average(NumericSeries prices, int length);
 double DATALIB_API AverageFC(NumericSeries avgs, NumericSeries prices, int length);
-//@param x_averages £ºÖ¸ÊıÆ½¾ù¼ÛĞòÁĞ
-//@param price £º¼Û¸ñĞòÁĞ
-//@param length £ºÖÜÆÚ
+//@param x_averages ï¼šæŒ‡æ•°å¹³å‡ä»·åºåˆ—
+//@param price ï¼šä»·æ ¼åºåˆ—
+//@param length ï¼šå‘¨æœŸ
 double DATALIB_API XAverage(NumericSeries xAvgs, NumericSeries prices, int length);
 
 double DATALIB_API Summation(NumericSeries prices, int length);
@@ -19,15 +19,15 @@ double DATALIB_API SummationFC(NumericSeries sums, NumericSeries prices, int len
 double DATALIB_API Highest(NumericSeries prices, int length, int offset = 0);
 double DATALIB_API Lowest(NumericSeries prices, int length, int offset = 0);
 
-// ¾ùÏßÏÂ´©¡¢ÉÏ´©
+// å‡çº¿ä¸‹ç©¿ã€ä¸Šç©¿
 bool DATALIB_API DownCross(NumericSeries fastMovAvg, NumericSeries slowMovAvg);
 bool DATALIB_API UpCross(NumericSeries fastMovAvg, NumericSeries slowMovAvg);
 
-// Ïà¶ÔÇ¿Èõ
+// ç›¸å¯¹å¼ºå¼±
 double DATALIB_API RelativeStrength(NumericSeries prices, int length);
 double DATALIB_API RelativeStrengthFC(NumericSeries rsis, NumericSeries prices, int length);
 
-// ±ê×¼²î
+// æ ‡å‡†å·®
 double DATALIB_API StandardDev(NumericSeries avgs, NumericSeries prices, int length);
 
 #endif

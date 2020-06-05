@@ -39,7 +39,7 @@ private:
 	bool is_init_;
 
 	vector<string> IPs_;
-	int i_; // ËùÓÃIPµÄË÷Òı.
+	int i_; // æ‰€ç”¨IPçš„ç´¢å¼•.
 	string BrokerID_;
 };
 

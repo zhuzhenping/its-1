@@ -1,0 +1,4 @@
+Build System: ${CMAKE_SYSTEM}
+CMake       : ${CMAKE_COMMAND}
+Builder     : $ENV{USER}
+Time        : ${BUILDTIME}
